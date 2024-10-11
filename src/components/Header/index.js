@@ -7,9 +7,9 @@ import { useState } from 'react';
 import CircleBtn from '../Button/Circle/index.js';
 import {Link} from 'react-router-dom';
 
-function Header(){
+function Header({isLogin}){
     const [search, setSearch] = useState();
-    const [isLogin, setIsLogin] = useState(false);
+    
     return(
         <S.container>
             <Link to={'/'} ><img src={LogoImg} alt='logo' /></Link>
