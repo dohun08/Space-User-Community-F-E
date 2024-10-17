@@ -17,8 +17,10 @@ export const titleBox = styled.section`
 `
 export const title = styled.span`
     display: flex;
-    flex-direction: column;
-    width: 80px;
+    flex-flow: column nowrap;
+    align-items: start;
+    padding: 0 20px;
+    width: 100px;
 `
 export const date = styled.span`
     font-size: 12px;
