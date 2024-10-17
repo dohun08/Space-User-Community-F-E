@@ -4,7 +4,6 @@ import Larrow from '../../assets/left_arrow.svg';
 import Rarrow from '../../assets/right_arrow.svg';
 import LongLongDocument from "../../components/Documents/LongLong";
 import * as S from './style.ts';
-import {arrow} from "./style.ts";
 function MoreContents(){
     const [content, setContent] = useState([]);
     const [page, setPage] = useState(1);
