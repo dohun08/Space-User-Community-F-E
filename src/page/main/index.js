@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import * as S from './style.ts';
 import Header from "../../components/Header";
 import LongDocument from "../../components/Documents/Long";
@@ -6,25 +6,35 @@ import Popular from "../../components/Documents/popular/index.js";
 import { Link } from "react-router-dom";
 
 function Main(){
-    const [isLogin, setIsLogin] = useState();
+    const [data, setData] = useState([]);
     const getDocument = async ()=>{
-        
+        try{
+            const response = await fetch(`/community/documentlist/:${1}`, {
+                method:'GET',
+                headers:{
+
+                }
+            })
+            if(response.ok){
+                setData();
+            }
+        }catch (error){
+            console.log("Document error :" , error);
+        }
     };
     useEffect(()=>{
         getDocument();
     }, []);
     return(
         <S.container>
-            {/* isLogin에 받아온 isLogin 값 넣기 */}
             <Header isLogin = {false}/>
             <S.main>
                 <S.section2>
                     <h3>인기 문서</h3>
                     <Popular />
-                    
                 </S.section2>
-                <S.section1>  
-                    <LongDocument />
+                <S.section1>
+                    <LongDocument data = {data}  />
                     
                     <Link to={'/more'}>더보기</Link>
                 </S.section1>
