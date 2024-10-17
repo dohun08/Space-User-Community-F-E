@@ -7,7 +7,7 @@ function LongDocument({data}){
         <>
             <S.Document>
                 <S.titleBox>
-                    <img src={"/images/man.svg"} alt="우주선1" />
+                    <img src={`/images/man.svg`} alt="우주선1" />
                     <S.title>
                         <span>data.title</span>
                         <S.date>data.date</S.date>

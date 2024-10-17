@@ -28,13 +28,13 @@ function Login(){
                     headers: {
                         'Content-Type': 'application/json',
                     },
+                    credentials:'include',
                     body: JSON.stringify({
                         name: id,
                         password: pw
                     })
                 })
                 if(response.ok){
-                    console.log(response.data);
                     navigate('/')
                 }
             }catch(error){
