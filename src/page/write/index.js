@@ -24,6 +24,9 @@ function Write(){
     ]
     const [imgSrc, setImgSrc] = useState("/images/blue_spaceship.svg");
     const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+    const [isImg, setIsImg] = useState(false);
+
     return(
         <S.container>
             <S.header>
@@ -36,15 +39,15 @@ function Write(){
                         <option>문제</option>
                         <option>문의</option>
                     </select>
-                    <S.imgBox>
+                    <S.imgBox isImg = {isImg}>
                         {images.map((item, index)=>{
                             return <S.img><img key={index} src={item} alt='이미지들' onClick={()=>{setImgSrc(item)}}/></S.img>
                          })}
                     </S.imgBox>
                     <S.title>
-                        <div>
+                        <S.selectImg onClick={()=>setIsImg(!isImg)}>
                             <img src={imgSrc} alt='선택된 이미지'/>
-                        </div>
+                        </S.selectImg>
                         <input
                             type={"text"} value={title}
                             onChange={(e)=>setTitle(e.target.value)}
@@ -53,6 +56,11 @@ function Write(){
                     </S.title>
                     <S.skills>
                     </S.skills>
+                    <textarea
+                        placeholder={"내용을 입력해주세"}
+                        value={content}
+                        onChange={(e)=>setContent((e.target.value))}
+                        />
                 </S.write>
                 <S.outPut>
                     <p>{category}</p>
@@ -62,7 +70,7 @@ function Write(){
                         </div>
                         <h1>{title}</h1>
                     </S.title>
-
+                    <p>{content}</p>
                 </S.outPut>
             </S.main>
         </S.container>
