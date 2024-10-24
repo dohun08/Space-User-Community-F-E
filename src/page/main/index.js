@@ -4,16 +4,16 @@ import Header from "../../components/Header";
 import LongDocument from "../../components/Documents/Long";
 import Popular from "../../components/Documents/popular/index.js";
 import { Link } from "react-router-dom";
+import {authAtom} from "../../recoil/atom/authAtom.js";
+import {useRecoilValue} from "recoil";
 
 function Main(){
+    const auth = useRecoilValue(authAtom);
     const [data, setData] = useState([]);
     const getDocument = async ()=>{
         try{
-            const response = await fetch(`/community/documentlist/:${1}`, {
+            const response = await fetch(`http://10.150.151.149:8080`, {
                 method:'GET',
-                headers:{
-
-                }
             })
             if(response.ok){
                 setData();
@@ -27,7 +27,7 @@ function Main(){
     }, []);
     return(
         <S.container>
-            <Header isLogin = {false}/>
+            <Header isLogin={auth.isLogin} userName={auth.username}/>
             <S.main>
                 <S.section2>
                     <h3>인기 문서</h3>

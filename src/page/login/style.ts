@@ -42,16 +42,16 @@ export const LoginBtn = styled.div`
     width: max-content;
     padding: 10px 20px;
     border-radius: 20px;
-    color: ${props => (props.isBlack ? 'white' : 'black')};
+    color: white;
     border: 2px solid black;
-    background-color: ${props => (props.isBlack ? 'black' : 'white')};
+    background-color: black;
     transition: 0.5s;
     &:hover{
-        background-color: ${props => (props.isBlack ? 'white' : 'black')};
-        color: ${props => (props.isBlack ? 'black' : 'white')};
+        background-color: white;
+        color: black;
         border: 2px solid black;
     }
     &:active{
-        border: 2px solid  var(--Style, #301C86);;
+        border: 2px solid #301C86;
     }
 `

@@ -18,6 +18,7 @@ export const user = styled.div`
     display: flex;
     width:90px;
     justify-content: space-between;
+    align-items: center;
     cursor: pointer;
 `
 export const InputBox = styled.div`

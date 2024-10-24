@@ -3,6 +3,9 @@ import Logo from '../../assets/Logo.svg'
 import { useEffect, useRef, useState } from 'react';
 import React from 'react';
 import {Link, useNavigate} from 'react-router-dom';
+import {authAtom} from "../../recoil/atom/authAtom";
+import { useSetRecoilState } from 'recoil';
+
 
 function Login(){
     const [id, setId] = useState('');
@@ -12,6 +15,7 @@ function Login(){
     useEffect(()=>{
         inputRef.current.focus();
     }, []);
+    const setAuth = useSetRecoilState(authAtom);
 
     const navigate = useNavigate();
     const goLogin = async ()=>{
@@ -23,22 +27,28 @@ function Login(){
         }
         else{
             try{
-                const response = await fetch('/user/login', {
+                const response = await fetch('http://10.150.151.149:8080/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     credentials:'include',
                     body: JSON.stringify({
-                        name: id,
+                        id: id,
                         password: pw
                     })
                 })
-                if(response.ok){
-                    navigate('/')
+                if(response.status=== 200){
+                    setAuth({
+                        isLogin: true,
+                        token: null,
+                        username: id
+                    })
+                    navigate('/');
                 }
             }catch(error){
                 console.log("error on : ",error);
+                navigate("/error");
             }
         }
     }
@@ -67,8 +77,7 @@ function Login(){
                     />
                 </S.dataIn>
                 
-                <S.LoginBtn 
-                    isBlack = {true}
+                <S.LoginBtn
                     onClick={goLogin} 
                     type="button" 
                 >
