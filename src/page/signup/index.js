@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import * as S from './style.ts'
 import Logo from '../../assets/Logo.svg'
+import axios from "axios";
 
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -8,10 +9,10 @@ function Signup(){
     const [id, setId] = useState();
     const [pw, setPw] = useState();
     const [repw, setRePw] = useState();
-    const [email, setEmail] = useState();
+    const [age, setAge] = useState();
     const idRef = useRef();
     const pwRef = useRef();
-    const emailRef = useRef();
+    const ageRef = useRef();
 
     useEffect(()=>{
         idRef.current.focus();
@@ -27,27 +28,26 @@ function Signup(){
             alert("비밀번호가 비어있습니다.");
             pwRef.current.focus();
         }
-        else if(email === ""){
-            alert("이메일이 비어있습니다.");
-            email.container.focus();
+        else if(age === ""){
+            alert("나이가 비어있습니다.");
+            ageRef.container.focus();
         }
         else if(pw !== repw){
             alert("비밀번호가 일치하지 않습니다.");
         }
         else{
             try{
-                const response = await fetch('/user/register', {
-                    method:'POST',
+                const response = await axios.post('http://10.150.151.149:8080/user/register', {
+                    name: id,
+                    password: pw,
+                    age: age,
+                    profile: null
+                }, {
                     headers:{
                         'Content-Type':'application/json'
                     },
-                    body:JSON.stringify({
-                        name:id,
-                        password:pw,
-                        email:email
-                    })
                 })
-                if(response.ok){
+                if(response.status === 200){
                     console.log("회원가입성공");
                     navigate('/login');
                 }
@@ -91,13 +91,13 @@ function Signup(){
                     />
                 </S.dataIn>
                 <S.dataIn>
-                    <S.Label>이메일</S.Label>
+                    <S.Label>나이</S.Label>
                     <S.Input
-                        ref={emailRef}
+                        ref={ageRef}
                         type='email'
-                        placeholder='이메일을 입력해주세요'
-                        value={email}
-                        onChange={(e)=>setEmail(e.target.value)}
+                        placeholder='나이를 입력해주세요'
+                        value={age}
+                        onChange={(e)=>setAge(e.target.value)}
                     />
                 </S.dataIn>
                 

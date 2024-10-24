@@ -7,7 +7,7 @@ import { useState } from 'react';
 import CircleBtn from '../Button/Circle/index.js';
 import {Link} from 'react-router-dom';
 
-function Header({isLogin}){
+function Header({isLogin, userName}){
     const [search, setSearch] = useState();
     
     return(
@@ -30,7 +30,7 @@ function Header({isLogin}){
                 <CircleBtn name={'새글 작성'} />
                 <S.user>
                     <img src={PersonImg} alt='personIcon' />
-                    <p>닉네임</p> {/* 닉네임이 유저의 이름으로 바꾸기 */}
+                    <p>{userName}</p>
                     <img src={ButtonArrowImg} alt='buttonArrowIcon' />
                 </S.user>
 
