@@ -30,37 +30,85 @@ function Write(){
     let renderedLines;
     const makeContent = (text)=>{
         renderedLines = text.split('\n').map((line, index) => {
+            const matchH1 = line.match(/<제목1>(.*?)<\/제목1>(.*)/);
+            const matchH2 = line.match(/<제목2>(.*?)<\/제목2>(.*)/);
+            const matchH3 = line.match(/<제목3>(.*?)<\/제목3>(.*)/);
+            const matchBold = line.match(/<강조>(.*?)<\/강조>(.*)/);
+            const matchUnderLine = line.match(/<밑줄>(.*?)<\/밑줄>(.*)/);
+            const matchCancelLine = line.match(/<취소선>(.*?)<\/취소선>(.*)/);
+            const matchTip = line.match(/<기울임>(.*?)<\/기울임>(.*)/);
+            if (matchH1) {
+                // eslint-disable-next-line no-unused-vars
+                const [_, titleText, remainingText] = matchH1;
+                return (
+                    <S.div key={index} >
+                        <h1 >{titleText.trim()}</h1>
+                        <span>{remainingText.trim()}</span>
+                    </S.div>
+                );
+            }
+            if (matchH2) {
+                // eslint-disable-next-line no-unused-vars
+                const [_, titleText, remainingText] = matchH2;
+                return (
+                    <S.div key={index} >
+                        <h2 >{titleText.trim()}</h2>
+                        <span>{remainingText.trim()}</span>
+                    </S.div>
+                );
+            }
+            if (matchH3) {
+                // eslint-disable-next-line no-unused-vars
+                const [_, titleText, remainingText] = matchH3;
 
-            if(line.startsWith('h3 ')){
-                return <p>{line}</p>
-            }
-            else if (line.startsWith('h3')) {
                 return (
-                    <h4 key={index}>
-                        {line.slice(2).trim()}
-                    </h4>
+                    <S.div key={index} >
+                        <h3 >{titleText.trim()}</h3>
+                        <span>{remainingText.trim()}</span>
+                    </S.div>
                 );
             }
-            if(line.startsWith('h2 ')){
-                return <p>{line}</p>
-            }
-            else if (line.startsWith('h2')) {
+            if (matchBold) {
+                // eslint-disable-next-line no-unused-vars
+                const [_, titleText, remainingText] = matchBold;
                 return (
-                    <h3 key={index}>
-                        {line.slice(2).trim()}
-                    </h3>
-                );
+                    <S.div key={index}>
+                        <b>{titleText.trim()}</b>
+                        <span>{remainingText.trim()}</span>
+                    </S.div>
+                )
             }
-            if(line.startsWith('h1 ')){
-                return <p>{line}</p>
-            }
-            else if (line.startsWith('h1')) {
+            if (matchUnderLine) {
+                // eslint-disable-next-line no-unused-vars
+                const [_, titleText, remainingText] = matchUnderLine;
                 return (
-                    <h1 key={index}>
-                        {line.slice(2).trim()}
-                    </h1>
-                );
+                    <S.div key={index}>
+                        <S.underLine>{titleText.trim()}</S.underLine>
+                        <span>{remainingText.trim()}</span>
+                    </S.div>
+                )
             }
+            if (matchTip) {
+                // eslint-disable-next-line no-unused-vars
+                const [_, titleText, remainingText] = matchTip;
+                return (
+                    <S.div key={index}>
+                        <i>{titleText.trim()}</i>
+                        <span>{remainingText.trim()}</span>
+                    </S.div>
+                )
+            }
+            if (matchCancelLine) {
+                // eslint-disable-next-line no-unused-vars
+                const [_, titleText, remainingText] = matchCancelLine;
+                return (
+                    <S.div key={index}>
+                        <S.cancelLine>{titleText.trim()}</S.cancelLine>
+                        <span>{remainingText.trim()}</span>
+                    </S.div>
+                )
+            }
+
             return (
                 <span key={index}>
                     {line}
@@ -72,8 +120,8 @@ function Write(){
     }
     const addHead = (num)=>{
         contentRef.current.focus();
-        if(content.length > 0) setContent((prevText) =>prevText + "\n" + "h" + num);
-        else setContent((prevText) =>prevText + "h" + num);
+        if(content.length > 0) setContent((prevText) =>prevText + "\n" + num);
+        else setContent((prevText) =>prevText + num);
     }
     return(
         <S.container>
@@ -110,15 +158,15 @@ function Write(){
                     </S.title>
                     <S.skills>
                         <div>
-                            <S.textBtn onClick={()=>addHead(1)}>제목1</S.textBtn>
-                            <S.textBtn onClick={()=>addHead(2)}>제목2</S.textBtn>
-                            <S.textBtn onClick={()=>addHead(3)}>제목3</S.textBtn>
+                            <S.textBtn onClick={()=>addHead("<제목1></제목1>")}>제목1</S.textBtn>
+                            <S.textBtn onClick={()=>addHead("<제목2></제목2>")}>제목2</S.textBtn>
+                            <S.textBtn onClick={()=>addHead("<제목3></제목3>")}>제목3</S.textBtn>
                         </div>
                         <div>
-                            <S.textBtn>b</S.textBtn>
-                            <S.textBtn>I</S.textBtn>
-                            <S.textBtn>U</S.textBtn>
-                            <S.textBtn>T</S.textBtn>
+                            <S.textBtn onClick={()=>addHead("<강조></강조>")}>b</S.textBtn>
+                            <S.textBtn onClick={()=>addHead("<기울임></기울임>")}>I</S.textBtn>
+                            <S.textBtn onClick={()=>addHead("<밑줄></밑줄>")}>U</S.textBtn>
+                            <S.textBtn onClick={()=>addHead("<취소선></취소선>")}>T</S.textBtn>
                         </div>
                         <div>
 

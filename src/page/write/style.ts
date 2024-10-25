@@ -92,6 +92,7 @@ export const title = styled.div`
     display: flex;
     flex-flow: row;
     align-items: center;
+    margin: 10px 0;
 `
 export const skills = styled.div`
     border-top: 2px solid gray;
@@ -164,4 +165,14 @@ export const categoryOut = styled.p`
         border-radius: 10px;
         width: max-content;
         padding: 5px 20px;
+`
+export const underLine = styled.p`
+        text-decoration-line: underline;
+`
+export const cancelLine = styled.p`
+        text-decoration-line: line-through;
+`
+export const div = styled.div`
+        display:flex;
+        align-items: center;
 `
