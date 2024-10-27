@@ -6,10 +6,35 @@ import SearchImg from '../../assets/search.svg'
 import { useState } from 'react';
 import CircleBtn from '../Button/Circle/index.js';
 import {Link} from 'react-router-dom';
+import {useRecoilState} from "recoil";
+import {authAtom} from "../../recoil/atom/authAtom";
+import axios from "axios";
 
-function Header({isLogin, userName}){
+function Header(){
     const [search, setSearch] = useState();
-    
+    const [auth, setAuth] = useRecoilState(authAtom);
+    const [isOn, setIsOn] = useState(false);
+    const logout = async ()=>{
+        try{
+            const response = await axios.get('/user/logout', {
+                headers:{
+                    'Authorization': `Bearer ${auth.token}`,
+                }
+            });
+            if(response.status === 200){
+                setAuth({
+                    isLogin: false,
+                    token:null,
+                    username: null
+                })
+            }
+            else{
+                console.log("logout 실패")
+            }
+        }catch (error){
+            console.log("logout error : " + error);
+        }
+    }
     return(
         <S.container>
             <Link to={'/'} ><img src={LogoImg} alt='logo' /></Link>
@@ -24,27 +49,27 @@ function Header({isLogin, userName}){
                 <img src={SearchImg} alt='searchIcon' />
             </S.searchBox>
             </S.InputBox>
-            
-            {isLogin ? 
+            {auth.isLogin ?
             <S.Info>
                 <CircleBtn name={'새글 작성'} />
-                <S.user>
+                <S.user onClick={()=>setIsOn(!isOn)}>
                     <img src={PersonImg} alt='personIcon' />
-                    <p>{userName}</p>
+                    <p>{auth.username}</p>
                     <img src={ButtonArrowImg} alt='buttonArrowIcon' />
                 </S.user>
-
-                </S.Info> : 
+                <S.setting isOn = {isOn}>
+                    <Link to={'/write'}><span>설정</span></Link>
+                    <span onClick={()=>logout()}>로그아웃</span>
+                </S.setting>
+            </S.Info>
+                :
             <S.Info>
                 <img src={PersonImg} alt='personIcon' />
                 <S.login to={'/login'}><p>로그인</p></S.login>
                 <S.login to={'/signup'}><p>회원가입</p></S.login>
             </S.Info>}
             
-            {/* <div>
-                <p>설정</p>
-                <p>로그아웃</p>
-            </div> */}
+
         </S.container>
     )
 }
