@@ -35,12 +35,7 @@ export const write = styled.section`
     box-shadow: 0.1em 0.1em 0.5em rgba(0, 0, 0, 0.6);
 
 `
-export const outPut = styled.section`
-    width: 44%;
-    padding: 30px;
-    box-shadow: 0.1em 0.1em 0.5em rgba(0, 0, 0, 0.6);
 
-`
 export const imgBox = styled.div.withConfig({
         shouldForwardProp: (prop) => prop !== 'isImg',
 })`
@@ -94,28 +89,7 @@ export const title = styled.div`
     align-items: center;
     margin: 10px 0;
 `
-export const skills = styled.div`
-    border-top: 2px solid gray;
-    padding: 0 10px;
-    border-bottom: 2px solid gray;
-    display: flex;
-    align-items: center;
-    flex-flow: row nowrap;
-    & > div{
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: space-around;
-        margin: 0 10px;
-        padding: 0 5px;
-    }
-    & > div:nth-child(2){
-        border-left: 1px solid gray;
-        border-right: 1px solid gray;
-        height: 70%;
-        display: flex;
-        align-items: center;
-    }
-`
+
 export const titleText = styled.input`
     border: none;
     font-size: 30px;
@@ -142,37 +116,4 @@ export const textArea = styled.textarea`
     font-size: 16px;
         
 `
-export const outContent = styled.div`
-        height:  70%;
-        overflow: auto;
-        font-size: 16px;
-`
-export const textBtn = styled.span`
-        padding: 10px;
-        color: gray;
-        border-radius: 5px;
-        margin: 5px 0;
-        &:hover {
-                background: #e6e6e6;
-                color: black;
-                cursor: pointer;
-                font-weight: 600;
-        }
-`
-export const categoryOut = styled.p`
-        background:  linear-gradient(to bottom, #99479C 0%, #99479C 2%, #301C86 50%, #090029 88%, #120049 100%);
-        color: white;
-        border-radius: 10px;
-        width: max-content;
-        padding: 5px 20px;
-`
-export const underLine = styled.p`
-        text-decoration-line: underline;
-`
-export const cancelLine = styled.p`
-        text-decoration-line: line-through;
-`
-export const div = styled.div`
-        display:flex;
-        align-items: center;
-`
+

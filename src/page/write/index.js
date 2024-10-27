@@ -2,6 +2,9 @@ import * as S from './style.ts';
 import Logo from '../../assets/Logo.svg';
 import Cbtn from "../../components/Button/Circle/index.js";
 import {useRef, useState} from "react";
+import {ToolBar} from "../../components/ToolBar";
+import {Preview} from "../../components/Preview";
+
 
 function Write(){
     const [category, setCategory] = useState("문제");
@@ -27,101 +30,28 @@ function Write(){
     const [content, setContent] = useState("");
     const contentRef = useRef();
     const [isImg, setIsImg] = useState(false);
-    let renderedLines;
-    const makeContent = (text)=>{
-        renderedLines = text.split('\n').map((line, index) => {
-            const matchH1 = line.match(/<제목1>(.*?)<\/제목1>(.*)/);
-            const matchH2 = line.match(/<제목2>(.*?)<\/제목2>(.*)/);
-            const matchH3 = line.match(/<제목3>(.*?)<\/제목3>(.*)/);
-            const matchBold = line.match(/<강조>(.*?)<\/강조>(.*)/);
-            const matchUnderLine = line.match(/<밑줄>(.*?)<\/밑줄>(.*)/);
-            const matchCancelLine = line.match(/<취소선>(.*?)<\/취소선>(.*)/);
-            const matchTip = line.match(/<기울임>(.*?)<\/기울임>(.*)/);
-            if (matchH1) {
-                // eslint-disable-next-line no-unused-vars
-                const [_, titleText, remainingText] = matchH1;
-                return (
-                    <S.div key={index} >
-                        <h1 >{titleText.trim()}</h1>
-                        <span>{remainingText.trim()}</span>
-                    </S.div>
-                );
-            }
-            if (matchH2) {
-                // eslint-disable-next-line no-unused-vars
-                const [_, titleText, remainingText] = matchH2;
-                return (
-                    <S.div key={index} >
-                        <h2 >{titleText.trim()}</h2>
-                        <span>{remainingText.trim()}</span>
-                    </S.div>
-                );
-            }
-            if (matchH3) {
-                // eslint-disable-next-line no-unused-vars
-                const [_, titleText, remainingText] = matchH3;
 
-                return (
-                    <S.div key={index} >
-                        <h3 >{titleText.trim()}</h3>
-                        <span>{remainingText.trim()}</span>
-                    </S.div>
-                );
-            }
-            if (matchBold) {
-                // eslint-disable-next-line no-unused-vars
-                const [_, titleText, remainingText] = matchBold;
-                return (
-                    <S.div key={index}>
-                        <b>{titleText.trim()}</b>
-                        <span>{remainingText.trim()}</span>
-                    </S.div>
-                )
-            }
-            if (matchUnderLine) {
-                // eslint-disable-next-line no-unused-vars
-                const [_, titleText, remainingText] = matchUnderLine;
-                return (
-                    <S.div key={index}>
-                        <S.underLine>{titleText.trim()}</S.underLine>
-                        <span>{remainingText.trim()}</span>
-                    </S.div>
-                )
-            }
-            if (matchTip) {
-                // eslint-disable-next-line no-unused-vars
-                const [_, titleText, remainingText] = matchTip;
-                return (
-                    <S.div key={index}>
-                        <i>{titleText.trim()}</i>
-                        <span>{remainingText.trim()}</span>
-                    </S.div>
-                )
-            }
-            if (matchCancelLine) {
-                // eslint-disable-next-line no-unused-vars
-                const [_, titleText, remainingText] = matchCancelLine;
-                return (
-                    <S.div key={index}>
-                        <S.cancelLine>{titleText.trim()}</S.cancelLine>
-                        <span>{remainingText.trim()}</span>
-                    </S.div>
-                )
-            }
 
-            return (
-                <span key={index}>
-                    {line}
-                    <br />
-            </span>
-            );
-        });
-        return <div>{renderedLines}</div>;
+    const smart = (event)=>{
+        const { value, selectionStart } = event.target;
+        let updatedValue = value;
+
+        // 정규표현식을 통해 오픈 태그 감지
+        const match = /<([\w가-힣]+)>$/.exec(value.slice(0, selectionStart));
+        if (match) {
+            const tagName = match[1];
+            const closeTag = `</${tagName}>`;
+
+            // 커서 위치에 클로즈 태그 추가
+            updatedValue = `${value.slice(0, selectionStart)}${closeTag}${value.slice(selectionStart)}`;
+            setTimeout(() => {
+                event.target.selectionStart = event.target.selectionEnd = selectionStart;
+            }, 0);
+        }
+        setContent(updatedValue);
     }
-    const addHead = (num)=>{
-        contentRef.current.focus();
-        if(content.length > 0) setContent((prevText) =>prevText + "\n" + num);
-        else setContent((prevText) =>prevText + num);
+    const postData = async ()=>{
+
     }
     return(
         <S.container>
@@ -131,7 +61,7 @@ function Write(){
                     <S.backBtn to={'/'}>
                         <Cbtn name={"돌아가기"}/>
                     </S.backBtn>
-                    <Cbtn name={"등록하기"}/>
+                    <Cbtn onClick={()=>postData()} name={"등록하기"}/>
                 </S.info>
 
             </S.header>
@@ -154,44 +84,25 @@ function Write(){
                             type={"text"} value={title}
                             onChange={(e)=>setTitle(e.target.value)}
                             placeholder={"제목을 입력해주세요"}
+                            spellCheck={false}
                         />
                     </S.title>
-                    <S.skills>
-                        <div>
-                            <S.textBtn onClick={()=>addHead("<제목1></제목1>")}>제목1</S.textBtn>
-                            <S.textBtn onClick={()=>addHead("<제목2></제목2>")}>제목2</S.textBtn>
-                            <S.textBtn onClick={()=>addHead("<제목3></제목3>")}>제목3</S.textBtn>
-                        </div>
-                        <div>
-                            <S.textBtn onClick={()=>addHead("<강조></강조>")}>b</S.textBtn>
-                            <S.textBtn onClick={()=>addHead("<기울임></기울임>")}>I</S.textBtn>
-                            <S.textBtn onClick={()=>addHead("<밑줄></밑줄>")}>U</S.textBtn>
-                            <S.textBtn onClick={()=>addHead("<취소선></취소선>")}>T</S.textBtn>
-                        </div>
-                        <div>
 
-                        </div>
-                    </S.skills>
+                    <ToolBar content = {content} contentRef = {contentRef} setContent={setContent} />
+
                     <S.textArea
                         placeholder={"내용을 입력해주세요"}
                         value={content}
                         ref={contentRef}
                         onChange={(e)=> {
                             setContent(e.target.value);
+                            smart(e);
                         }}
                         spellCheck="false"
                         />
                 </S.write>
-                <S.outPut>
-                    <S.categoryOut>{category}</S.categoryOut>
-                    <S.title>
-                        <S.selectImg $toggle = {false}>
-                            <img src={imgSrc} alt='선택된 이미지'/>
-                        </S.selectImg>
-                        <h1>{title}</h1>
-                    </S.title>
-                    <S.outContent>{makeContent(content)}</S.outContent>
-                </S.outPut>
+
+                <Preview category = {category} title = {title} content={content} imgSrc = {imgSrc}/>
             </S.main>
         </S.container>
     )
