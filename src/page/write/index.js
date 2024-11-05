@@ -148,9 +148,10 @@ function Write(){
             </S.header>
             <S.main>
                 <S.write>
-                    <S.category onChange={(e)=>setCategory(e.target.value)}>
+                    <S.category onChange={(e) => setCategory(e.target.value)}>
                         <option key="issue">문제</option>
                         <option key="inquiry">문의</option>
+                        {/*<option key="inquiry">공지</option>*/}
                     </S.category>
                     <S.imgBox isImg = {isImg}>
                         {images.map((item, index)=>{
