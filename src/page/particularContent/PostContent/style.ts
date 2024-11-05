@@ -2,13 +2,10 @@ import styled from "styled-components";
 
 export const Wrapper = styled.div`
     width: 50%;
-    margin: 0 auto;
     display: flex;
     flex-direction: column;
     gap: 25px;
 `
-
-
 
 export const Header = styled.div`
     display: flex;
@@ -94,4 +91,9 @@ export const InputComment = styled.textarea`
     padding: 15px;
     min-height: 90px;
     text-align: start;
+`
+
+export const BtnContainer = styled.div`
+    display: flex;
+    justify-content: end;
 `

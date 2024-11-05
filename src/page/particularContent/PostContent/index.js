@@ -3,11 +3,14 @@ import titleImg from "../../../assets/titleImg1.svg";
 import Rectangle from "../../../components/Button/Rectangle";
 import CommentList from "./CommentList";
 import {useEffect} from "react";
+import {useParams} from "react-router-dom";
 
-function PostDetail({ category, title, date, writer}) {
-    const getComments = async ()=>{
+function PostContent({ category, title, date, writer}) {
+    const {id} = useParams();
+    console.log(id)
+    const getPost = async ()=>{
         try{
-            const response = await fetch(`/community/comment/:${1}`, {
+            const response = await fetch(`/community/word/:${1}`, {
                 method:'GET',
                 headers:{
 
@@ -21,7 +24,7 @@ function PostDetail({ category, title, date, writer}) {
         }
     };
     useEffect(()=>{
-        getComments();
+        getPost();
     }, []);
     return (
         <S.Wrapper>
@@ -38,11 +41,11 @@ function PostDetail({ category, title, date, writer}) {
             <S.InputCommentBox>
                 <S.CommentTitle>n개의 댓글</S.CommentTitle>
                 <S.InputComment placeholder={"댓글을 작성해주세요"}></S.InputComment>
-                <Rectangle name={"댓글 작성"}/>
+                <S.BtnContainer><Rectangle name={"댓글 작성"}/></S.BtnContainer>
             </S.InputCommentBox>
             <CommentList comments={[{writer:"33", date:"33", content:"333"}, {writer:"33", date:"33", content:"333"}]}/>
         </S.Wrapper>
     );
 }
 
-export default PostDetail;
+export default PostContent;
