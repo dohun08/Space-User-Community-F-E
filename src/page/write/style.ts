@@ -134,6 +134,9 @@ export const div = styled.div`
         width: 500px;
         display: flex;
         flex-flow: column wrap;
+        & > *{
+                margin: 5px;
+        }
 `
 export const underLine = styled.span`
         text-decoration-line: underline;
