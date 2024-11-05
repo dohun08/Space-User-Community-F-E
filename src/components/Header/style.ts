@@ -65,7 +65,6 @@ export const user = styled.div`
 export const setting = styled.div.withConfig({
     shouldForwardProp:(prop) =>  prop !== 'isOn',
 })`
-    
     position: absolute;
     background-color: #fff;
     box-shadow: 0.05em 0.05em 0.3em rgba(0, 0, 0, 0.6);
@@ -84,4 +83,16 @@ export const setting = styled.div.withConfig({
     & > span:hover{
         background-color: #e6e6e6;
     }
+`
+export const logout = styled(Link)`
+    color: black;
+    text-decoration-line: none;
+        padding: 15px 35px;
+    &:hover{
+        background-color: #e6e6e6;
+    }
+`
+export const link = styled(Link)`
+    color: black;
+    text-decoration-line: none;
 `

@@ -51,14 +51,14 @@ function Header(){
             </S.InputBox>
             {auth.isLogin ?
             <S.Info>
-                <CircleBtn name={'새글 작성'} />
+                <S.link to={'/write'}><CircleBtn name={'새글 작성'} /></S.link>
                 <S.user onClick={()=>setIsOn(!isOn)}>
                     <img src={PersonImg} alt='personIcon' />
                     <p>{auth.username}</p>
                     <img src={ButtonArrowImg} alt='buttonArrowIcon' />
                 </S.user>
                 <S.setting isOn = {isOn}>
-                    <Link to={'/write'}><span>설정</span></Link>
+                    <S.logout to={'/'}><span>설정</span></S.logout>
                     <span onClick={()=>logout()}>로그아웃</span>
                 </S.setting>
             </S.Info>

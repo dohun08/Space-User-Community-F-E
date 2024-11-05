@@ -4,18 +4,10 @@ export const H1 = styled.span`
         font-size: 30px;
         font-weight: 700;
 `
-export const H2 = styled.span`
-        font-weight: 650;
-        font-size: 25px;
-`
-export const H3 = styled.span`
-        font-size: 20px;
-        font-weight: 650;
-`
 export const div = styled.div`
         width: 500px;
         display: flex;
-        flex-flow: row wrap;
+        flex-flow: column wrap;
 `
 export const categoryOut = styled.p`
         background:  linear-gradient(to bottom, #99479C 0%, #99479C 2%, #301C86 50%, #090029 88%, #120049 100%);
@@ -24,12 +16,7 @@ export const categoryOut = styled.p`
         width: max-content;
         padding: 5px 20px;
 `
-export const underLine = styled.p`
-        text-decoration-line: underline;
-`
-export const cancelLine = styled.p`
-        text-decoration-line: line-through;
-`
+
 export const outContent = styled.div`
         height:  70%;
         overflow: auto;
