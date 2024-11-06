@@ -20,7 +20,6 @@ export const Rbtn = styled.button<{ width?: string, height?: string, borderRadiu
         color: white;
     }
 `
-
 export const name = styled.div<{ size?: string }>`
     font-weight: 700;
     font-size: ${(props) => props.size || "16px"};
