@@ -4,7 +4,7 @@ import Cbtn from "../../components/Button/Circle/index.js";
 import React, {useRef, useState} from "react";
 import {ToolBar} from "../../components/ToolBar";
 import {Preview} from "../../components/Preview";
-import {authAtom} from "../../recoil/atom/authAtom";
+import {authAtom} from "../../recoil/authAtom";
 import {useRecoilValue} from "recoil";
 
 function Write(){

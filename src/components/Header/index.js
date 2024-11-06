@@ -7,7 +7,7 @@ import { useState } from 'react';
 import CircleBtn from '../Button/Circle/index.js';
 import {Link} from 'react-router-dom';
 import {useRecoilState} from "recoil";
-import {authAtom} from "../../recoil/atom/authAtom";
+import {authAtom} from "../../recoil/authAtom";
 import axios from "axios";
 
 function Header(){

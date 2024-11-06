@@ -3,7 +3,7 @@ import Logo from '../../assets/Logo.svg'
 import { useEffect, useRef, useState } from 'react';
 import React from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import {authAtom} from "../../recoil/atom/authAtom";
+import {authAtom} from "../../recoil/authAtom";
 import { useSetRecoilState } from 'recoil';
 
 
@@ -15,8 +15,7 @@ function Login(){
     useEffect(()=>{
         inputRef.current.focus();
     }, []);
-    const setAuth = useSetRecoilState(authAtom);
-
+    const [setAuth] = useSetRecoilState(authAtom);
     const navigate = useNavigate();
     const goLogin = async ()=>{
         if(id === ""){
@@ -27,23 +26,22 @@ function Login(){
         }
         else{
             try{
-                const response = await fetch('http://10.150.151.149:8080/login', {
+                const response = await fetch('/user/login', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
                     credentials:'include',
                     body: JSON.stringify({
                         id: id,
                         password: pw
                     })
                 })
+                const data = await response.json();
                 if(response.status=== 200){
                     setAuth({
                         isLogin: true,
-                        token: null,
                         username: id
                     })
+                    localStorage.setItem("accessToken", data.accessToken);
+                    localStorage.setItem("isAdmin", "true");
                     navigate('/');
                 }
             }catch(error){
@@ -81,7 +79,8 @@ function Login(){
                     onClick={goLogin} 
                     type="button" 
                 >
-                        로그인</S.LoginBtn>
+                    로그인
+                </S.LoginBtn>
             </S.form>
             <p>아직회원이 아니세요? <Link to={'/signup'}>회원가입</Link></p>
         </S.container>
