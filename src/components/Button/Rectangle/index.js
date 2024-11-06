@@ -1,9 +1,9 @@
 import * as S from './style.ts'
 import React from 'react';
-function Rectangle(props){
+function Rectangle({width, height, name, size, borderRadius, onClick, display}) {
     return(
-        <S.Rbtn width={props.width} height={props.height} borderRadius={props.borderRadius}>
-            <S.name size={props.size}>{props.name}</S.name>
+        <S.Rbtn display={display} width={width} height={height} borderRadius={borderRadius} onClick={onClick}>
+            <S.name size={size}>{name}</S.name>
         </S.Rbtn>
     )
 }
