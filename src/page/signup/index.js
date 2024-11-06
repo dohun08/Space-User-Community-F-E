@@ -10,9 +10,11 @@ function Signup(){
     const [pw, setPw] = useState();
     const [repw, setRePw] = useState();
     const [age, setAge] = useState();
+    const [email, setEmail] = useState();
     const idRef = useRef();
     const pwRef = useRef();
     const ageRef = useRef();
+    const emailRef = useRef();
 
     useEffect(()=>{
         idRef.current.focus();
@@ -31,6 +33,10 @@ function Signup(){
         else if(age === ""){
             alert("나이가 비어있습니다.");
             ageRef.container.focus();
+        }
+        else if(email === ""){
+            alert("나이가 비어있습니다.");
+            emailRef.container.focus();
         }
         else if(pw !== repw){
             alert("비밀번호가 일치하지 않습니다.");
@@ -94,14 +100,23 @@ function Signup(){
                     <S.Label>나이</S.Label>
                     <S.Input
                         ref={ageRef}
-                        type='email'
+                        type='number'
                         placeholder='나이를 입력해주세요'
                         value={age}
                         onChange={(e)=>setAge(e.target.value)}
                     />
                 </S.dataIn>
-                
-                
+
+                <S.dataIn>
+                    <S.Label>이메일</S.Label>
+                    <S.Input
+                        ref={emailRef}
+                        type='email'
+                        placeholder='이메일을 입력해주세요'
+                        value={email}
+                        onChange={(e)=>setEmail(e.target.value)}
+                    />
+                </S.dataIn>
                 <S.nativeLogin>
                     <p>이미 회원이신가요?</p>
                     <Link to={'/login'}>로그인</Link>
@@ -110,7 +125,6 @@ function Signup(){
              
              
               <S.Signup
-                isBlack={false}
                 onClick={goSignup}
                 >
                     회원가입

@@ -16,6 +16,7 @@ export const Info = styled.div`
     & > *{
         margin-left: 15px;
     }
+    position: relative;
 `
 
 export const InputBox = styled.div`
@@ -66,11 +67,11 @@ export const setting = styled.div.withConfig({
     shouldForwardProp:(prop) =>  prop !== 'isOn',
 })`
     position: absolute;
+    right: 0;
+    top: 70px;
     background-color: #fff;
     box-shadow: 0.05em 0.05em 0.3em rgba(0, 0, 0, 0.6);
     width: max-content;
-    margin-top: 170px;
-    margin-left: 130px;
     border-radius: 5px;
     display: ${(props)=>props["isOn"] ? "flex" : "none"};
     flex-direction: column;

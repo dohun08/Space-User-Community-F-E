@@ -4,6 +4,8 @@ import Cbtn from "../../components/Button/Circle/index.js";
 import React, {useRef, useState} from "react";
 import {ToolBar} from "../../components/ToolBar";
 import {Preview} from "../../components/Preview";
+import {authAtom} from "../../recoil/atom/authAtom";
+import {useRecoilValue} from "recoil";
 
 function Write(){
     const [category, setCategory] = useState("문제");
@@ -100,6 +102,7 @@ function Write(){
                 let matchComponent = null;
 
                 // 각 패턴을 체크해서 가장 먼저 나타나는 태그를 찾음
+                // eslint-disable-next-line no-loop-func
                 tagPatterns.forEach(({ pattern, component }) => {
                     const match = remainingText.match(pattern);
 
@@ -134,6 +137,7 @@ function Write(){
 
         return <S.div>{renderedLines}</S.div>;
     };
+    const auth = useRecoilValue(authAtom);
     return(
         <S.container>
             <S.header>
@@ -151,7 +155,7 @@ function Write(){
                     <S.category onChange={(e) => setCategory(e.target.value)}>
                         <option key="issue">문제</option>
                         <option key="inquiry">문의</option>
-                        {/*<option key="inquiry">공지</option>*/}
+                        {auth.manage ? <option key="inquiry">공지</option> : null}
                     </S.category>
                     <S.imgBox isImg = {isImg}>
                         {images.map((item, index)=>{
