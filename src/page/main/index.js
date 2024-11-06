@@ -11,7 +11,7 @@ function Main(){
     const [data, setData] = useState([]);
     const getDocument = async ()=>{
         try{
-            const response = await fetch(`http://10.150.151.149:8080`, {
+            const response = await fetch(`/community/doc`, {
                 method:'GET',
             })
             if(response.ok){
