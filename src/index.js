@@ -13,7 +13,7 @@ import Signup from './page/signup';
 import MoreContents from './page/moreContents';
 import Write from './page/write';
 import Post from '../src/page/particularContent';
-import Report from "./page/report";
+import Report from "./page/reportManage";
 import DetailedReport from "./page/detailedReport";
 import BanManage from "./page/banManage";
 import UserBan from './page/userBan';
@@ -29,8 +29,8 @@ root.render(
                 <Route path='/more' element={<MoreContents />}></Route>
                 <Route path={'/write'} element={<Write />}></Route>
                 <Route path={'/post/:id'} element={<Post />}></Route>
-                <Route path={'/report'} element={<Report />}></Route>
-                <Route path={'/report/:id'} element={<DetailedReport />}></Route>
+                <Route path={'/reportManage/manage'} element={<Report />}></Route>
+                <Route path={'/reportManage/manage/:id'} element={<DetailedReport />}></Route>
                 <Route path={'/ban'} element={<BanManage />}></Route>
                 <Route path={'/user/ban'} element={<UserBan />}></Route>
             </Routes>

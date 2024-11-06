@@ -61,7 +61,7 @@ function Header(){
                     <S.logout to={'/user'}><span>마이페이지</span></S.logout>
                     <span onClick={()=>logout()}>로그아웃</span>
                     <S.logout to={'/'}><span>신고하기</span></S.logout>
-                    {auth.manage ? <S.logout to={'/report'}><span>신고목록보기</span></S.logout> : null}
+                    {auth.manage ? <S.logout to={'/reportManage'}><span>신고목록보기</span></S.logout> : null}
                     {auth.manage ? <S.logout to={'/ban'}><span>밴 목록보기</span></S.logout> : null}
                 </S.setting>
             </S.Info>
