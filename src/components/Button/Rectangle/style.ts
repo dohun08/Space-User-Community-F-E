@@ -19,7 +19,6 @@ export const Rbtn = styled.button`
         color: white;
     }
 `
-
 export const name = styled.p`
     font-weight: 700;
     font-size: 16px;
