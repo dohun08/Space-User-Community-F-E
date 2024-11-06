@@ -13,7 +13,8 @@ import Signup from './page/signup';
 import MoreContents from './page/moreContents';
 import Write from './page/write';
 import Post from '../src/page/particularContent';
-import Report from "./page/Report";
+import Report from "./page/report";
+import UserPage from "./page/UserPage";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -28,6 +29,7 @@ root.render(
                 <Route path={'/write'} element={<Write />}></Route>
                 <Route path={'/post/:id'} element={<Post />}></Route>
                 <Route path={'/report'} element={<Report />}></Route>
+                <Route path={'/user/:id'} element={<UserPage/>}></Route>
             </Routes>
         </BrowserRouter>
     </RecoilRoot>
