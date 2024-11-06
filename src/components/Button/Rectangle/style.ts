@@ -1,16 +1,15 @@
 import styled from 'styled-components';
 import {strict} from "assert";
 
-export const Rbtn = styled.button<{ width?: string, height?: string, borderRadius?: string}>`
+export const Rbtn = styled.button<{ width?: string, height?: string, borderRadius?: string, display?: boolean}>`
     border: 2px solid #99479C;
     cursor: pointer;
     border-radius: ${(props) => props.borderRadius || "5px"};
     width: ${(props) => props.width || "100px"};
     height: ${(props) => props.height || "30px"};
-    display: flex;
+    display: ${(props)=> props.display ? 'flex' : 'none' || 'flex'};
     justify-content: center;
     align-items: center;
-    margin-top: 5px;
     background-color: white;
     transition: 0.5s;
     color: #301C86;

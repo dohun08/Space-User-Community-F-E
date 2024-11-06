@@ -14,11 +14,12 @@ export const ModifyContainer = styled.div`
     justify-content: end;
 `
 
-export const ModifyBtn = styled.div`
+export const ModifyBtn = styled.div<{display?:boolean}>`
     color: #301C86;
     font-size: 12px;
     cursor: pointer;
-    
+    line-height: 25px;
+    display: ${(props)=> props.display ? 'block' : 'none'};
 `
 
 export const UserInfoContent = styled.div`
@@ -52,13 +53,14 @@ export const DelBtn = styled.div`
 export const TextInfo = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 5px;
     justify-content: center;
     flex-grow: 1;
 `
 
 export const TextContainer = styled.div`
     display: flex;
+    align-items: center;
     width: 100%;
     gap: 5px;
 `
@@ -69,11 +71,14 @@ export const TextBox = styled.div`
     text-wrap: nowrap;
 `
 
-export const InputBox = styled.input`
+export const InputBox = styled.input<{ isModify?: boolean } >`
+    padding: 8px 10px;
     font-size: 14px;
     font-weight: 600;
     color: #000;
-    border:none;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: ${(props) => props.isModify? "1px solid #C2C2C2" : "none"};
     background: none;
     outline: none;
     flex-grow: 1;
