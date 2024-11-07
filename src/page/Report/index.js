@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Header from "../../components/Header";
 import InputText from "../../components/InputText";
 import Circle from "../../components/Button/Circle";
+import Megaphone from "../../assets/Megaphone.svg"
 
 export default function Report(){
     return (
@@ -9,6 +10,7 @@ export default function Report(){
             <Header/>
             <Content>
                 <Wrapper>
+                    <Icon src={Megaphone} alt={"Megaphone"} />
                     <Title>신고하기</Title>
                     <InputContainer>
                         <InputLabel htmlFor={"reportTitle"}>제목</InputLabel>
@@ -36,8 +38,8 @@ const Container = styled.div`
 const Content = styled.div`
     display: flex;
     height: 80%;
-    overflow: scroll;
     justify-content: center;
+    overflow: visible;
 `
 
 const Wrapper = styled.div`
@@ -52,6 +54,14 @@ const Wrapper = styled.div`
     box-sizing: border-box;
     padding: 30px 50px;
     gap: 50px;
+    position: relative;
+`
+
+const Icon = styled.img`
+    transform: rotate(-15deg);
+    position: absolute;
+    right: -50px;
+    top: -50px;
 `
 
 const Title = styled.div`

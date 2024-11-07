@@ -18,7 +18,7 @@ import ReportManage from "./page/reportManage";
 import DetailedReport from "./page/detailedReport";
 import BanManage from "./page/banManage";
 import UserBan from './page/userBan';
-import Report from "./page/report";
+import Report from "./page/Report";
 import UserPage from "./page/UserPage";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
