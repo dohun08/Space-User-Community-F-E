@@ -64,7 +64,10 @@ function Write(){
                 },
                 body:JSON.stringify({
                     title:title,
-                    contents:make(content)
+                    content:make(content),
+                    category:category,
+                    userid:auth.username,
+                    icon:images.findIndex((item)=>item===imgSrc)
                 })
             });
             if(response.status === 200){
