@@ -14,8 +14,9 @@ function Main(){
             const response = await fetch(`/community/doc`, {
                 method:'GET',
             })
+            const data = await response.json();
             if(response.ok){
-                setData();
+                console.log(data)
             }
         }catch (error){
             console.log("Document error :" , error);
