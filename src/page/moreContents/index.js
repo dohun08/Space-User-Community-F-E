@@ -9,14 +9,13 @@ function MoreContents(){
     const [page, setPage] = useState(1);
     const getData = async ()=>{
         try{
-            const response = await fetch(`/community/documentlist/${page}`, {
+            const response = await fetch(`/community/doclists`, {
                 method:'GET',
-                headers:{
-                    'Content-Type':'application/json'
-                }
+
             })
+            const data = response.json();
             if(response.ok){
-                setContent();
+                console.log(data);
             }
         }catch (error){
             console.log("on error get more Data", error);
