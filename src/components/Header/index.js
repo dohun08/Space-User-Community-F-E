@@ -7,7 +7,7 @@ import { useState } from 'react';
 import CircleBtn from '../Button/Circle/index.js';
 import {Link} from 'react-router-dom';
 import {useRecoilState} from "recoil";
-import {authAtom} from "../../recoil/atom/authAtom";
+import {authAtom} from "../../recoil/authAtom";
 import axios from "axios";
 
 function Header(){
@@ -58,8 +58,11 @@ function Header(){
                     <img src={ButtonArrowImg} alt='buttonArrowIcon' />
                 </S.user>
                 <S.setting isOn = {isOn}>
-                    <S.logout to={'/'}><span>설정</span></S.logout>
+                    <S.logout to={'/user'}><span>마이페이지</span></S.logout>
                     <span onClick={()=>logout()}>로그아웃</span>
+                    <S.logout to={'/'}><span>신고하기</span></S.logout>
+                    {auth.manage ? <S.logout to={'/reportManage'}><span>신고목록보기</span></S.logout> : null}
+                    {auth.manage ? <S.logout to={'/ban'}><span>밴 목록보기</span></S.logout> : null}
                 </S.setting>
             </S.Info>
                 :
@@ -68,8 +71,6 @@ function Header(){
                 <S.login to={'/login'}><p>로그인</p></S.login>
                 <S.login to={'/signup'}><p>회원가입</p></S.login>
             </S.Info>}
-            
-
         </S.container>
     )
 }

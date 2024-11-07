@@ -1,11 +1,15 @@
 import styled from 'styled-components';
 
-export const Document = styled.div`
+export const Document = styled.div.withConfig({
+    shouldForwardProp: (prop) => prop !== 'manage',
+})`
     width: 800px;
     border-bottom: 1px solid gray;
     display: flex;
     justify-content: space-between;
+    border-radius: 5px;
     padding: 0 10px;
+    background-color: ${(props)=>props['manage'] ? "#ddd1ff" : null};
 `
 export const titleBox = styled.section`
     display: flex;
