@@ -4,6 +4,7 @@ import Rectangle from "../../../components/Button/Rectangle";
 import CommentList from "./CommentList";
 import {useEffect} from "react";
 import {useParams} from "react-router-dom";
+import InputText from "../../../components/InputText";
 
 function PostContent({ category, title, date, writer}) {
     const {id} = useParams();
@@ -40,7 +41,7 @@ function PostContent({ category, title, date, writer}) {
             <S.hr/>
             <S.InputCommentBox>
                 <S.CommentTitle>n개의 댓글</S.CommentTitle>
-                <S.InputComment placeholder={"댓글을 작성해주세요"}></S.InputComment>
+                <InputText type={"textarea"} placeholder={"댓글을 입력해주세요"} height={"90px"}/>
                 <S.BtnContainer><Rectangle name={"댓글 작성"}/></S.BtnContainer>
             </S.InputCommentBox>
             <CommentList comments={[{writer:"33", date:"33", content:"333"}, {writer:"33", date:"33", content:"333"}]}/>
