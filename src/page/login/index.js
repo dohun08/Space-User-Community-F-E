@@ -8,45 +8,46 @@ import { useSetRecoilState } from 'recoil';
 
 
 function Login(){
-    const [id, setId] = useState('');
+    const [email, setEmail] = useState('');
     const inputRef = useRef();
     const [pw, setPw] = useState('');
     
     useEffect(()=>{
         inputRef.current.focus();
     }, []);
-    const [setAuth] = useSetRecoilState(authAtom);
+    const setAuth = useSetRecoilState(authAtom);
     const navigate = useNavigate();
     const goLogin = async ()=>{
-        if(id === ""){
+        if(email === ""){
             alert("아이디가 비어있습니다");
         }
         else if(pw === ""){
             alert("비밀번호가 비어있습니다");
         }
         else{
+            const accessToken = null;
             try{
-                const response = await fetch('/user/login', {
+                const response = await fetch('http://10.150.151.149:8080/user/login', {
                     method: 'POST',
                     credentials:'include',
+                    headers:{
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type':'application/json'
+                    },
                     body: JSON.stringify({
-                        id: id,
+                        email: email,
                         password: pw
                     })
                 })
-                const data = await response.json();
-                if(response.status=== 200){
+                if(response.ok){
                     setAuth({
                         isLogin: true,
-                        username: id
+                        username: email
                     })
-                    localStorage.setItem("accessToken", data.accessToken);
-                    localStorage.setItem("isAdmin", "true");
                     navigate('/');
                 }
             }catch(error){
-                console.log("error on : ",error);
-                navigate("/error");
+                console.log("error on login: ",error);
             }
         }
     }
@@ -61,8 +62,8 @@ function Login(){
                         ref={inputRef}
                         type='text' 
                         placeholder='아이디를 입력해주세요'
-                        value={id}
-                        onChange={(e)=>setId(e.target.value)}
+                        value={email}
+                        onChange={(e)=>setEmail(e.target.value)}
                     />
                 </S.dataIn>
                 <S.dataIn>
@@ -82,7 +83,7 @@ function Login(){
                     로그인
                 </S.LoginBtn>
             </S.form>
-            <p>아직회원이 아니세요? <Link to={'/signup'}>회원가입</Link></p>
+            <p>아직 회원이 아니세요? <Link to={'/signup'}>회원가입</Link></p>
         </S.container>
     )
 }

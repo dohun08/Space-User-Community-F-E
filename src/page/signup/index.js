@@ -1,21 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react'
 import * as S from './style.ts'
 import Logo from '../../assets/Logo.svg'
-import axios from "axios";
 
 import { Link, useNavigate } from 'react-router-dom';
 
 function Signup(){
-    const [id, setId] = useState();
-    const [pw, setPw] = useState();
-    const [repw, setRePw] = useState();
-    const [age, setAge] = useState();
-    const [email, setEmail] = useState();
+    const [id, setId] = useState('');
+    const [pw, setPw] = useState('');
+    const [repw, setRePw] = useState('');
+    const [age, setAge] = useState('');
+    const [email, setEmail] = useState('');
     const idRef = useRef();
     const pwRef = useRef();
     const ageRef = useRef();
     const emailRef = useRef();
-
+    const token = null
     useEffect(()=>{
         idRef.current.focus();
     }, [])
@@ -43,17 +42,19 @@ function Signup(){
         }
         else{
             try{
-                const response = await axios.post('http://10.150.151.149:8080/user/register', {
-                    name: id,
-                    password: pw,
-                    age: age,
-                    profile: null
-                }, {
+                const response = await fetch('http://10.150.151.149:8080/user/register', {
+                    method:'POST',
                     headers:{
-                        'Content-Type':'application/json'
+                        'Content-Type':'application/json',
                     },
-                })
-                if(response.status === 200){
+                    body:JSON.stringify({
+                        email: email,
+                        username: id,
+                        password: pw,
+                        age: age
+                    }),
+                });
+                if(response.status === 201){
                     console.log("회원가입성공");
                     navigate('/login');
                 }
