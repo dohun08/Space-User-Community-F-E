@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Document = styled.div.withConfig({
     shouldForwardProp: (prop) => prop !== 'manage',
 })`
-    width: 800px;
+    width: 100%;
     border-bottom: 1px solid gray;
     display: flex;
     justify-content: space-between;

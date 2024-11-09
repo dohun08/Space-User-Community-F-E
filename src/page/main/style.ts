@@ -17,18 +17,21 @@ export const section1 = styled.section`
     border: 3px solid #DFDFDF;
     padding: 30px;
     text-align: center;
+    width: 800px;
     & > *{
         margin-bottom:10px;
     }
 `
 export const section2 = styled.section`
+    width: 260px;
     border: 3px solid #DFDFDF;
     border-radius: 30px;
     display: flex;
-    padding: 14px 14px 11px 14px;
+    padding: 10px 30px;
     flex-direction: column;
     align-items: center;
     align-self: stretch;
+    margin-right: 20px;
     & > *{
         margin-bottom:10px;
     }

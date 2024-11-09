@@ -56,25 +56,51 @@ function Write(){
         setContent(updatedValue);
     }
     const postData = async ()=>{
-        try{
-            const response = await fetch('/community/document', {
-                method:'POST',
-                headers:{
-                    'ContentType':'application/json',
-                },
-                body:JSON.stringify({
-                    title:title,
-                    contents:make(content)
-                })
-            });
-            if(response.status === 200){
-                console.log("글쓰기 성공");
+        if(category === '공지'){
+            try{
+                const response = await fetch('/admin/broadcast', {
+                    method:'POST',
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+                    body:JSON.stringify({
+                        title:title,
+                        content:make(content),
+                        category:category,
+                        userid:auth.username,
+                        icon:images.findIndex((item)=>item===imgSrc)
+                    })
+                });
+                if(response.ok){
+                    window.location.href = '/';
+                }
+            }catch (error){
+                console.log('on error announcement post', error);
             }
-            else{
-                console.log("글쓰기 실패");
+        }
+        else {
+            try {
+                const response = await fetch('/community/document', {
+                    method: 'POST',
+                    headers: {
+                        'ContentType': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        title: title,
+                        content: make(content),
+                        category: category,
+                        userid: auth.username,
+                        icon: images.findIndex((item) => item === imgSrc)
+                    })
+                });
+                if (response.status === 200) {
+                    console.log("글쓰기 성공");
+                } else {
+                    console.log("글쓰기 실패");
+                }
+            } catch (error) {
+                console.log(error);
             }
-        }catch (error){
-            console.log(error);
         }
     }
     const make = (text) => {

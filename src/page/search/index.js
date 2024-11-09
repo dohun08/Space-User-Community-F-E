@@ -3,27 +3,32 @@ import Header from "../../components/Header";
 import Larrow from '../../assets/left_arrow.svg';
 import Rarrow from '../../assets/right_arrow.svg';
 import LongLongDocument from "../../components/Documents/LongLong";
+import {useParams} from 'react-router-dom';
+
 import * as S from './style.ts';
-function MoreContents(){
+function Search(){
     const [content, setContent] = useState([]);
     const [page, setPage] = useState(1);
-    const getData = async ()=>{
-        try{
-            const response = await fetch(`/community/doclists`, {
-                method:'GET',
+    const params = useParams();
 
-            })
-            const data = response.json();
-            if(response.ok){
+    const getSearch = async ()=>{
+        console.log(params.title);
+        try{
+            const response = await fetch(`http://10.150.149.20:8080/search/doc/${params}`, {
+                method:'GET'
+            });
+            const data = await response.json();
+            if (response.ok) {
                 console.log(data);
+                setContent(data);
             }
         }catch (error){
-            console.log("on error get more Data", error);
+            console.log("Search on : ", error);
         }
     }
     useEffect(() => {
-        getData();
-    }, [page]);
+        getSearch();
+    }, []);
     return(
         <S.container>
             <Header />
@@ -40,4 +45,4 @@ function MoreContents(){
         </S.container>
     )
 }
-export default MoreContents;
+export default Search;

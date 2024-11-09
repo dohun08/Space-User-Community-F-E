@@ -8,7 +8,7 @@ export const title = styled.span`
     color: #301C86;
 `
 export const content = styled.div`
-    width: 270px;
+    width: 100%;
      padding: 10px 15px;
      border-bottom: 1px solid gray;
      display: flex;

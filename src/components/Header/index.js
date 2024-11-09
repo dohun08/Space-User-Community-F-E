@@ -5,13 +5,14 @@ import ButtonArrowImg from '../../assets/bottumArrow.svg'
 import SearchImg from '../../assets/search.svg'
 import { useState } from 'react';
 import CircleBtn from '../Button/Circle/index.js';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {useRecoilState} from "recoil";
 import {authAtom} from "../../recoil/authAtom";
 import axios from "axios";
 
 function Header(){
-    const [search, setSearch] = useState();
+    const navigate = useNavigate();
+    const [search, setSearch] = useState('');
     const [auth, setAuth] = useRecoilState(authAtom);
     const [isOn, setIsOn] = useState(false);
     const logout = async ()=>{
@@ -35,6 +36,10 @@ function Header(){
             console.log("logout error : " + error);
         }
     }
+    const goSearch = ()=>{
+        setSearch('');
+        navigate(`/search/${search}`)
+    }
     return(
         <S.container>
             <Link to={'/'} ><img src={LogoImg} alt='logo' /></Link>
@@ -44,8 +49,13 @@ function Header(){
                 placeholder='검색어를 입력해주세요' 
                 value={search} 
                 onChange={(e)=>setSearch(e.target.value)}
+                onKeyDown={(e)=>{
+                    if(e.key === 'Enter') {
+                        setTimeout(()=>{goSearch()}, 0);
+                    }
+                }}
             />
-            <S.searchBox>
+            <S.searchBox onClick={goSearch} >
                 <img src={SearchImg} alt='searchIcon' />
             </S.searchBox>
             </S.InputBox>

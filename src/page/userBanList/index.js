@@ -5,6 +5,21 @@ import Larrow from "../../assets/left_arrow.svg";
 import Rarrow from "../../assets/right_arrow.svg";
 
 const UserBan = ()=>{
+    const unBan = async ()=>{
+        try{
+            const response = await fetch('/admin/unban', {
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({
+                    //userid
+                })
+            })
+        }catch (error){
+            console.log('on error unban : ', error);
+        }
+    }
     return(
         <S.container>
             <Header/>
@@ -13,7 +28,7 @@ const UserBan = ()=>{
                 <S.section>
                     <p>유저이름</p>
                     <S.buttonBox>
-                        <S.save type={"button"}>살리기</S.save>
+                        <S.save onClick={unBan} type={"button"}>살리기</S.save>
                         <S.die type={"button"}>죽이기</S.die>
                     </S.buttonBox>
                 </S.section>

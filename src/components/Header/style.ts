@@ -20,14 +20,14 @@ export const Info = styled.div`
 `
 
 export const InputBox = styled.div`
-    width: 500px;
+    width: 36%;
     border: 1px solid gray;
     display: flex;
     border-radius: 20px;
     justify-content: space-between;
 `
 export const Input = styled.input`
-    width: 400px;
+    width: 80%;
     border:none;
     padding: 0 20px;
     font-size: 16px;
