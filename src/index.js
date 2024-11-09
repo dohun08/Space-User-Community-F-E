@@ -16,7 +16,7 @@ import Post from '../src/page/particularContent';
 import ReportManage from "./page/reportManage";
 import DetailedReport from "./page/detailedReport";
 import BanManage from "./page/banManage";
-import UserBan from './page/userBan';
+import UserBan from './page/userBanList';
 import Report from "./page/Report";
 import UserPage from "./page/UserPage";
 import Search from "./page/search";
@@ -36,7 +36,7 @@ root.render(
                 <Route path={'/reportManage/manage'} element={<ReportManage />}></Route>
                 <Route path={'/reportManage/manage/:id'} element={<DetailedReport />}></Route>
                 <Route path={'/ban'} element={<BanManage />}></Route>
-                <Route path={'/user/ban'} element={<UserBan />}></Route>
+                <Route path={'/ban/user'} element={<UserBan />}></Route>
                 <Route path={'/report'} element={<Report />}></Route>
                 <Route path={'/user/:id'} element={<UserPage/>}></Route>
                 <Route path={'/search/:title'} element={<Search />}></Route>

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Header from "../../components/Header";
 import * as S from './style.ts';
 import Larrow from "../../assets/left_arrow.svg";
@@ -10,6 +10,21 @@ const Report = ()=>{
     const goReport = (url)=>{
         window.location.href = url;
     }
+    const getReport = async ()=>{
+        try{
+            const response = await fetch('/admin/report', {
+                method:'GET',
+                headers:{
+                    'Content-Type':'application/json'
+                }
+            })
+        }catch (error){
+            console.log('on error getReport', error)
+        }
+    }
+    useEffect(() => {
+        getReport()
+    }, []);
     return(
         <S.container>
             <Header />

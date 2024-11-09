@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import * as S from './style.ts';
 import Header from "../../components/Header";
 import Cbtn from "../../components/Button/Circle/";
@@ -7,11 +7,48 @@ import Larrow from "../../assets/left_arrow.svg";
 import Rarrow from "../../assets/right_arrow.svg";
 
 const BanManage = ()=>{
+    const getData = async ()=>{
+        try{
+            const response = await fetch('/admin/banlist', {
+                method:'GET',
+                headers:{
+                    'Content-Type':'application/json'
+                }
+            });
+            if(response.ok){
+                const data = await response.json();
+            }
+            else{
+                console.log("밴 데이터 받아오는데 오류남");
+            }
+        }catch (error){
+            console.log('error on getBanData', error);
+        }
+    }
+    useEffect(() => {
+        getData()
+    }, []);
     const goBan = ()=>{
-        window.location.href = '/user/ban';
+        window.location.href = '/ban/user';
     }
     const searchUser = ()=>{
 
+    }
+    const banUser = async ()=>{
+        try{
+            const response = await fetch('/admin/ban', {
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({
+                    // user:userid
+                })
+            });
+
+        }catch (error){
+            console.log('on error post ban user : ', error);
+        }
     }
     const [user, setUser] = useState('');
     return(
@@ -32,7 +69,7 @@ const BanManage = ()=>{
                 </S.BanBox>
                 <S.section >
                     <S.reportText>유저이름</S.reportText>
-                    <S.banBtn type={"button"} value={"차단"}></S.banBtn>
+                    <S.banBtn onClick={banUser} type={"button"} value={"차단"}></S.banBtn>
                 </S.section>
                 <S.pageNum>
                     <S.arrow src={Larrow} alt={"왼쪽"} />
