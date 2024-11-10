@@ -35,11 +35,11 @@ export const write = styled.section`
     box-shadow: 0.1em 0.1em 0.5em rgba(0, 0, 0, 0.6);
 
 `
-
-export const imgBox = styled.div.withConfig({
-        shouldForwardProp: (prop) => prop !== 'isImg',
-})`
-    display: ${(props) => props["isImg"] ? "flex" : "none"};
+interface IsimageProps {
+        isImg?: boolean;
+}
+export const imgBox = styled.div<IsimageProps>`
+    display: ${(props) => props.isImg ? "flex" : "none"};
     width: 400px;
     flex-flow: row wrap;
     justify-content: space-between;
@@ -66,21 +66,22 @@ export const img = styled.div`
         transition: transform 0.3s ease;
     }
 `
-export const selectImg = styled.div.withConfig({
-        shouldForwardProp: (prop) => prop !== 'toggle',
-})`
+interface ToggleProps {
+        toggle?: boolean;
+}
+export const selectImg = styled.div<ToggleProps>`
     width: 80px;
     height: 80px;
     display: flex;
     justify-content: center;
     align-content: center;
-        cursor: ${(props) => (props["toggle"] ? 'pointer' : 'normal')};
+        cursor: ${(props) => (props.toggle ? 'pointer' : 'normal')};
         border-radius: 100px;
     & > img{
         width: 80%;
     }
     &:hover{
-        ${(props) => props["toggle"] ? "transform: scale(1.2);transition: transform 0.3s ease; " : ""}
+        ${(props) => props.toggle ? "transform: scale(1.2);transition: transform 0.3s ease; " : ""}
     }
 `
 export const title = styled.div`

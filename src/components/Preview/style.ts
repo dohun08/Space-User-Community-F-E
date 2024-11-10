@@ -34,15 +34,17 @@ export const title = styled.div`
     align-items: center;
     margin: 10px 0;
 `
-export const selectImg = styled.div.withConfig({
-    shouldForwardProp: (prop) => prop !== 'toggle',
-})`
+
+interface ToggleProps{
+    toggle?:boolean;
+}
+export const selectImg = styled.div<ToggleProps>`
     width: 80px;
     height: 80px;
     display: flex;
     justify-content: center;
     align-content: center;
-        cursor: ${(props) => (props["toggle"] ? 'pointer' : 'normal')};
+        cursor: ${(props) => (props.toggle ? 'pointer' : 'normal')};
         border-radius: 100px;
     & > img{
         width: 80%;
