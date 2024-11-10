@@ -2,10 +2,12 @@ import React from "react";
 import Header from "../../components/Header";
 import * as S from './style.ts';
 import BackArrow from '../../assets/back_Arrow.svg';
+import { useNavigate } from "react-router-dom";
 
 const DetailedReport = ()=>{
+    const navigate = useNavigate();
     const back = (url)=>{
-        window.location.href = url;
+        navigate(url);
     }
     return(
         <S.container>

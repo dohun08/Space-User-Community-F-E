@@ -5,8 +5,10 @@ import Cbtn from "../../components/Button/Circle/";
 import SearchSrc  from '../../assets/searchP.svg';
 import Larrow from "../../assets/left_arrow.svg";
 import Rarrow from "../../assets/right_arrow.svg";
+import {useNavigation} from "react-router-dom";
 
 const BanManage = ()=>{
+    const navigate = useNavigation();
     const getData = async ()=>{
         try{
             const response = await fetch('/admin/banlist', {
@@ -29,7 +31,7 @@ const BanManage = ()=>{
         getData()
     }, []);
     const goBan = ()=>{
-        window.location.href = '/ban/user';
+        navigate('/ban/user');
     }
     const searchUser = ()=>{
 

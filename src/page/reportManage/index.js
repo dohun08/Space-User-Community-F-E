@@ -4,11 +4,13 @@ import * as S from './style.ts';
 import Larrow from "../../assets/left_arrow.svg";
 import Rarrow from "../../assets/right_arrow.svg";
 import Speaker from '../../assets/speaker.svg';
+import {useNavigation} from "react-router-dom";
 
 const Report = ()=>{
+    const navigate = useNavigation();
     const [page, setPage] = useState(1);
     const goReport = (url)=>{
-        window.location.href = url;
+        navigate(url);
     }
     const getReport = async ()=>{
         try{

@@ -10,6 +10,7 @@ import {useNavigate} from "react-router-dom";
 
 function Write(){
     const [category, setCategory] = useState("문제");
+    const navigate = useNavigate();
     const images = [
         "/images/blue_spaceship.svg",
         "/images/mint_spaceship.svg",
@@ -73,7 +74,7 @@ function Write(){
                     })
                 });
                 if(response.ok){
-                    window.location.href = '/';
+                    navigate('/');
                 }
             }catch (error){
                 console.log('on error announcement post', error);
@@ -175,7 +176,7 @@ function Write(){
 
         return <S.div>{renderedLines}</S.div>;
     };
-    const navigate = useNavigate();
+
     const auth:{ isLogin: boolean, username: string } = useRecoilValue(authAtom);
     return(
         <S.container>
