@@ -4,6 +4,6 @@ export const authAtom = atom({
     key:'authState',
     default:{
         isLogin:false,
-        username:null
+        username:''
     }
 });
