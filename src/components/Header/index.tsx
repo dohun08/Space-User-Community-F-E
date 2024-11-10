@@ -1,31 +1,31 @@
-import * as S from './style.ts';
+import * as S from './style';
 import LogoImg from '../../assets/Logo.svg'
 import PersonImg from '../../assets/person.svg'
 import ButtonArrowImg from '../../assets/bottumArrow.svg'
 import SearchImg from '../../assets/search.svg'
 import { useState } from 'react';
-import CircleBtn from '../Button/Circle/index.js';
+import CircleBtn from '../Button/Circle';
 import {Link, useNavigate} from 'react-router-dom';
 import {useRecoilState} from "recoil";
 import {authAtom} from "../../recoil/authAtom";
 import axios from "axios";
 
 function Header(){
+    const token : string | null = localStorage.getItem('token');
     const navigate = useNavigate();
-    const [search, setSearch] = useState('');
+    const [search, setSearch] = useState<string>('');
     const [auth, setAuth] = useRecoilState(authAtom);
-    const [isOn, setIsOn] = useState(false);
+    const [isOn, setIsOn] = useState<boolean>(false);
     const logout = async ()=>{
         try{
             const response = await axios.get('/user/logout', {
                 headers:{
-                    'Authorization': `Bearer ${auth.token}`,
+                    'Authorization': `Bearer ${token}`,
                 }
             });
             if(response.status === 200){
                 setAuth({
                     isLogin: false,
-                    token:null,
                     username: null
                 })
             }
@@ -59,9 +59,11 @@ function Header(){
                 <img src={SearchImg} alt='searchIcon' />
             </S.searchBox>
             </S.InputBox>
-            {auth.isLogin ?
+            {token ?
             <S.Info>
-                <S.link to={'/write'}><CircleBtn name={'새글 작성'} /></S.link>
+                <S.link to={'/write'}>
+                    <CircleBtn name={'새글 작성'}  onClick={()=>navigate('/write')}/>
+                </S.link>
                 <S.user onClick={()=>setIsOn(!isOn)}>
                     <img src={PersonImg} alt='personIcon' />
                     <p>{auth.username}</p>
@@ -71,8 +73,8 @@ function Header(){
                     <S.logout to={'/user'}><span>마이페이지</span></S.logout>
                     <span onClick={()=>logout()}>로그아웃</span>
                     <S.logout to={'/'}><span>신고하기</span></S.logout>
-                    {auth.manage ? <S.logout to={'/reportManage'}><span>신고목록보기</span></S.logout> : null}
-                    {auth.manage ? <S.logout to={'/ban'}><span>밴 목록보기</span></S.logout> : null}
+                    <S.logout to={'/reportManage'}><span>신고목록보기</span></S.logout>
+                   <S.logout to={'/ban'}><span>밴 목록보기</span></S.logout>
                 </S.setting>
             </S.Info>
                 :

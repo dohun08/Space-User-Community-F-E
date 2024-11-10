@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
-import * as S from './style.ts'
+import * as S from './style'
 import Logo from '../../assets/Logo.svg'
-
 import { Link, useNavigate } from 'react-router-dom';
 
 function Signup(){
@@ -10,32 +9,32 @@ function Signup(){
     const [repw, setRePw] = useState('');
     const [age, setAge] = useState('');
     const [email, setEmail] = useState('');
-    const idRef = useRef();
-    const pwRef = useRef();
-    const ageRef = useRef();
-    const emailRef = useRef();
-    const token = null
+    const idRef = useRef<HTMLInputElement | null>(null);
+    const pwRef = useRef<HTMLInputElement | null>(null);
+    const ageRef = useRef<HTMLInputElement | null>(null);
+    const emailRef = useRef<HTMLInputElement | null>(null);
+
     useEffect(()=>{
-        idRef.current.focus();
+        idRef.current?.focus();
     }, [])
 
     const navigate = useNavigate();
     const goSignup = async ()=>{
         if(id === ""){
             alert("아이디가 비어있습니다.");
-            idRef.current.focus();
+            idRef.current?.focus();
         }
         else if(pw===""){
             alert("비밀번호가 비어있습니다.");
-            pwRef.current.focus();
+            pwRef.current?.focus();
         }
         else if(age === ""){
             alert("나이가 비어있습니다.");
-            ageRef.container.focus();
+            ageRef.current?.focus();
         }
         else if(email === ""){
             alert("나이가 비어있습니다.");
-            emailRef.container.focus();
+            emailRef.current?.focus();
         }
         else if(pw !== repw){
             alert("비밀번호가 일치하지 않습니다.");

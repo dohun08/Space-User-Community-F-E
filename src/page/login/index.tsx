@@ -1,4 +1,4 @@
-import * as S from './style.ts'
+import * as S from './style'
 import Logo from '../../assets/Logo.svg'
 import { useEffect, useRef, useState } from 'react';
 import React from 'react';
@@ -8,12 +8,12 @@ import { useSetRecoilState } from 'recoil';
 
 
 function Login(){
-    const [email, setEmail] = useState('');
-    const inputRef = useRef();
+    const [email, setEmail] = useState<string>('');
+    const inputRef = useRef<HTMLInputElement | null>(null);
     const [pw, setPw] = useState('');
-    
+
     useEffect(()=>{
-        inputRef.current.focus();
+        inputRef.current?.focus();
     }, []);
     const setAuth = useSetRecoilState(authAtom);
     const navigate = useNavigate();
@@ -58,7 +58,7 @@ function Login(){
             <S.form>
                 <S.dataIn>
                     <S.Label>아이디</S.Label>
-                    <S.Input 
+                    <S.Input
                         ref={inputRef}
                         type='text' 
                         placeholder='아이디를 입력해주세요'

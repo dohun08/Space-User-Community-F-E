@@ -1,14 +1,14 @@
 import {useEffect, useState} from "react";
-import * as S from './style.ts';
+import * as S from './style';
 import Header from "../../components/Header";
 import LongDocument from "../../components/Documents/Long";
-import Popular from "../../components/Documents/popular/index.js";
+import Popular from "../../components/Documents/popular";
 import { Link } from "react-router-dom";
-
+import {Doc} from '../../types';
 
 function Main(){
 
-    const [data, setData] = useState([]);
+    const [content, setContent] = useState<Doc[]>([]);
     const getDocument = async ()=>{
         try{
             const response = await fetch(`/community/doc`, {
@@ -16,7 +16,8 @@ function Main(){
             })
             const data = await response.json();
             if(response.ok){
-                console.log(data)
+                setContent(data.data);
+                console.log(data.data)
             }
         }catch (error){
             console.log("Document error :" , error);
@@ -31,10 +32,10 @@ function Main(){
             <S.main>
                 <S.section2>
                     <h3>인기 문서</h3>
-                    <Popular />
+                    <Popular data = {content[0]} />
                 </S.section2>
                 <S.section1>
-                    <LongDocument data = {data}  />
+                    <LongDocument data = {content[0]}  />
                     
                     <Link to={'/more'}>더보기</Link>
                 </S.section1>

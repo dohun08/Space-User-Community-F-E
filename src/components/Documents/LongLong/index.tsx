@@ -1,8 +1,9 @@
-import * as S from './style.ts';
+import * as S from './style';
 import React from "react";
+import {Doc} from "../../../types";
 
 
-function LongLong({data}){
+function LongLong(props : {data:Doc}){
     return(
         <S.Document>
             <S.titleBox>

@@ -21,7 +21,8 @@ import Report from "./page/Report";
 import UserPage from "./page/UserPage";
 import Search from "./page/search";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const rootElement = document.getElementById('root') as HTMLElement;
+const root = ReactDOM.createRoot(rootElement);
 
 root.render(
     <RecoilRoot>

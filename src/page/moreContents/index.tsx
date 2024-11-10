@@ -3,37 +3,34 @@ import Header from "../../components/Header";
 import Larrow from '../../assets/left_arrow.svg';
 import Rarrow from '../../assets/right_arrow.svg';
 import LongLongDocument from "../../components/Documents/LongLong";
-import {useParams} from 'react-router-dom';
+import * as S from './style';
+import {Doc} from '../../types';
 
-import * as S from './style.ts';
-function Search(){
-    const [content, setContent] = useState([]);
+function MoreContents(){
+    const [content, setContent] = useState<Doc[]>([]);
     const [page, setPage] = useState(1);
-    const params = useParams();
-
-    const getSearch = async ()=>{
-        console.log(params.title);
+    const getData = async ()=>{
         try{
-            const response = await fetch(`http://10.150.149.20:8080/search/doc/${params}`, {
-                method:'GET'
-            });
+            const response = await fetch(`/community/doclists`, {
+                method:'GET',
+            })
             const data = await response.json();
-            if (response.ok) {
+            if(response.ok){
+                setContent(data.data);
                 console.log(data);
-                setContent(data);
             }
         }catch (error){
-            console.log("Search on : ", error);
+            console.log("on error get more Data", error);
         }
     }
     useEffect(() => {
-        getSearch();
-    }, []);
+        getData();
+    }, [page]);
     return(
         <S.container>
             <Header />
             <S.ContentsBox>
-                <LongLongDocument data={content} />
+                <LongLongDocument data={content[0]} />
                 {/* 9개 최대 */}
 
                 <S.pageNum>
@@ -45,4 +42,4 @@ function Search(){
         </S.container>
     )
 }
-export default Search;
+export default MoreContents;
