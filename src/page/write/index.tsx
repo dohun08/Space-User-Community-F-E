@@ -176,7 +176,7 @@ function Write(){
         return <S.div>{renderedLines}</S.div>;
     };
     const navigate = useNavigate();
-    const auth:{ isLogin: boolean, username: null } = useRecoilValue(authAtom);
+    const auth:{ isLogin: boolean, username: string } = useRecoilValue(authAtom);
     return(
         <S.container>
             <S.header>

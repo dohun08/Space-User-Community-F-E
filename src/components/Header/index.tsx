@@ -26,7 +26,7 @@ function Header(){
             if(response.status === 200){
                 setAuth({
                     isLogin: false,
-                    username: null
+                    username: ''
                 })
             }
             else{
