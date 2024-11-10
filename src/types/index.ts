@@ -14,3 +14,9 @@ export interface User{
     email:string,
     userName:string
 }
+
+export interface Auth{
+    access_Token:string | null,
+    username:string,
+    isAdmin:boolean
+}

@@ -7,6 +7,7 @@ import {Preview} from "../../components/Preview";
 import {authAtom} from "../../recoil/authAtom";
 import {useRecoilValue} from "recoil";
 import {useNavigate} from "react-router-dom";
+import {Auth} from "../../types";
 
 function Write(){
     const [category, setCategory] = useState("문제");
@@ -177,14 +178,14 @@ function Write(){
         return <S.div>{renderedLines}</S.div>;
     };
 
-    const auth:{ isLogin: boolean, username: string } = useRecoilValue(authAtom);
+    const auth:Auth = useRecoilValue(authAtom);
     return(
         <S.container>
             <S.header>
                 <img src={Logo} alt={"로고이미지"} />
                 <S.info>
                     <S.backBtn to={'/'}>
-                        <Cbtn name={"돌아가기"} onClick={()=>navigate('/')}/>
+                        <Cbtn name={"돌아가기"} onClick={()=>navigate(-1)}/>
                     </S.backBtn>
                     <Cbtn onClick={()=>postData()} name={"등록하기"}/>
                 </S.info>

@@ -10,7 +10,7 @@ import { useSetRecoilState } from 'recoil';
 function Login(){
     const [email, setEmail] = useState<string>('');
     const inputRef = useRef<HTMLInputElement | null>(null);
-    const [pw, setPw] = useState('');
+    const [pw, setPw] = useState<string>('');
 
     useEffect(()=>{
         inputRef.current?.focus();
@@ -25,7 +25,7 @@ function Login(){
             alert("비밀번호가 비어있습니다");
         }
         else{
-            const accessToken = null;
+            const accessToken:string | null = '';
             try{
                 const response = await fetch('http://10.150.151.149:8080/user/login', {
                     method: 'POST',
@@ -41,9 +41,12 @@ function Login(){
                 })
                 if(response.ok){
                     setAuth({
-                        isLogin: true,
+                        access_Token: accessToken,
+                        isAdmin: false,
                         username: email
                     })
+                    localStorage.setItem('accessToken', accessToken);
+                    localStorage.setItem('username', email);
                     navigate('/');
                 }
             }catch(error){
@@ -78,10 +81,9 @@ function Login(){
                 
                 <S.LoginBtn
                     onClick={goLogin} 
-                    type="button" 
-                >
-                    로그인
-                </S.LoginBtn>
+                    type="button"
+                    value={"로그인"}
+                />
             </S.form>
             <p>아직 회원이 아니세요? <Link to={'/signup'}>회원가입</Link></p>
         </S.container>

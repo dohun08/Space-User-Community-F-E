@@ -3,19 +3,20 @@ import LogoImg from '../../assets/Logo.svg'
 import PersonImg from '../../assets/person.svg'
 import ButtonArrowImg from '../../assets/bottumArrow.svg'
 import SearchImg from '../../assets/search.svg'
-import { useState } from 'react';
+import {useState} from 'react';
 import CircleBtn from '../Button/Circle';
 import {Link, useNavigate} from 'react-router-dom';
-import {useRecoilState} from "recoil";
-import {authAtom} from "../../recoil/authAtom";
+import {useRecoilState, useRecoilValue} from "recoil";
+import {authAtom, isLoginSelector} from "../../recoil/authAtom";
 import axios from "axios";
 
 function Header(){
-    const token : string | null = localStorage.getItem('token');
     const navigate = useNavigate();
     const [search, setSearch] = useState<string>('');
     const [auth, setAuth] = useRecoilState(authAtom);
+    const token : string | null = auth.access_Token;
     const [isOn, setIsOn] = useState<boolean>(false);
+    const isLogin = useRecoilValue(isLoginSelector);
     const logout = async ()=>{
         try{
             const response = await axios.get('/user/logout', {
@@ -25,9 +26,12 @@ function Header(){
             });
             if(response.status === 200){
                 setAuth({
-                    isLogin: false,
-                    username: ''
+                    access_Token: '',
+                    username: '',
+                    isAdmin:false
                 })
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('username');
             }
             else{
                 console.log("logout 실패")
@@ -59,7 +63,7 @@ function Header(){
                 <img src={SearchImg} alt='searchIcon' />
             </S.searchBox>
             </S.InputBox>
-            {token ?
+            {isLogin ?
             <S.Info>
                 <S.link to={'/write'}>
                     <CircleBtn name={'새글 작성'}  onClick={()=>navigate('/write')}/>
