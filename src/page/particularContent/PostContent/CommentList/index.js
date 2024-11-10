@@ -1,31 +1,14 @@
 import styled from "styled-components";
 import Comment from "./comment";
 import {useEffect, useState} from "react";
-import {useNavigate, useParams} from "react-router-dom";
 
-export default function CommentList(){
-
-    const navigate = useNavigate();
-    const {id} = useParams();
+export default function CommentList({data}){
     const [comments, setComments] = useState([]);
-    const getComments = async ()=>{
-        try{
-            const response = await fetch(`/community/comment/${id}`, {
-                method:'GET',
-            })
-            const data = await response.json();
-            if(data.status===200){
-                console.log("댓글 조회 성공");
-            }
-        }catch (error){
-            console.log("error on : ",error);
-            navigate("/error");
-        }
-    };
 
     useEffect(()=>{
-        getComments();
-    }, []);
+        setComments(data||[]);
+    }, [data])
+
     return(
         <Ul>
             {comments.map((comment, index) => (

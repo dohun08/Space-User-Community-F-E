@@ -35,6 +35,7 @@ export const ManageBtn = styled.button`
     border: none;
     background: none;
     padding: 0;
+    cursor: pointer;
 `
 
 export const titleWrap = styled.div`
@@ -80,17 +81,6 @@ export const InputCommentBox = styled.div`
 export const CommentTitle = styled.div`
     font-size: 20px;
     font-weight: 500;
-`
-
-export const InputComment = styled.textarea`
-    resize: none;
-    flex-grow: 1;
-    border-radius: 5px;
-    border: 1px solid #DFDFDF;
-    outline: none;
-    padding: 15px;
-    min-height: 90px;
-    text-align: start;
 `
 
 export const BtnContainer = styled.div`
