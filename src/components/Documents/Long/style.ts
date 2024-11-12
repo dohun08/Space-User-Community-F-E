@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 interface ManageProps{
-    manage?:boolean;
+    $manage:boolean;
 }
 export const Document = styled.div<ManageProps>`
     width: 100%;
@@ -10,7 +10,7 @@ export const Document = styled.div<ManageProps>`
     justify-content: space-between;
     border-radius: 5px;
     padding: 0 10px;
-    background-color: ${(props)=>props.manage ? "#ddd1ff" : null};
+    background-color: ${(props)=>props.$manage ? "#ddd1ff" : null};
 `
 export const titleBox = styled.section`
     display: flex;

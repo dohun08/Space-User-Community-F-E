@@ -29,3 +29,9 @@ export const arrow = styled.img`
     cursor: pointer;
     padding: 0 10px;
 `
+export const unBox = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+`

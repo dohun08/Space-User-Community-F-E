@@ -6,41 +6,22 @@ import SearchImg from '../../assets/search.svg'
 import {useState} from 'react';
 import CircleBtn from '../Button/Circle';
 import {Link, useNavigate} from 'react-router-dom';
-import {useRecoilState, useRecoilValue} from "recoil";
+import { useRecoilValue} from "recoil";
 import {authAtom, isLoginSelector} from "../../recoil/authAtom";
-import axios from "axios";
+import {useLogout} from '../../until/authService'
 
 function Header(){
     const navigate = useNavigate();
     const [search, setSearch] = useState<string>('');
-    const [auth, setAuth] = useRecoilState(authAtom);
-    const token : string | null = auth.access_Token;
     const [isOn, setIsOn] = useState<boolean>(false);
+    const auth = useRecoilValue(authAtom);
     const isLogin = useRecoilValue(isLoginSelector);
-    const logout = async ()=>{
-        try{
-            const response = await axios.get('/user/logout', {
-                headers:{
-                    'Authorization': `Bearer ${token}`,
-                }
-            });
-            if(response.status === 200){
-                setAuth({
-                    access_Token: '',
-                    username: '',
-                    isAdmin:false
-                })
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('username');
-            }
-            else{
-                console.log("logout 실패")
-            }
-        }catch (error){
-            console.log("logout error : " + error);
-        }
+    const logout = useLogout();
+    const goLogout = async ()=>{
+        logout();
     }
     const goSearch = ()=>{
+        if(search === '') return;
         setSearch('');
         navigate(`/search/${search}`)
     }
@@ -73,11 +54,11 @@ function Header(){
                     <p>{auth.username}</p>
                     <img src={ButtonArrowImg} alt='buttonArrowIcon' />
                 </S.user>
-                <S.setting isOn = {isOn}>
-                    <S.logout to={'/user'}><span>마이페이지</span></S.logout>
-                    <span onClick={()=>logout()}>로그아웃</span>
-                    <S.logout to={'/'}><span>신고하기</span></S.logout>
-                    <S.logout to={'/reportManage'}><span>신고목록보기</span></S.logout>
+                <S.setting $isOn = {isOn}>
+                    <S.logout to={`/user/${auth.username}`}><span>마이페이지</span></S.logout>
+                    <span onClick={()=>goLogout()}>로그아웃</span>
+                    <S.logout to={'/report'}><span>신고하기</span></S.logout>
+                    <S.logout to={'/report/manage'}><span>신고목록보기</span></S.logout>
                    <S.logout to={'/ban'}><span>밴 목록보기</span></S.logout>
                 </S.setting>
             </S.Info>

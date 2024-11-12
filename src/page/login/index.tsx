@@ -25,29 +25,31 @@ function Login(){
             alert("비밀번호가 비어있습니다");
         }
         else{
-            const accessToken:string | null = '';
             try{
-                const response = await fetch('http://10.150.151.149:8080/user/login', {
+                const response = await fetch('/api/user/login', {
                     method: 'POST',
                     credentials:'include',
                     headers:{
-                        'Authorization': `Bearer ${accessToken}`,
                         'Content-Type':'application/json'
                     },
                     body: JSON.stringify({
-                        email: email,
+                        username: email,
                         password: pw
                     })
-                })
+                });
+
+
+
                 if(response.ok){
-                    setAuth({
-                        access_Token: accessToken,
-                        isAdmin: false,
-                        username: email
-                    })
-                    localStorage.setItem('accessToken', accessToken);
-                    localStorage.setItem('username', email);
+                        setAuth({
+                            access_Token: response.headers.get('authorization') || '',
+                            isAdmin: false,
+                            username: email
+                        })
                     navigate('/');
+                }
+                else{
+                    console.log("login 실패");
                 }
             }catch(error){
                 console.log("error on login: ",error);

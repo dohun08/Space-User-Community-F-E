@@ -1,11 +1,15 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
-
-module.exports = function(app) {
+// http://10.150.149.20:8080 세준
+// http://10.150.151.149:8080 동욱
+module.exports = function (app) {
     app.use(
-        '/user',
+        '/api',
         createProxyMiddleware({
             target: 'http://10.150.151.149:8080',
-            changeOrigin: true
+            changeOrigin: true,
+            pathRewrite: {
+                '^/api': '',
+            },
         })
     );
 };

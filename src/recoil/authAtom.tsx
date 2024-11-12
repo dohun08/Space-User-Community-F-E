@@ -3,7 +3,7 @@ import {Auth} from "../types";
 
 const loadAccessToken = () => {
     const savedAccessToken = localStorage.getItem('accessToken');
-    return savedAccessToken || null; // 없으면 빈 문자열 반환
+    return savedAccessToken || ''; // 없으면 빈 문자열 반환
 };
 const loadUsername = () => {
     const savedUsername = localStorage.getItem('username');
@@ -20,9 +20,7 @@ export const authAtom = atom<Auth>({
     effects_UNSTABLE: [
         ({onSet}) =>{
             onSet((newState:Auth) => {
-                if (typeof newState.access_Token === "string") {
-                    localStorage.setItem('accessToken', newState.access_Token);
-                }
+                localStorage.setItem('accessToken', newState.access_Token);
                 localStorage.setItem('username', newState.username);
             });
         }
@@ -33,6 +31,6 @@ export const isLoginSelector = selector<boolean>({
     key: 'isLoginSelector',
     get: ({get}):boolean => {
         const auth = get(authAtom);
-        return auth.access_Token !== null;
+        return auth.access_Token !== '';
     }
 })

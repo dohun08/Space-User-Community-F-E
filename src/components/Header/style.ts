@@ -65,7 +65,7 @@ export const user = styled.div`
 `
 
 interface IsonProps{
-    isOn?:boolean;
+    $isOn?:boolean;
 }
 export const setting = styled.div<IsonProps>`
     position: absolute;
@@ -75,7 +75,7 @@ export const setting = styled.div<IsonProps>`
     box-shadow: 0.05em 0.05em 0.3em rgba(0, 0, 0, 0.6);
     width: max-content;
     border-radius: 5px;
-    display: ${(props)=>props.isOn ? "flex" : "none"};
+    display: ${(props)=>props.$isOn ? "flex" : "none"};
     flex-direction: column;
     & > *{
         cursor: pointer;

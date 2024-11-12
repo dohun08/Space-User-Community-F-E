@@ -5,40 +5,54 @@ import Rarrow from '../../assets/right_arrow.svg';
 import LongLongDocument from "../../components/Documents/LongLong";
 import * as S from './style';
 import {Doc} from '../../types';
+import {getDoc} from '../../api/getDoc';
+import Loading from "../../components/loading/loading";
+import {unBox} from "./style";
 
 function MoreContents(){
     const [content, setContent] = useState<Doc[]>([]);
     const [page, setPage] = useState(1);
-    const getData = async ()=>{
+    const [isLoading, setLoading] = useState(true);
+    const fetchDoc = async ()=>{
         try{
-            const response = await fetch(`/community/doclists`, {
-                method:'GET',
-            })
-            const data = await response.json();
-            if(response.ok){
-                setContent(data.data);
-                console.log(data);
-            }
+            const documents:Doc[] = await getDoc();
+            setContent(documents);
         }catch (error){
             console.log("on error get more Data", error);
+        }finally {
+            setLoading(false);
         }
     }
     useEffect(() => {
-        getData();
-    }, [page]);
+        fetchDoc();
+    }, []);
     return(
         <S.container>
             <Header />
-            <S.ContentsBox>
-                <LongLongDocument data={content[0]} />
-                {/* 9개 최대 */}
+            {!isLoading ?
+                <S.ContentsBox>
+                    {content.slice((page-1)*9, page*9).map((doc:Doc, index:number)=>{
+                        return doc ? (
+                            <LongLongDocument key={index} data={doc} />
+                        ) : (
+                            <S.unBox key={index}></S.unBox>
+                        );
+                    })}
 
-                <S.pageNum>
-                    <S.arrow src={Larrow} alt={"왼쪽"} onClick={()=>setPage(page+1)} />
-                    <p> page </p>{/*page 중괄호 씌우기*/}
-                    <S.arrow src={Rarrow} alt={"오른쪽"} onClick={()=>setPage(page-1)} />
-                </S.pageNum>
-            </S.ContentsBox>
+                    <S.pageNum>
+                        <S.arrow src={Larrow} alt={"왼쪽"} onClick={()=> {
+                            if(page === 1) return
+                            setPage(page - 1)
+                        }} />
+                        <p> page </p>{/*page 중괄호 씌우기*/}
+                        <S.arrow src={Rarrow} alt={"오른쪽"} onClick={()=>{
+                            if(page === Math.ceil(content.length/9)) return
+                            setPage(page+1)
+                        }} />
+                    </S.pageNum>
+                </S.ContentsBox> : <Loading></Loading>
+            }
+
         </S.container>
     )
 }

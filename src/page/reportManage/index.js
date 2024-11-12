@@ -4,12 +4,12 @@ import * as S from './style.ts';
 import Larrow from "../../assets/left_arrow.svg";
 import Rarrow from "../../assets/right_arrow.svg";
 import Speaker from '../../assets/speaker.svg';
-import {useNavigation} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const Report = ()=>{
-    const navigate = useNavigation();
+    const navigate = useNavigate();
     const [page, setPage] = useState(1);
-    const goReport = (url)=>{
+    const go = (url)=>{
         navigate(url);
     }
     const getReport = async ()=>{
@@ -35,39 +35,39 @@ const Report = ()=>{
             <S.main>
                 <S.speaker src={Speaker} alt={"speaker icon"} />
                 {/* 9개 신고씩 보여주기 */}
-                <S.section onClick={()=>goReport(`/report/${1}`)}>
+                <S.section onClick={()=>go(`/report/${1}`)}>
                     <S.reportText>신고제목</S.reportText>
                     <S.reportText>유저</S.reportText>
                 </S.section>
-                <S.section onClick={()=>goReport(`/report/${1}`)}>
+                <S.section onClick={()=>go(`/report/${1}`)}>
                     <S.reportText>신고제목</S.reportText>
                     <S.reportText>유저</S.reportText>
                 </S.section>
-                <S.section onClick={()=>goReport(`/report/${1}`)}>
+                <S.section onClick={()=>go(`/report/${1}`)}>
                     <S.reportText>신고제목</S.reportText>
                     <S.reportText>유저</S.reportText>
                 </S.section>
-                <S.section onClick={()=>goReport(`/report/${1}`)}>
+                <S.section onClick={()=>go(`/report/${1}`)}>
                     <S.reportText>신고제목</S.reportText>
                     <S.reportText>유저</S.reportText>
                 </S.section>
-                <S.section onClick={()=>goReport(`/report/${1}`)}>
+                <S.section onClick={()=>go(`/report/${1}`)}>
                     <S.reportText>신고제목</S.reportText>
                     <S.reportText>유저</S.reportText>
                 </S.section>
-                <S.section onClick={()=>goReport(`/report/${1}`)}>
+                <S.section onClick={()=>go(`/report/${1}`)}>
                     <S.reportText>신고제목</S.reportText>
                     <S.reportText>유저</S.reportText>
                 </S.section>
-                <S.section onClick={()=>goReport(`/report/${1}`)}>
+                <S.section onClick={()=>go(`/report/${1}`)}>
                     <S.reportText>신고제목</S.reportText>
                     <S.reportText>유저</S.reportText>
                 </S.section>
-                <S.section onClick={()=>goReport(`/report/${1}`)}>
+                <S.section onClick={()=>go(`/report/${1}`)}>
                     <S.reportText>신고제목</S.reportText>
                     <S.reportText>유저</S.reportText>
                 </S.section>
-                <S.section onClick={()=>goReport(`/report/${1}`)}>
+                <S.section onClick={()=>go(`/report/${1}`)}>
                     <S.reportText>신고제목</S.reportText>
                     <S.reportText>유저</S.reportText>
                 </S.section>

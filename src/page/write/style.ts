@@ -36,10 +36,10 @@ export const write = styled.section`
 
 `
 interface IsimageProps {
-        isImg?: boolean;
+        $isImg?: boolean;
 }
 export const imgBox = styled.div<IsimageProps>`
-    display: ${(props) => props.isImg ? "flex" : "none"};
+    display: ${(props) => props.$isImg ? "flex" : "none"};
     width: 400px;
     flex-flow: row wrap;
     justify-content: space-between;
@@ -67,7 +67,7 @@ export const img = styled.div`
     }
 `
 interface ToggleProps {
-        toggle?: boolean;
+        $toggle?: boolean;
 }
 export const selectImg = styled.div<ToggleProps>`
     width: 80px;
@@ -75,13 +75,13 @@ export const selectImg = styled.div<ToggleProps>`
     display: flex;
     justify-content: center;
     align-content: center;
-        cursor: ${(props) => (props.toggle ? 'pointer' : 'normal')};
+        cursor: ${(props) => (props.$toggle ? 'pointer' : 'normal')};
         border-radius: 100px;
     & > img{
         width: 80%;
     }
     &:hover{
-        ${(props) => props.toggle ? "transform: scale(1.2);transition: transform 0.3s ease; " : ""}
+        ${(props) => props.$toggle ? "transform: scale(1.2);transition: transform 0.3s ease; " : ""}
     }
 `
 export const title = styled.div`

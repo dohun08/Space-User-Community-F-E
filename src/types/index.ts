@@ -16,7 +16,7 @@ export interface User{
 }
 
 export interface Auth{
-    access_Token:string | null,
+    access_Token:string,
     username:string,
     isAdmin:boolean
 }

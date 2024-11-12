@@ -7,7 +7,7 @@ import {Doc} from "../../../types";
 
 function LongDocument(props: {data:Doc}){
     return(
-        <S.Document manage={true}>
+        <S.Document $manage={true}>
                     <S.titleBox>
                     <img src={Speaker} alt="공지" />
                     <S.title>

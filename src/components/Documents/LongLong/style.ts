@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {Link} from "react-router-dom";
 
 export const Document = styled.div`
     width: 100%;
@@ -34,4 +35,7 @@ export const date = styled.span`
     font-size: 12px;
     color: gray;
 `
-
+export const LinkBtn = styled(Link)`
+    color: #301C86;
+    text-decoration: none;
+`
