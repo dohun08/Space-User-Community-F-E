@@ -8,7 +8,7 @@ import CircleBtn from '../Button/Circle';
 import {Link, useNavigate} from 'react-router-dom';
 import { useRecoilValue} from "recoil";
 import {authAtom, isLoginSelector} from "../../recoil/authAtom";
-import {useLogout} from '../../until/authService'
+import {useLogout, useCheck} from '../../until/authService'
 
 function Header(){
     const navigate = useNavigate();
@@ -18,7 +18,14 @@ function Header(){
     const isLogin = useRecoilValue(isLoginSelector);
     const logout = useLogout();
     const goLogout = async ()=>{
-        logout();
+        try{
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            await useCheck();
+        }
+        catch(error){
+            console.log("on error accessToken 발급", error);
+        }
+        await logout();
     }
     const goSearch = ()=>{
         if(search === '') return;
