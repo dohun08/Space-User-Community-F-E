@@ -4,21 +4,27 @@ const bounce = keyframes`
     transform: translateY(0);
   }
     50%{
-        transform: translateY(-10px);
+        transform: translateY(-20px);
     }
     100%{
         transform: translateY(0);
     }
 `;
-
-export const Container = styled.div`
+export const container = styled.div`
     width: 100%;
-    height: 100vh;
+    display: flex;
+    height: 80vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`
+export const Box = styled.div`
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    animation: ${bounce} 1s infinite;
+    animation: ${bounce} 1.5s infinite;
 `
 export const Loading = styled.img`
     width: 200px;

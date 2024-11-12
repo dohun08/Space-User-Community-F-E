@@ -3,7 +3,7 @@ export interface Doc{
     userId:number,
     title:string,
     content:string,
-    icon:number,
+    icon:string,
     category:string,
     likes:number,
     createdAt:string

@@ -1,27 +1,12 @@
 import * as S from './style';
 import React, {useEffect} from "react";
 import {Doc} from "../../../types";
+import {images} from "../../../assets/iconImage";
 
 function LongLong(props : {data:Doc}){
-    let date;
+    let date:string = "";
     let icon:number = 0;
-    const images = [
-        "/images/blue_spaceship.svg",
-        "/images/mint_spaceship.svg",
-        "/images/pink_spaceship.svg",
-        "/images/spaceship.svg",
-        "/images/jellyfish.svg",
-        "/images/nimo.svg",
-        "/images/tuttle.svg",
-        "/images/light_blue.svg",
-        "/images/light_green.svg",
-        "/images/light_orange.svg",
-        "/images/light_red.svg",
-        "/images/light_yellow.svg",
-        "/images/light-black.svg",
-        "/images/man.svg",
-        "/images/woman.svg"
-    ]
+
     useEffect(()=>{
         // eslint-disable-next-line react-hooks/exhaustive-deps
         date = props.data.createdAt.slice(0, 10);

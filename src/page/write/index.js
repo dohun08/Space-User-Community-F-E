@@ -6,32 +6,17 @@ import {ToolBar} from "../../components/ToolBar";
 import {Preview} from "../../components/Preview";
 import {authAtom} from "../../recoil/authAtom";
 import {useRecoilValue} from "recoil";
+import {useNavigate} from "react-router-dom";
+import {images} from "../../assets/iconImage";
 
 function Write(){
     const [category, setCategory] = useState("문제");
-    const images = [
-        "/images/blue_spaceship.svg",
-        "/images/mint_spaceship.svg",
-        "/images/pink_spaceship.svg",
-        "/images/spaceship.svg",
-        "/images/jellyfish.svg",
-        "/images/nimo.svg",
-        "/images/tuttle.svg",
-        "/images/light_blue.svg",
-        "/images/light_green.svg",
-        "/images/light_orange.svg",
-        "/images/light_red.svg",
-        "/images/light_yellow.svg",
-        "/images/light-black.svg",
-        "/images/man.svg",
-        "/images/woman.svg"
-    ]
     const [imgSrc, setImgSrc] = useState("/images/blue_spaceship.svg");
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const contentRef = useRef();
     const [isImg, setIsImg] = useState(false);
-
+    const navigate = useNavigate();
 
     const smart = (event)=>{
         const { value, selectionStart } = event.target;
@@ -79,22 +64,27 @@ function Write(){
             }
         }
         else {
+            let icon = images.findIndex((item) => item === imgSrc);
+
             try {
-                const response = await fetch('/community/document', {
+                const response = await fetch('http://10.150.149.20:8080/community/doc', {
                     method: 'POST',
+                    credentials: 'include',
                     headers: {
                         'ContentType': 'application/json',
+                        'Authorization': `${auth.access_Token}`
                     },
                     body: JSON.stringify({
                         title: title,
                         content: make(content),
                         category: category,
                         userid: auth.username,
-                        icon: images.findIndex((item) => item === imgSrc)
+                        icon: "ICON"+ icon
                     })
                 });
-                if (response.status === 200) {
+                if (response.ok) {
                     console.log("글쓰기 성공");
+                    navigate('/');
                 } else {
                     console.log("글쓰기 실패");
                 }
@@ -183,13 +173,13 @@ function Write(){
                         <option key="inquiry">문의</option>
                         {auth.manage ? <option key="inquiry">공지</option> : null}
                     </S.category>
-                    <S.imgBox isImg = {isImg}>
+                    <S.imgBox $isImg = {isImg}>
                         {images.map((item, index)=>{
                             return <S.img key={index}><img  src={item} alt='이미지들' onClick={()=>{setImgSrc(item)}}/></S.img>
                         })}
                     </S.imgBox>
                     <S.title>
-                        <S.selectImg toggle = {true} onClick={()=>setIsImg(!isImg)}>
+                        <S.selectImg $toggle = {true} onClick={()=>setIsImg(!isImg)}>
                             <img src={imgSrc} alt='선택된 이미지'/>
                         </S.selectImg>
                         <S.titleText

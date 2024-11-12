@@ -32,8 +32,7 @@ function Search(){
     }
     useEffect(() => {
         getSearch();
-        console.log(content);
-    }, [content]);
+    }, [params.title]);
     return(
         <S.container>
             <Header />

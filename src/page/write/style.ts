@@ -61,6 +61,7 @@ export const img = styled.div`
     border-radius: 20px;
     padding: 5px;
     &:hover{
+            cursor: pointer;
         background-color: #e6e6e6;
         transform: scale(1.2);
         transition: transform 0.3s ease;
@@ -81,6 +82,7 @@ export const selectImg = styled.div<ToggleProps>`
         width: 80%;
     }
     &:hover{
+            
         ${(props) => props.$toggle ? "transform: scale(1.2);transition: transform 0.3s ease; " : ""}
     }
 `
