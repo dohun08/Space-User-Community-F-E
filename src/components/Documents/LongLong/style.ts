@@ -12,7 +12,7 @@ export const titleBox = styled.section`
     display: flex;
     flex-flow:row nowrap;
     align-items: center;
-    width: 200px;
+    width: 180px;
     justify-content: space-between;
     color: #301C86;
 `
@@ -26,16 +26,18 @@ export const Contenttype = styled.section`
 `
 export const title = styled.span`
     display: flex;
-    flex-flow: column nowrap;
     align-items: start;
     padding: 0 20px;
-    width: 100px;
+    width: 180px;
 `
 export const date = styled.span`
-    font-size: 12px;
+    font-size: 20px;
     color: gray;
 `
 export const LinkBtn = styled(Link)`
     color: #301C86;
     text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
 `
