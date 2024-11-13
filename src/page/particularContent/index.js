@@ -18,10 +18,9 @@ export default function ParticularContent() {
             })
 
             const data = await response.json();
-
             if(data.status===200){
                 console.log("글 조회 성공");
-                setPostData(data["data"])
+                setPostData(data["data"]);
             }
         }catch(error){
             console.log("error on : ",error);
@@ -37,7 +36,7 @@ export default function ParticularContent() {
         <Container>
             <Header/>
             <Content>
-                <Like/>
+                <Like likes={PostData["likes"]}/>
                 <PostContent data={PostData}/>
                 <FamousPost/>
             </Content>
