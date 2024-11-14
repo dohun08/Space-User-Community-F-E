@@ -5,9 +5,9 @@ module.exports = function (app) {
     app.use(
         '/api',
         createProxyMiddleware({
-            target: 'http://10.150.151.149:8080',
+            target: 'http://10.150.149.20:8080',
             changeOrigin: true,
-            pathRewrite: {
+            pathRewrite: { ///api를 지우고 요청을 보냄
                 '^/api': '',
             },
         })
