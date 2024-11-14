@@ -3,35 +3,51 @@ import LogoImg from '../../assets/Logo.svg'
 import PersonImg from '../../assets/person.svg'
 import ButtonArrowImg from '../../assets/bottumArrow.svg'
 import SearchImg from '../../assets/search.svg'
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import CircleBtn from '../Button/Circle';
 import {Link, useNavigate} from 'react-router-dom';
-import { useRecoilValue} from "recoil";
+import { useRecoilState, useRecoilValue} from "recoil";
 import {authAtom, isLoginSelector} from "../../recoil/authAtom";
-import {useLogout, useCheck} from '../../until/authService'
+import {useLogout, useCheck, decodeJWT} from '../../until/authService'
 
 function Header(){
     const navigate = useNavigate();
     const [search, setSearch] = useState<string>('');
     const [isOn, setIsOn] = useState<boolean>(false);
-    const auth = useRecoilValue(authAtom);
+    const [auth, setAuth] = useRecoilState(authAtom);
     const isLogin = useRecoilValue(isLoginSelector);
     const logout = useLogout();
+    const Check = useCheck();
     const goLogout = async ()=>{
         try{
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            await useCheck();
+            if(await logout()){
+                navigate('/');
+            }
+            else{
+                if(await Check()){
+                    await logout();
+                }
+            }
         }
         catch(error){
-            console.log("on error accessToken 발급", error);
+            console.log("on error logout", error);
         }
-        await logout();
     }
     const goSearch = ()=>{
         if(search === '') return;
         setSearch('');
         navigate(`/search/${search}`)
     }
+    useEffect(() => {
+        if(auth.access_Token){
+            if(decodeJWT(auth.access_Token).role === 'ROLE_ADMIN'){
+                setAuth({
+                    ...auth,
+                    isAdmin:true
+                })
+            }
+        }
+    }, []);
     return(
         <S.container>
             <Link to={'/'} ><img src={LogoImg} alt='logo' /></Link>
@@ -65,8 +81,8 @@ function Header(){
                     <S.logout to={`/user/${auth.username}`}><span>마이페이지</span></S.logout>
                     <span onClick={()=>goLogout()}>로그아웃</span>
                     <S.logout to={'/report'}><span>신고하기</span></S.logout>
-                    <S.logout to={'/report/manage'}><span>신고목록보기</span></S.logout>
-                   <S.logout to={'/ban'}><span>밴 목록보기</span></S.logout>
+                    {auth.isAdmin ? <S.logout to={'/report/manage'}><span>신고목록보기</span></S.logout> : null}
+                    {auth.isAdmin ? <S.logout to={'/ban'}><span>밴 목록보기</span></S.logout> : null}
                 </S.setting>
             </S.Info>
                 :
