@@ -14,7 +14,7 @@ const DetailedReport = ()=>{
             <Header />
             <S.main>
                 <S.ReportInfo>
-                    <S.backArrow onClick={()=>back('/report')}>
+                    <S.backArrow onClick={()=>back('/report/manage')}>
                         <img src={BackArrow} alt={'뒤로가기'}/>
                     </S.backArrow>
                     <S.ReportText>신고합니다</S.ReportText>
