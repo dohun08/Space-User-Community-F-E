@@ -7,12 +7,13 @@ export const Document = styled.div`
     display: flex;
     justify-content: space-between;
     padding: 0 10px;
+    max-height: 52px;
 `
 export const titleBox = styled.section`
     display: flex;
     flex-flow:row nowrap;
     align-items: center;
-    width: 180px;
+    width: 280px;
     justify-content: space-between;
     color: #301C86;
 `
@@ -32,7 +33,7 @@ export const title = styled.span`
 `
 export const date = styled.span`
     font-size: 20px;
-    color: gray;
+    color: red;
 `
 export const LinkBtn = styled(Link)`
     color: #301C86;
@@ -40,4 +41,7 @@ export const LinkBtn = styled(Link)`
     &:hover {
         text-decoration: underline;
     }
+`
+export const img = styled.div`
+    width: 30px;
 `
