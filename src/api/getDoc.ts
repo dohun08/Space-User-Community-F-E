@@ -1,13 +1,12 @@
 import {Doc} from "../types";
 
-export const getDoc = async ():Promise<Doc[]> => {
+export const getDoc = async (order:string):Promise<Doc[]> => {
     try{
-        const response = await fetch(`/api/community/doclists`, {
+        const response = await fetch(`/api/community/doclist?orderby=${order}`, {
             method:'GET',
         })
         const data = await response.json();
         if(response.ok){
-            console.log(data.data);
             return data.data;
         }
         else{
