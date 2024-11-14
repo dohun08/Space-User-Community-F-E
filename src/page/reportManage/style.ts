@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {Link} from "react-router-dom";
 
 export const container = styled.div`
     display: flex;
@@ -21,25 +22,15 @@ export const section = styled.section`
     display: flex;
     justify-content: space-between;
     border-bottom: 2px solid #DFDFDF;
-    cursor: pointer;
-    padding: 0 10px;
+    padding: 15px 10px;
     margin-bottom: 5px;
-    &:hover {
-        background-color: #ececec;
-        border-radius: 10px;
-    }
 `
-export const reportText = styled.p`
+export const reportText = styled(Link)`
     color: #301C86;
-`
-export const pageNum = styled.section`
-    width: 100%;
-    display: flex;
-    justify-content: center;
-`
-export const arrow = styled.img`
-    cursor: pointer;
-    padding: 0 10px;
+    text-decoration-line: none;
+    &:hover{
+        text-decoration-line: underline;
+    }
 `
 export const speaker = styled.img`
     position: absolute;

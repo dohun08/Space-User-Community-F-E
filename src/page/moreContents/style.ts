@@ -10,7 +10,7 @@ export const container = styled.div`
 export const ContentsBox = styled.main`
     border-radius: 30px;
     border: 3px solid #DFDFDF;
-    padding: 30px;
+    padding: 10px 30px;
     text-align: center;
     width: 80%;
     & > *{
@@ -20,18 +20,11 @@ export const ContentsBox = styled.main`
         margin: 0;
     }
 `
-export const pageNum = styled.section`
-    width: 100%;
-    display: flex;
-    justify-content: center;
-`
-export const arrow = styled.img`
-    cursor: pointer;
-    padding: 0 10px;
-`
 export const unBox = styled.div`
     width: 100%;
     display: flex;
+    height: 52px;
     justify-content: space-between;
     padding: 0 10px;
+    border-bottom: 1px solid #ffff;
 `
