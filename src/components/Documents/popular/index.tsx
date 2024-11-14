@@ -5,8 +5,8 @@ import {Doc} from '../../../types/index';
 function Popular(props: {data:Doc}){
     return(
         <S.content>
-            <S.title>props.title</S.title>
-            <S.writer>props.writer</S.writer>
+            <S.title to={`/post/${props.data.id}`}>{props.data.title}</S.title>
+            <S.writer to={`/user/${props.data.userId}`}>{props.data.userId}</S.writer>
         </S.content>
     )
 }
