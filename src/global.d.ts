@@ -1,4 +1,4 @@
-// global.d.ts (또는 custom.d.ts)
+// svg 로드되게하기
 declare module '*.svg' {
     const content: string;
     export default content;
