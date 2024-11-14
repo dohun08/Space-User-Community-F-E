@@ -1,25 +1,29 @@
 import * as S from './style';
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {Doc} from "../../../types";
 import {images} from "../../../assets/iconImage";
 
 function LongLong(props : {data:Doc}){
     let date:string = "";
-    let icon:number = 0;
+    const [icon, setIcon] = useState(0);
 
     useEffect(()=>{
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        date = props.data.createdAt.slice(0, 10);
-        console.log(date);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        icon = parseInt(props.data.icon.slice(4, 5), 10);
-
-    }, []);
+        // if (props.data?.createdAt) {
+        //     const formattedDate:string = props.data.createdAt.slice(0, 10);
+        //     date = formattedDate;
+        // }
+        if (props.data?.icon) {
+            const temp = props.data.icon.slice(4);
+            setIcon(parseInt(temp));
+        }
+    }, [props.data.icon]);
 
     return(
         <S.Document>
             <S.titleBox>
-                <img src={images[icon]} alt="우주선1" />
+                <S.img>
+                    <img src={images[icon]} alt="우주선1" width={'100%'}/>
+                </S.img>
                 <S.title>
                     <S.LinkBtn to={`/post/${props.data.id}`}>{props.data.title}</S.LinkBtn>
                     <S.date>{date}</S.date>
