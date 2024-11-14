@@ -10,7 +10,7 @@ export const main = styled.main`
     width: 90%;
     margin: 0 auto;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 `
 export const section1 = styled.section`
     border-radius: 30px;
@@ -35,4 +35,8 @@ export const section2 = styled.section`
     & > *{
         margin-bottom:10px;
     }
+`
+export const unBox = styled.div`
+    width: 100%;
+    height: 52px;
 `

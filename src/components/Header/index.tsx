@@ -1,45 +1,53 @@
-import * as S from './style.ts';
+import * as S from './style';
 import LogoImg from '../../assets/Logo.svg'
 import PersonImg from '../../assets/person.svg'
 import ButtonArrowImg from '../../assets/bottumArrow.svg'
 import SearchImg from '../../assets/search.svg'
-import { useState } from 'react';
-import CircleBtn from '../Button/Circle/index.js';
+import {useEffect, useState} from 'react';
+import CircleBtn from '../Button/Circle';
 import {Link, useNavigate} from 'react-router-dom';
-import {useRecoilState} from "recoil";
-import {authAtom} from "../../recoil/authAtom";
-import axios from "axios";
+import { useRecoilState, useRecoilValue} from "recoil";
+import {authAtom, isLoginSelector} from "../../recoil/authAtom";
+import {useLogout, useCheck, decodeJWT} from '../../until/authService'
 
 function Header(){
     const navigate = useNavigate();
-    const [search, setSearch] = useState('');
+    const [search, setSearch] = useState<string>('');
+    const [isOn, setIsOn] = useState<boolean>(false);
     const [auth, setAuth] = useRecoilState(authAtom);
-    const [isOn, setIsOn] = useState(false);
-    const logout = async ()=>{
+    const isLogin = useRecoilValue(isLoginSelector);
+    const logout = useLogout();
+    const Check = useCheck();
+    const goLogout = async ()=>{
         try{
-            const response = await axios.get('/user/logout', {
-                headers:{
-                    'Authorization': `Bearer ${auth.token}`,
-                }
-            });
-            if(response.status === 200){
-                setAuth({
-                    isLogin: false,
-                    token:null,
-                    username: null
-                })
+            if(await logout()){
+                navigate('/');
             }
             else{
-                console.log("logout 실패")
+                if(await Check()){
+                    await logout();
+                }
             }
-        }catch (error){
-            console.log("logout error : " + error);
+        }
+        catch(error){
+            console.log("on error logout", error);
         }
     }
     const goSearch = ()=>{
+        if(search === '') return;
         setSearch('');
         navigate(`/search/${search}`)
     }
+    useEffect(() => {
+        if(auth.access_Token){
+            if(decodeJWT(auth.access_Token).role === 'ROLE_ADMIN'){
+                setAuth({
+                    ...auth,
+                    isAdmin:true
+                })
+            }
+        }
+    }, []);
     return(
         <S.container>
             <Link to={'/'} ><img src={LogoImg} alt='logo' /></Link>
@@ -59,20 +67,22 @@ function Header(){
                 <img src={SearchImg} alt='searchIcon' />
             </S.searchBox>
             </S.InputBox>
-            {auth.isLogin ?
+            {isLogin ?
             <S.Info>
-                <S.link to={'/write'}><CircleBtn name={'새글 작성'} /></S.link>
+                <S.link to={'/write'}>
+                    <CircleBtn name={'새글 작성'}  onClick={()=>navigate('/write')}/>
+                </S.link>
                 <S.user onClick={()=>setIsOn(!isOn)}>
                     <img src={PersonImg} alt='personIcon' />
                     <p>{auth.username}</p>
                     <img src={ButtonArrowImg} alt='buttonArrowIcon' />
                 </S.user>
-                <S.setting isOn = {isOn}>
-                    <S.logout to={'/user'}><span>마이페이지</span></S.logout>
-                    <span onClick={()=>logout()}>로그아웃</span>
-                    <S.logout to={'/'}><span>신고하기</span></S.logout>
-                    {auth.manage ? <S.logout to={'/reportManage'}><span>신고목록보기</span></S.logout> : null}
-                    {auth.manage ? <S.logout to={'/ban'}><span>밴 목록보기</span></S.logout> : null}
+                <S.setting $isOn = {isOn}>
+                    <S.logout to={`/user/${auth.username}`}><span>마이페이지</span></S.logout>
+                    <span onClick={()=>goLogout()}>로그아웃</span>
+                    <S.logout to={'/report'}><span>신고하기</span></S.logout>
+                    {auth.isAdmin ? <S.logout to={'/report/manage'}><span>신고목록보기</span></S.logout> : null}
+                    {auth.isAdmin ? <S.logout to={'/ban'}><span>밴 목록보기</span></S.logout> : null}
                 </S.setting>
             </S.Info>
                 :

@@ -42,7 +42,7 @@ export const Input = styled.input`
     border: none;
     border-bottom: 1px solid black;
 `
-export const LoginBtn = styled.div`
+export const LoginBtn = styled.input`
     cursor: pointer;
     width: max-content;
     padding: 10px 20px;
@@ -59,4 +59,12 @@ export const LoginBtn = styled.div`
     &:active{
         border: 2px solid #301C86;
     }
+`
+export const backArrow = styled.img`
+    position: absolute;
+    left: 30px;
+    top: 30px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
 `

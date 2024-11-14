@@ -1,38 +1,25 @@
 import * as S from './style.ts';
 import Logo from '../../assets/Logo.svg';
-import Cbtn from "../../components/Button/Circle/index.js";
+import Cbtn from "../../components/Button/Circle";
 import React, {useRef, useState} from "react";
 import {ToolBar} from "../../components/ToolBar";
 import {Preview} from "../../components/Preview";
 import {authAtom} from "../../recoil/authAtom";
 import {useRecoilValue} from "recoil";
+import {useNavigate} from "react-router-dom";
+import {images} from "../../assets/iconImage";
+import {useCheck} from "../../until/authService";
 
 function Write(){
     const [category, setCategory] = useState("문제");
-    const images = [
-        "/images/blue_spaceship.svg",
-        "/images/mint_spaceship.svg",
-        "/images/pink_spaceship.svg",
-        "/images/spaceship.svg",
-        "/images/jellyfish.svg",
-        "/images/nimo.svg",
-        "/images/tuttle.svg",
-        "/images/light_blue.svg",
-        "/images/light_green.svg",
-        "/images/light_orange.svg",
-        "/images/light_red.svg",
-        "/images/light_yellow.svg",
-        "/images/light-black.svg",
-        "/images/man.svg",
-        "/images/woman.svg"
-    ]
     const [imgSrc, setImgSrc] = useState("/images/blue_spaceship.svg");
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const contentRef = useRef();
     const [isImg, setIsImg] = useState(false);
-
-
+    const navigate = useNavigate();
+    const auth = useRecoilValue(authAtom);
+    const {check} = useCheck();
     const smart = (event)=>{
         const { value, selectionStart } = event.target;
         let updatedValue = value;
@@ -55,54 +42,35 @@ function Write(){
         }
         setContent(updatedValue);
     }
+
+    //문서를 생성했을때 성공이라면 바로 메인으로 이동, 실패라면 엑세스토큰을 재발급받고 다시실행
     const postData = async ()=>{
-        if(category === '공지'){
-            try{
-                const response = await fetch('/admin/broadcast', {
-                    method:'POST',
-                    headers:{
-                        'Content-Type':'application/json'
-                    },
-                    body:JSON.stringify({
-                        title:title,
-                        content:make(content),
-                        category:category,
-                        userid:auth.username,
-                        icon:images.findIndex((item)=>item===imgSrc)
-                    })
-                });
-                if(response.ok){
-                    window.location.href = '/';
-                }
-            }catch (error){
-                console.log('on error announcement post', error);
+        let icon = images.findIndex((item) =>item === imgSrc);
+        if(icon === 0) icon+=1;
+        try {
+            const response = await fetch('/api/community/doc', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: auth.username,
+                    title: title,
+                    content: content,
+                    category: category,
+                    icon: "ICON" + icon
+                })
+            });
+            if (response.ok) {
+                navigate('/');
+            } else {
+                console.log("글쓰기 실패");
             }
-        }
-        else {
-            try {
-                const response = await fetch('/community/document', {
-                    method: 'POST',
-                    headers: {
-                        'ContentType': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        title: title,
-                        content: make(content),
-                        category: category,
-                        userid: auth.username,
-                        icon: images.findIndex((item) => item === imgSrc)
-                    })
-                });
-                if (response.status === 200) {
-                    console.log("글쓰기 성공");
-                } else {
-                    console.log("글쓰기 실패");
-                }
-            } catch (error) {
-                console.log(error);
-            }
+        } catch (error) {
+            console.log(error);
         }
     }
+
     const make = (text) => {
         const lines = text.split('\n');
 
@@ -163,7 +131,6 @@ function Write(){
 
         return <S.div>{renderedLines}</S.div>;
     };
-    const auth = useRecoilValue(authAtom);
     return(
         <S.container>
             <S.header>
@@ -181,19 +148,19 @@ function Write(){
                     <S.category onChange={(e) => setCategory(e.target.value)}>
                         <option key="issue">문제</option>
                         <option key="inquiry">문의</option>
-                        {auth.manage ? <option key="inquiry">공지</option> : null}
+                        {auth.isAdmin ? <option key="inquiry">공지</option> : null}
                     </S.category>
-                    <S.imgBox isImg = {isImg}>
-                        {images.map((item, index)=>{
-                            return <S.img key={index}><img  src={item} alt='이미지들' onClick={()=>{setImgSrc(item)}}/></S.img>
-                         })}
+                    <S.imgBox $isImg = {isImg}>
+                        {images.map((item)=>{
+                            return <S.img key={item}><img  src={item} alt='이미지들' onClick={()=>{setImgSrc(item)}}/></S.img>
+                        })}
                     </S.imgBox>
                     <S.title>
-                        <S.selectImg toggle = {true} onClick={()=>setIsImg(!isImg)}>
+                        <S.selectImg $toggle = {true} onClick={()=>setIsImg(!isImg)}>
                             <img src={imgSrc} alt='선택된 이미지'/>
                         </S.selectImg>
                         <S.titleText
-                            maxlength="15"
+                            maxLength={15}
                             type={"text"} value={title}
                             onChange={(e)=>setTitle(e.target.value)}
                             placeholder={"제목을 입력해주세요(15자최대)"}
@@ -212,7 +179,7 @@ function Write(){
                             smart(e);
                         }}
                         spellCheck="false"
-                        />
+                    />
                 </S.write>
 
                 <Preview category = {category} title = {title} content={make(content)} imgSrc = {imgSrc}/>

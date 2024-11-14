@@ -20,8 +20,10 @@ import UserBan from './page/userBanList';
 import Report from "./page/Report";
 import UserPage from "./page/UserPage";
 import Search from "./page/search";
+import AdminRoute from "./until/AdminRoute";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const rootElement = document.getElementById('root') as HTMLElement;
+const root = ReactDOM.createRoot(rootElement);
 
 root.render(
     <RecoilRoot>
@@ -33,13 +35,15 @@ root.render(
                 <Route path='/more' element={<MoreContents />}></Route>
                 <Route path={'/write'} element={<Write />}></Route>
                 <Route path={'/post/:id'} element={<Post />}></Route>
-                <Route path={'/reportManage/manage'} element={<ReportManage />}></Route>
-                <Route path={'/reportManage/manage/:id'} element={<DetailedReport />}></Route>
-                <Route path={'/ban'} element={<BanManage />}></Route>
-                <Route path={'/ban/user'} element={<UserBan />}></Route>
                 <Route path={'/report'} element={<Report />}></Route>
-                <Route path={'/user/:id'} element={<UserPage/>}></Route>
+                <Route path={'/user/:username'} element={<UserPage/>}></Route>
                 <Route path={'/search/:title'} element={<Search />}></Route>
+                <Route element={<AdminRoute />}> {/* admin route*/}
+                    <Route path={'/report/manage'} element={<ReportManage />}></Route>
+                    <Route path={'/report/manage/:id'} element={<DetailedReport />}></Route>
+                    <Route path={'/ban'} element={<BanManage />}></Route>
+                    <Route path={'/ban/user'} element={<UserBan />}></Route>
+                </Route>
             </Routes>
         </BrowserRouter>
     </RecoilRoot>
