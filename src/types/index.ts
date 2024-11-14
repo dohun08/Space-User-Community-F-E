@@ -8,6 +8,12 @@ export interface Doc{
     likes:number,
     createdAt:string
 }
+export interface CreateDoc{
+    title:string,
+    content:string,
+    category:string
+    username:string
+}
 export interface User{
     id:string,
     age:number,
