@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import * as S from './style';
 import Header from "../../components/Header";
-import LongDocument from "../../components/Documents/Long";
 import Popular from "../../components/Documents/popular";
 import { Link } from "react-router-dom";
 import {Doc} from '../../types';
@@ -12,10 +11,13 @@ import Loading from "../../components/loading/loading";
 function Main(){
     const [loading, setLoading] = useState<boolean>(true);
     const [content, setContent] = useState<Doc[]>([]);
+    const [popular, setPopular] = useState<Doc[]>([]);
     const fetchDoc = async ()=>{
         setLoading(true);
         try{
-            const documents:Doc[] = await getDoc();
+            const documents:Doc[] = await getDoc("createdAt");
+            const documents2:Doc[] = await getDoc("likes");
+            setPopular(documents2);
             setContent(documents);
         }catch (err) {
             console.log('Failed to load documents');
@@ -23,6 +25,7 @@ function Main(){
             setLoading(false);
         }
     };
+
     useEffect(()=>{
         fetchDoc();
     }, []);
@@ -37,13 +40,22 @@ function Main(){
             <S.main>
                 <S.section2>
                     <h3>인기 문서</h3>
-                    {/*맵함수를 이용해서 문서 나타내기, 인기문서는 객체의 sort 이용해서 정렬하기*/}
-                    <Popular data = {content[0]} />
+                    {popular && popular.slice(0, 8).map((doc)=>{
+                        return (
+                                <Popular data = {doc} key={doc.id}/>
+                        )
+                    })}
+
                 </S.section2>
                 <S.section1>
-                    {content.slice(0, 9).map((doc)=>{
-                        return (
-                            <LongLongDocument data={doc} />)
+                    {content && Array.from({length:9}).map((_, index)=>{
+                        const doc = content[index];
+                        return doc ? (
+                                <LongLongDocument data={doc} key={doc.id}/>
+
+                        ) : (
+                            <S.unBox key = {index}></S.unBox>
+                        )
                     })}
                     <Link to={'/more'}>더보기</Link>
                 </S.section1>
