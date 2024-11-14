@@ -2,6 +2,9 @@ import React, { useEffect, useRef, useState } from 'react'
 import * as S from './style'
 import Logo from '../../assets/Logo.svg'
 import { Link, useNavigate } from 'react-router-dom';
+import {useRecoilValue} from "recoil";
+import {authAtom} from "../../recoil/authAtom";
+import BackArrow from "../../assets/back_Arrow.svg";
 
 function Signup(){
     const [id, setId] = useState('');
@@ -13,8 +16,10 @@ function Signup(){
     const pwRef = useRef<HTMLInputElement | null>(null);
     const ageRef = useRef<HTMLInputElement | null>(null);
     const emailRef = useRef<HTMLInputElement | null>(null);
+    const auth = useRecoilValue(authAtom);
 
     useEffect(()=>{
+        if(auth.access_Token !== '') navigate('/');
         idRef.current?.focus();
     }, [])
 
@@ -64,6 +69,7 @@ function Signup(){
     }
     return(
         <S.container>
+            <S.backArrow src={BackArrow} alt="Back Arrow" onClick={()=>navigate(-1)}/>
             <img src={Logo} alt='LogoImg' />
             <h2>반가워요!</h2>
             <S.form>

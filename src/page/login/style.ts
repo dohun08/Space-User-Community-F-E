@@ -60,3 +60,11 @@ export const LoginBtn = styled.input`
         border: 2px solid #301C86;
     }
 `
+export const backArrow = styled.img`
+    position: absolute;
+    left: 30px;
+    top: 30px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+`

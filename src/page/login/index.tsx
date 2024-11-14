@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import React from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {authAtom} from "../../recoil/authAtom";
-import { useSetRecoilState } from 'recoil';
-
+import { useRecoilState } from 'recoil';
+import BackArrow from '../../assets/back_Arrow.svg'
 
 function Login(){
     const [email, setEmail] = useState<string>('');
@@ -13,9 +13,12 @@ function Login(){
     const [pw, setPw] = useState<string>('');
 
     useEffect(()=>{
+        if(auth.access_Token !== ''){
+            navigate('/');
+        }
         inputRef.current?.focus();
     }, []);
-    const setAuth = useSetRecoilState(authAtom);
+    const [auth, setAuth] = useRecoilState(authAtom);
     const navigate = useNavigate();
     const goLogin = async ()=>{
         if(email === ""){
@@ -38,8 +41,6 @@ function Login(){
                     })
                 });
 
-
-
                 if(response.ok){
                         setAuth({
                             access_Token: response.headers.get('authorization') || '',
@@ -56,19 +57,26 @@ function Login(){
             }
         }
     }
+    const enter= (e:React.KeyboardEvent<HTMLInputElement>)=>{
+        if(e.key === 'Enter'){
+            goLogin();
+        }
+    }
     return(
         <S.container>
-            <S.Logo src={Logo} alt='logo' />
+            <S.backArrow src={BackArrow} alt="Back Arrow" onClick={()=>navigate(-1)}/>
+            <S.Logo src={Logo} alt='logo'/>
             <h2>환영해요!</h2>
             <S.form>
+
                 <S.dataIn>
                     <S.Label>아이디</S.Label>
                     <S.Input
                         ref={inputRef}
-                        type='text' 
+                        type='text'
                         placeholder='아이디를 입력해주세요'
                         value={email}
-                        onChange={(e)=>setEmail(e.target.value)}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                 </S.dataIn>
                 <S.dataIn>
@@ -77,12 +85,15 @@ function Login(){
                         type='password'
                         placeholder='비밀번호를 입력해주세요'
                         value={pw}
-                        onChange={(e)=>setPw(e.target.value)}
+                        onChange={(e) => setPw(e.target.value)}
+                        onKeyDown={(e) => {
+                            enter(e)
+                        }}
                     />
                 </S.dataIn>
-                
+
                 <S.LoginBtn
-                    onClick={goLogin} 
+                    onClick={goLogin}
                     type="button"
                     value={"로그인"}
                 />
@@ -91,4 +102,5 @@ function Login(){
         </S.container>
     )
 }
+
 export default Login;
