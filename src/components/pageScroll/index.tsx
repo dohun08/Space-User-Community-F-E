@@ -15,13 +15,12 @@ export default function PageScroll(props : {
     }, [props.page]);
     return (
         <S.pageNum>
-            <S.arrow $active={left} src={Larrow} alt={"왼쪽"} onClick={()=> {
-                props.setPage(props.page - 1)
-            }} />
+            {left ? <S.arrow $active={left} src={Larrow} alt={"왼쪽"} onClick={()=> {props.setPage(props.page - 1)}} />
+                :
+                <S.unBox></S.unBox>}
             <p> {props.page} </p>
-            <S.arrow $active={right} src={Rarrow} alt={"오른쪽"} onClick={()=>{
-                props.setPage(props.page+1)
-            }} />
+            {right ? <S.arrow $active={right} src={Rarrow} alt={"오른쪽"} onClick={()=>{props.setPage(props.page+1)}} />
+                : <S.unBox></S.unBox>}
         </S.pageNum>
     )
 }

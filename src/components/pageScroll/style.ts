@@ -13,3 +13,7 @@ export const arrow = styled.img<PageNumProps>`
     padding: 0 10px;
     display: ${(props)=> props.$active ? 'block' : 'none'};
 `
+export const unBox = styled.div`
+    width: 44px;
+    height: 52px;
+`
