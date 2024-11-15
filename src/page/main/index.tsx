@@ -9,11 +9,11 @@ import LongLongDocument from "../../components/Documents/LongLong";
 import Loading from "../../components/loading/loading";
 
 function Main(){
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(false);
     const [content, setContent] = useState<Doc[]>([]);
     const [popular, setPopular] = useState<Doc[]>([]);
     const fetchDoc = async ()=>{
-        setLoading(true);
+        setLoading(false);
         try{
             const documents:Doc[] = await getDoc("createdAt");
             const documents2:Doc[] = await getDoc("likes");

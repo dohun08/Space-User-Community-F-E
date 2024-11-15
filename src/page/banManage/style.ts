@@ -9,12 +9,14 @@ export const container = styled.div`
 `
 export const main = styled.main`
     width: 520px;
-    padding: 20px 30px;
+    padding: 30px 50px;
+    max-height: 75%;
     border: 2px solid #DFDFDF;
     border-radius: 30px;
     display: flex;
     flex-flow: column nowrap;
 `
+
 export const section = styled.section`
     width: 500px;
     display: flex;
@@ -57,11 +59,13 @@ export const search = styled.input`
     border: none;
     
 `
-
 export const searchBox = styled.section`
     display: flex;
     flex-flow: row nowrap;
     border: 2px solid #301C86;
     border-radius: 10px;
     padding: 5px 20px;
+`
+export const unBox = styled.div`
+    height: 48px;
 `

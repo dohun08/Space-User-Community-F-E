@@ -10,12 +10,14 @@ export const container = styled.div`
 `
 export const main = styled.main`
     width: 520px;
-    position: relative;
-    padding: 20px 30px;
+    padding: 30px 50px;
+    max-height: 75%;
     border: 2px solid #DFDFDF;
     border-radius: 30px;
     display: flex;
+    align-items: center;
     flex-flow: column nowrap;
+    position: relative;
 `
 export const section = styled.section`
     width: 500px;
@@ -36,4 +38,8 @@ export const speaker = styled.img`
     position: absolute;
     right: 0;
     top: -70px;
+`
+export const unBox = styled.div`
+    height: 60px;
+    width: 100%;
 `

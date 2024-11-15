@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
-export default function InputText({type, borderBottom, placeholder, value, width, height, padding, borderRadius}) {
+export default function InputText({type, borderBottom, placeholder, value, width, height, padding, borderRadius, onchange}) {
 
     return (
-        <Input as={type} placeholder={placeholder} type={type} value={value} borderBottom={borderBottom} width={width} height={height} padding={padding} borderRadius={borderRadius}/>
+        <Input onChange={(e)=>onchange(e.target.value)} as={type} placeholder={placeholder} type={type} value={value} borderBottom={borderBottom} width={width} height={height} padding={padding} borderRadius={borderRadius}/>
     );
 }
 

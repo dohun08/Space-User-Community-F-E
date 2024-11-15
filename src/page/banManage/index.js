@@ -72,10 +72,16 @@ const BanManage = ()=>{
                     </S.searchBox>
                     <Cbtn onClick={goBan} name={"밴 목록"}/>
                 </S.BanBox>
-                <S.section >
-                    <S.reportText>유저이름</S.reportText>
-                    <S.banBtn onClick={banUser} type={"button"} value={"차단"}></S.banBtn>
-                </S.section>
+                {Array.from({length:11}).map((_, index)=>{
+                    const item = userData[(page-1)*9 +index];
+                    return(item ? (<S.section >
+                            <S.reportText>유저이름</S.reportText>
+                            <S.banBtn onClick={banUser} type={"button"} value={"차단"}></S.banBtn>
+                        </S.section>
+                    ) : (
+                        <S.unBox></S.unBox>
+                    ))
+                })}
                 <PageScroll page={page} setPage={setPage} contentLength={userData.length/9} />
             </S.main>
 

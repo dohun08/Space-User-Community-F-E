@@ -3,8 +3,37 @@ import Header from "../../components/Header";
 import InputText from "../../components/InputText";
 import Circle from "../../components/Button/Circle";
 import Megaphone from "../../assets/Megaphone.svg"
+import {authAtom} from "../../recoil/authAtom";
+import {useRecoilValue} from "recoil";
+import {useState} from "react";
+import {useNavigate} from 'react-router-dom'
 
 export default function Report(){
+    const auth = useRecoilValue(authAtom);
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const navigate = useNavigate();
+    const postReport = async () =>{
+        try{
+            const response = await fetch('/api/user/report', {
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json',
+                    'Authorization':auth.access_Token
+                },
+                credentials:'include',
+                body:JSON.stringify({
+                  title:title,
+                  content:content
+                })
+            })
+            if(response.ok){
+                navigate('/');
+            }
+        }catch(error){
+            console.log("on error postReport", error)
+        }
+    }
     return (
         <Container>
             <Header/>
@@ -14,13 +43,13 @@ export default function Report(){
                     <Title>신고하기</Title>
                     <InputContainer>
                         <InputLabel htmlFor={"reportTitle"}>제목</InputLabel>
-                        <InputText id={"reportTitle"} type={"input"} placeholder={"제목을 입력해주세요"} width={"unset"} padding={"10px"} borderBottom={true} borderRadius={"0"}/>
+                        <InputText onchange={setTitle} value={title} id={"reportTitle"} type={"input"} placeholder={"제목을 입력해주세요"} width={"unset"} padding={"10px"} borderBottom={true} borderRadius={"0"}/>
                     </InputContainer>
                     <InputContainer flexgrow={1}>
                         <InputLabel htmlFor={"reportContent"}>내용</InputLabel>
-                        <InputText id={"reportContent"} type={"textarea"} placeholder={"신고 내용을 입력해주세요"} width={"unset"} padding={"10px"} borderRadius={"10px"}/>
+                        <InputText onchange={setContent} value={content} id={"reportContent"} type={"textarea"} placeholder={"신고 내용을 입력해주세요"} width={"unset"} padding={"10px"} borderRadius={"10px"}/>
                     </InputContainer>
-                    <Circle name={"신고하기"}/>
+                    <Circle onClick={()=>{postReport()}} name={"신고하기"}/>
                 </Wrapper>
             </Content>
         </Container>
