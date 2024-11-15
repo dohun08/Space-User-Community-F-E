@@ -5,7 +5,11 @@ export const pageNum = styled.section`
     display: flex;
     justify-content: center;
 `
-export const arrow = styled.img`
+interface PageNumProps {
+    $active?: boolean;
+}
+export const arrow = styled.img<PageNumProps>`
     cursor: pointer;
     padding: 0 10px;
+    display: ${(props)=> props.$active ? 'block' : 'none'};
 `
