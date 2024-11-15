@@ -32,11 +32,11 @@ function MoreContents(){
                 <LongLongDocument data={content} />
                 {/* 9개 최대 */}
 
-                <S.pageNum>
-                    <S.arrow src={Larrow} alt={"왼쪽"} onClick={()=>setPage(page+1)} />
+                <S.PageNum>
+                    <S.Arrow src={Larrow} alt={"왼쪽"} onClick={()=>setPage(page+1)} />
                     <p> page </p>{/*page 중괄호 씌우기*/}
-                    <S.arrow src={Rarrow} alt={"오른쪽"} onClick={()=>setPage(page-1)} />
-                </S.pageNum>
+                    <S.Arrow src={Rarrow} alt={"오른쪽"} onClick={()=>setPage(page-1)} />
+                </S.PageNum>
             </S.ContentsBox>
         </S.container>
     )

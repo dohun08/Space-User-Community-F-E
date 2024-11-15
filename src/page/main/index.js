@@ -33,7 +33,7 @@ function Main(){
                     <Popular />
                 </S.section2>
                 <S.section1>
-                    <LongDocument data = {data}  />
+                    <LongDocument data = {data} isMain={true} />
                     
                     <Link to={'/more'}>더보기</Link>
                 </S.section1>

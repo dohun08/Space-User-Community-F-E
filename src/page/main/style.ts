@@ -10,16 +10,20 @@ export const main = styled.main`
     width: 90%;
     margin: 0 auto;
     display: flex;
-    justify-content: space-between;
+    gap: 20px;
+    height: 80%;
+    box-sizing: border-box;
 `
 export const section1 = styled.section`
-    border-radius: 30px;
+    flex-grow: 1;
+    flex-shrink: 1;
     border: 3px solid #DFDFDF;
-    padding: 30px;
-    text-align: center;
-    & > *{
-        margin-bottom:10px;
-    }
+    border-radius: 30px;
+    display: flex;
+    width: 350px;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 30px 12px 30px;
 `
 export const section2 = styled.section`
     border: 3px solid #DFDFDF;

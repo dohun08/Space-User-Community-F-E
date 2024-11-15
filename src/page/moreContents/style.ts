@@ -20,12 +20,12 @@ export const ContentsBox = styled.main`
         margin: 0;
     }
 `
-export const pageNum = styled.section`
+export const PageNum = styled.section`
     width: 100%;
     display: flex;
     justify-content: center;
 `
-export const arrow = styled.img`
+export const Arrow = styled.img`
     cursor: pointer;
     padding: 0 10px;
 `
