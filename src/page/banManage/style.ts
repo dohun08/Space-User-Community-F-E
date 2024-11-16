@@ -65,12 +65,3 @@ export const searchBox = styled.section`
     border-radius: 10px;
     padding: 5px 20px;
 `
-export const pageNum = styled.section`
-    width: 100%;
-    display: flex;
-    justify-content: center;
-`
-export const arrow = styled.img`
-    cursor: pointer;
-    padding: 0 10px;
-`

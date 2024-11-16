@@ -1,27 +1,29 @@
 import styled from 'styled-components';
 
 export const container = styled.div`
-     width: 40%;
+     width: 90vw;
     margin: 100px auto;
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-around;
     align-items: center;
+    
 `
 
 export const form = styled.form`
     width: 80%;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    height: 550px;
+    height: 430px;
+    margin-top: 20px;
 `
 export const dataIn = styled.div`
     display: flex;
     flex-direction: row;
-    width: 100%;
     justify-content: space-between;
+    width: 460px;
 `
 export const Label = styled.label`
     font-size: 16px;
@@ -55,4 +57,12 @@ export const Signup = styled.div`
     &:active{
         border: 2px solid #301C86;
     }
+`
+export const backArrow = styled.img`
+    position: absolute;
+    left: 30px;
+    top: 30px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
 `

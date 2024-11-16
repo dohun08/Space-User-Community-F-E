@@ -1,59 +1,64 @@
 import React, { useEffect, useRef, useState } from 'react'
-import * as S from './style.ts'
+import * as S from './style'
 import Logo from '../../assets/Logo.svg'
-import axios from "axios";
-
 import { Link, useNavigate } from 'react-router-dom';
+import {useRecoilValue} from "recoil";
+import {authAtom} from "../../recoil/authAtom";
+import BackArrow from "../../assets/back_Arrow.svg";
 
 function Signup(){
-    const [id, setId] = useState();
-    const [pw, setPw] = useState();
-    const [repw, setRePw] = useState();
-    const [age, setAge] = useState();
-    const [email, setEmail] = useState();
-    const idRef = useRef();
-    const pwRef = useRef();
-    const ageRef = useRef();
-    const emailRef = useRef();
+    const [id, setId] = useState('');
+    const [pw, setPw] = useState('');
+    const [repw, setRePw] = useState('');
+    const [age, setAge] = useState('');
+    const [email, setEmail] = useState('');
+    const idRef = useRef<HTMLInputElement | null>(null);
+    const pwRef = useRef<HTMLInputElement | null>(null);
+    const ageRef = useRef<HTMLInputElement | null>(null);
+    const emailRef = useRef<HTMLInputElement | null>(null);
+    const auth = useRecoilValue(authAtom);
 
     useEffect(()=>{
-        idRef.current.focus();
+        if(auth.access_Token !== '') navigate('/');
+        idRef.current?.focus();
     }, [])
 
     const navigate = useNavigate();
     const goSignup = async ()=>{
         if(id === ""){
             alert("아이디가 비어있습니다.");
-            idRef.current.focus();
+            idRef.current?.focus();
         }
         else if(pw===""){
             alert("비밀번호가 비어있습니다.");
-            pwRef.current.focus();
+            pwRef.current?.focus();
         }
         else if(age === ""){
             alert("나이가 비어있습니다.");
-            ageRef.container.focus();
+            ageRef.current?.focus();
         }
         else if(email === ""){
             alert("나이가 비어있습니다.");
-            emailRef.container.focus();
+            emailRef.current?.focus();
         }
         else if(pw !== repw){
             alert("비밀번호가 일치하지 않습니다.");
         }
         else{
             try{
-                const response = await axios.post('http://10.150.151.149:8080/user/register', {
-                    name: id,
-                    password: pw,
-                    age: age,
-                    profile: null
-                }, {
+                const response = await fetch('http://10.150.151.149:8080/user/register', {
+                    method:'POST',
                     headers:{
-                        'Content-Type':'application/json'
+                        'Content-Type':'application/json',
                     },
-                })
-                if(response.status === 200){
+                    body:JSON.stringify({
+                        email: email,
+                        username: id,
+                        password: pw,
+                        age: age
+                    }),
+                });
+                if(response.status === 201){
                     console.log("회원가입성공");
                     navigate('/login');
                 }
@@ -64,6 +69,7 @@ function Signup(){
     }
     return(
         <S.container>
+            <S.backArrow src={BackArrow} alt="Back Arrow" onClick={()=>navigate(-1)}/>
             <img src={Logo} alt='LogoImg' />
             <h2>반가워요!</h2>
             <S.form>

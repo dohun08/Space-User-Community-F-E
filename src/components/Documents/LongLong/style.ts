@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {Link} from "react-router-dom";
 
 export const Document = styled.div`
     width: 100%;
@@ -6,12 +7,13 @@ export const Document = styled.div`
     display: flex;
     justify-content: space-between;
     padding: 0 10px;
+    max-height: 52px;
 `
 export const titleBox = styled.section`
     display: flex;
     flex-flow:row nowrap;
     align-items: center;
-    width: 200px;
+    width: 280px;
     justify-content: space-between;
     color: #301C86;
 `
@@ -25,13 +27,21 @@ export const Contenttype = styled.section`
 `
 export const title = styled.span`
     display: flex;
-    flex-flow: column nowrap;
     align-items: start;
     padding: 0 20px;
-    width: 100px;
+    width: 180px;
 `
 export const date = styled.span`
-    font-size: 12px;
-    color: gray;
+    font-size: 20px;
+    color: red;
 `
-
+export const LinkBtn = styled(Link)`
+    color: #301C86;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
+`
+export const img = styled.div`
+    width: 30px;
+`

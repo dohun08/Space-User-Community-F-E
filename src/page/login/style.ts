@@ -17,27 +17,32 @@ export const form = styled.form`
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    align-content: center;
     height: 300px;
 `
 export const dataIn = styled.div`
     display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: space-between;
+    width: 500px;
+    justify-content: center;
+    @media (max-width: 700px) {
+        width: 200px;
+    }
 `
 export const Label = styled.label`
     font-size: 16px;
     font-weight: 700;
+    margin-right: 20px;
+    
 `
 export const Input = styled.input`
-    width: 360px;
     outline: none;
     font-size: 16px;
     font-weight: 600;
+    width: 350px;
     border: none;
     border-bottom: 1px solid black;
 `
-export const LoginBtn = styled.div`
+export const LoginBtn = styled.input`
     cursor: pointer;
     width: max-content;
     padding: 10px 20px;
@@ -54,4 +59,12 @@ export const LoginBtn = styled.div`
     &:active{
         border: 2px solid #301C86;
     }
+`
+export const backArrow = styled.img`
+    position: absolute;
+    left: 30px;
+    top: 30px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
 `

@@ -43,12 +43,3 @@ export const buttonBox = styled.div`
         font-weight: 600;
     }
 `
-export const pageNum = styled.section`
-    width: 100%;
-    display: flex;
-    justify-content: center;
-`
-export const arrow = styled.img`
-    cursor: pointer;
-    padding: 0 10px;
-`

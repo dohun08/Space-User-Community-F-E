@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",                  // 최신 JavaScript 버전 사용
+    "module": "ESNext",                  // 모듈 시스템 설정
+    "strict": true,                      // 엄격한 타입 검사
+    "jsx": "react-jsx",                  // React JSX 지원 (React 17 이상)
+    "moduleResolution": "Node",          // Node.js 모듈 해석 방식
+    "esModuleInterop": true,             // ES6 모듈 호환성 설정
+    "skipLibCheck": true,                // 라이브러리 타입 체크 건너뛰기
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": true,                     // .js 파일 허용
+    "checkJs": false,                    // .js 파일에 대한 타입 체크 비활성화
+    "noEmit": true                       // 컴파일 결과 파일 생성 방지
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}

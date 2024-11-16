@@ -20,14 +20,14 @@ export const Info = styled.div`
 `
 
 export const InputBox = styled.div`
-    width: 500px;
+    width: 36%;
     border: 1px solid gray;
     display: flex;
     border-radius: 20px;
     justify-content: space-between;
 `
 export const Input = styled.input`
-    width: 400px;
+    width: 80%;
     border:none;
     padding: 0 20px;
     font-size: 16px;
@@ -63,9 +63,11 @@ export const user = styled.div`
     &:hover{background: #e6e6e6;}
     &:active{background: #dadada}
 `
-export const setting = styled.div.withConfig({
-    shouldForwardProp:(prop) =>  prop !== 'isOn',
-})`
+
+interface IsonProps{
+    $isOn?:boolean;
+}
+export const setting = styled.div<IsonProps>`
     position: absolute;
     right: 0;
     top: 70px;
@@ -73,7 +75,7 @@ export const setting = styled.div.withConfig({
     box-shadow: 0.05em 0.05em 0.3em rgba(0, 0, 0, 0.6);
     width: max-content;
     border-radius: 5px;
-    display: ${(props)=>props["isOn"] ? "flex" : "none"};
+    display: ${(props)=>props.$isOn ? "flex" : "none"};
     flex-direction: column;
     & > *{
         cursor: pointer;

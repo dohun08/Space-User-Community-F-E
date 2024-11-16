@@ -1,19 +1,61 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import * as S from './style.ts';
 import Header from "../../components/Header";
 import Cbtn from "../../components/Button/Circle/";
 import SearchSrc  from '../../assets/searchP.svg';
-import Larrow from "../../assets/left_arrow.svg";
-import Rarrow from "../../assets/right_arrow.svg";
+import {useNavigate} from "react-router-dom";
+import PageScroll from "../../components/pageScroll";
 
 const BanManage = ()=>{
+    const navigate = useNavigate();
+    const [page, setPage] = useState(1);
+    const [user, setUser] = useState('');
+    const [userData, setUserData] = useState(['']);
+    const getData = async ()=>{
+        try{
+            const response = await fetch('/admin/banlist', {
+                method:'GET',
+                headers:{
+                    'Content-Type':'application/json'
+                }
+            });
+            if(response.ok){
+                const data = await response.json();
+                setUserData(data);
+            }
+            else{
+                console.log("밴 데이터 받아오는데 오류남");
+            }
+        }catch (error){
+            console.log('error on getBanData', error);
+        }
+    }
+    useEffect(() => {
+        getData()
+    }, []);
     const goBan = ()=>{
-        window.location.href = '/user/ban';
+        navigate('/ban/user');
     }
     const searchUser = ()=>{
 
     }
-    const [user, setUser] = useState('');
+    const banUser = async ()=>{
+        try{
+            const response = await fetch('/admin/ban', {
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({
+                    // user:userid
+                })
+            });
+
+        }catch (error){
+            console.log('on error post ban user : ', error);
+        }
+    }
+
     return(
         <S.container>
             <Header />
@@ -32,13 +74,9 @@ const BanManage = ()=>{
                 </S.BanBox>
                 <S.section >
                     <S.reportText>유저이름</S.reportText>
-                    <S.banBtn type={"button"} value={"차단"}></S.banBtn>
+                    <S.banBtn onClick={banUser} type={"button"} value={"차단"}></S.banBtn>
                 </S.section>
-                <S.pageNum>
-                    <S.arrow src={Larrow} alt={"왼쪽"} />
-                    <p> page </p>{/*page 중괄호 씌우기*/}
-                    <S.arrow src={Rarrow} alt={"오른쪽"}  />
-                </S.pageNum>
+                <PageScroll page={page} setPage={setPage} contentLength={userData.length/9} />
             </S.main>
 
         </S.container>
