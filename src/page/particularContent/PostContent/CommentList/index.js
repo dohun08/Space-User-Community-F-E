@@ -1,14 +1,21 @@
 import styled from "styled-components";
 import Comment from "./comment";
+import {useEffect, useState} from "react";
 
-export default function CommentList({comments}){
+export default function CommentList({data}){
+    const [comments, setComments] = useState([]);
+
+    useEffect(()=>{
+        setComments(data||[]);
+    }, [data])
+
     return(
         <Ul>
             {comments.map((comment, index) => (
                 <>
                     <Comment
                         key={index}
-                        writer={comment.writer}
+                        writer={comment.userid}
                         date={comment.date}
                         content={comment.content}
                     />

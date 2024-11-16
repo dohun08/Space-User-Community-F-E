@@ -2,49 +2,53 @@ import * as S from './style.ts'
 import titleImg from "../../../assets/titleImg1.svg";
 import Rectangle from "../../../components/Button/Rectangle";
 import CommentList from "./CommentList";
-import {useEffect} from "react";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import InputText from "../../../components/InputText";
+import {useRecoilValue} from "recoil";
+import {authAtom} from "../../../recoil/authAtom";
 
-function PostContent({ category, title, date, writer}) {
+function PostContent({data}) {
+    const navigate = useNavigate();
     const {id} = useParams();
-    console.log(id)
-    const getPost = async ()=>{
-        try{
-            const response = await fetch(`/community/word/:${1}`, {
-                method:'GET',
-                headers:{
-
+    const getAuth = useRecoilValue(authAtom);
+    const userId = getAuth.username||null;
+    const isManager = localStorage.getItem("isManager");
+    const delPost = async () => {
+        if(window.confirm("정말 삭제하시겠습니까?")){
+            try{
+                const response = await fetch(`/community/doc/${id}`, {
+                    method:'DELETE',
+                })
+                const data = await response.json();
+                if(data.status===200){
+                    console.log("글 삭제 성공");
+                    navigate("/");
                 }
-            })
-            // if(response.ok){
-            //     setData();
-            // }
-        }catch (error){
-            console.log("Error :" , error);
+            }catch (error){
+                console.log("error on : ",error);
+                navigate("/error");
+            }
         }
-    };
-    useEffect(()=>{
-        getPost();
-    }, []);
+    }
+
     return (
         <S.Wrapper>
             <S.Header>
                 <S.HeaderHead>
-                    <S.category>{category}</S.category>
-                    <S.ManagePost><S.ManageBtn>제거</S.ManageBtn> - <S.ManageBtn>수정</S.ManageBtn></S.ManagePost>
+                    <S.category>{data["category"]}</S.category>
+                    {userId===id? <S.ManagePost><S.ManageBtn onClick={delPost}>제거</S.ManageBtn> - <S.ManageBtn onClick={navigate('/')}>수정</S.ManageBtn></S.ManagePost>:null}
                 </S.HeaderHead>
-                <S.titleWrap><S.titleImg src={titleImg}/><S.title>{title}</S.title></S.titleWrap>
-                <S.postInfo>{date} - {writer}</S.postInfo>
+                <S.titleWrap><S.titleImg src={titleImg}/><S.title>{data["title"]}</S.title></S.titleWrap>
+                <S.postInfo>{data["createdAt"]} - {data["userId"]}</S.postInfo>
             </S.Header>
-            <S.contents>내용</S.contents>
+            <S.contents>{data["content"]}</S.contents>
             <S.hr/>
             <S.InputCommentBox>
-                <S.CommentTitle>n개의 댓글</S.CommentTitle>
+                <S.CommentTitle>{(data["comments"]||[]).length}개의 댓글</S.CommentTitle>
                 <InputText type={"textarea"} placeholder={"댓글을 입력해주세요"} height={"90px"}/>
-                <S.BtnContainer><Rectangle name={"댓글 작성"}/></S.BtnContainer>
+                <S.BtnContainer><Rectangle name={"댓글 작성"} display={true}/></S.BtnContainer>
             </S.InputCommentBox>
-            <CommentList comments={[{writer:"33", date:"33", content:"333"}, {writer:"33", date:"33", content:"333"}]}/>
+            <CommentList data={data["comments"]}/>
         </S.Wrapper>
     );
 }

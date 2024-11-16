@@ -1,13 +1,12 @@
 import styled from 'styled-components';
 
-
 export const Rbtn = styled.button<{ width?: string, height?: string, borderRadius?: string, display?: boolean}>`
     border: 2px solid #99479C;
     cursor: pointer;
     border-radius: ${(props) => props.borderRadius || "5px"};
     width: ${(props) => props.width || "100px"};
     height: ${(props) => props.height || "30px"};
-    display: ${(props)=> props.display ? 'flex' : 'none'};
+    display: flex;
     justify-content: center;
     align-items: center;
     background-color: white;

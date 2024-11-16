@@ -1,15 +1,26 @@
 import styled from "styled-components";
 import Header from "../../components/Header";
 import UserContent from "./UserContent";
-import UserPost from "./UserPostContent";
+import {useParams} from "react-router-dom";
+import UserPostContent from "./UserPostContent";
+import {useState} from "react";
+import ModifyPwd from "./ModifyPwd";
 
 export default function UserPage(){
+    const {id} = useParams();
+    const [isModifyPw, setIsModifyPw] = useState(false);
     return(
         <Container>
             <Header/>
             <Content>
-                <UserContent/>
-                <UserPost/>
+                {isModifyPw ? (
+                    <ModifyPwd id={id} onClick={() => setIsModifyPw((current)=> !current)}/>
+                ):(
+                    <>
+                        <UserContent id={id} onClick={()=>setIsModifyPw(true)}/>
+                        <UserPostContent id={id}/>
+                    </>
+                )}
             </Content>
         </Container>
     );
@@ -25,16 +36,10 @@ const Container = styled.div`
 `
 
 const Content = styled.div`
+    width: 90%;
+    margin: 0 auto;
     display: flex;
-    align-items: center;
-    flex-direction: column;
+    gap: 20px;
     height: 80%;
-    overflow: scroll;
     box-sizing: border-box;
-    border-radius: 30px;
-    border: 3px solid #DFDFDF;
-    background: #FFF;
-    width: 50%;
-    padding: 30px 50px;
-    gap: 50px;
 `
