@@ -9,11 +9,14 @@ export const container = styled.div`
 `
 export const main = styled.main`
     width: 520px;
-    padding: 20px 30px;
+    padding: 30px 50px;
+    max-height: 75%;
     border: 2px solid #DFDFDF;
     border-radius: 30px;
     display: flex;
+    align-items: center;
     flex-flow: column nowrap;
+    position: relative;
 `
 export const section = styled.section`
     width: 500px;
@@ -42,4 +45,15 @@ export const buttonBox = styled.div`
         cursor: pointer;
         font-weight: 600;
     }
+`
+export const unBox = styled.div`
+    height: 53px;
+`
+export const backArrow = styled.img`
+    position: absolute;
+    left: 30px;
+    top: 20px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
 `

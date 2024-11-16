@@ -35,15 +35,19 @@ const Report = ()=>{
     return(
         <S.container>
             <Header />
-            <h2>신고목록들</h2>
-
             <S.main>
                 <S.speaker src={Speaker} alt={"speaker icon"} />
                 {/* 9개 신고씩 보여주기 */}
-                <S.section>
-                    <S.reportText to={`/report/manage/${1}`}>신고제목</S.reportText>
-                    <S.reportText to={`/user/${'username'}`}>유저</S.reportText>
-                </S.section>
+                {Array.from({length:9}).map((_, index)=>{
+                    const item = report[(page-1)*9 + index];
+                    return item ? (
+                        <S.section>
+                            <S.reportText to={`/report/manage/${1}`}>신고제목</S.reportText>
+                            <S.reportText to={`/user/${'username'}`}>유저</S.reportText>
+                        </S.section>
+                    ):( <S.unBox></S.unBox>
+                    )
+                })}
 
                 <PageScroll page={page} setPage={setPage} contentLength={report.length/9} />
             </S.main>

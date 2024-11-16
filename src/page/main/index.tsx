@@ -13,7 +13,6 @@ function Main(){
     const [content, setContent] = useState<Doc[]>([]);
     const [popular, setPopular] = useState<Doc[]>([]);
     const fetchDoc = async ()=>{
-        setLoading(true);
         try{
             const documents:Doc[] = await getDoc("createdAt");
             const documents2:Doc[] = await getDoc("likes");

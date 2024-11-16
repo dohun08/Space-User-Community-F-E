@@ -8,7 +8,7 @@ import {authAtom} from "../../recoil/authAtom";
 import {useRecoilValue} from "recoil";
 import {useNavigate} from "react-router-dom";
 import {images} from "../../assets/iconImage";
-import {useCheck} from "../../until/authService";
+import {useCheck, decodeJWT} from "../../until/authService";
 
 function Write(){
     const [category, setCategory] = useState("문제");
@@ -46,6 +46,7 @@ function Write(){
     //문서를 생성했을때 성공이라면 바로 메인으로 이동, 실패라면 엑세스토큰을 재발급받고 다시실행
     const postData = async ()=>{
         let icon = images.findIndex((item) =>item === imgSrc);
+        const jwt = decodeJWT(auth.access_Token);
         if(icon === 0) icon+=1;
         try {
             const response = await fetch('/api/community/doc', {
@@ -54,7 +55,7 @@ function Write(){
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    userId: auth.username,
+                    userId: jwt.id,
                     title: title,
                     content: content,
                     category: category,
