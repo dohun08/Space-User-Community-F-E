@@ -1,9 +1,8 @@
 import styled from "styled-components";
 import React, {useState} from "react";
 import Document from "../../../components/Documents/Long";
-import Larrow from '../../../assets/left_arrow.svg';
-import Rarrow from '../../../assets/right_arrow.svg';
-import {PageNum, Arrow} from "../../moreContents/style.ts";
+import PageScroll from "../../../components/pageScroll";
+
 
 export default function UserPostContent(){
     const [page, setPage] = useState(1);
@@ -14,11 +13,7 @@ export default function UserPostContent(){
             <PostWrapper>
                 {Posts.map((Post) => <Document data={Post} key={Post.id}/>)}
             </PostWrapper>
-            <PageNum>
-                <Arrow src={Larrow} alt={"왼쪽"} onClick={()=>setPage(page+1)} />
-                <p> page </p>{/*page 중괄호 씌우기*/}
-                <Arrow src={Rarrow} alt={"오른쪽"} onClick={()=>setPage(page-1)} />
-            </PageNum>
+            <PageScroll page={page} setPage={setPage} contentLength={Posts.length} />
         </Container>
     );
 }

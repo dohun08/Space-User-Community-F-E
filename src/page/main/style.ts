@@ -37,3 +37,7 @@ export const section2 = styled.section`
         margin-bottom:10px;
     }
 `
+export const unBox = styled.div`
+    width: 100%;
+    height: 52px;
+`
