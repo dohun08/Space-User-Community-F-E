@@ -3,15 +3,24 @@ import Header from "../../components/Header";
 import UserContent from "./UserContent";
 import {useParams} from "react-router-dom";
 import UserPostContent from "./UserPostContent";
+import {useState} from "react";
+import ModifyPwd from "./ModifyPwd";
 
 export default function UserPage(){
     const {id} = useParams();
+    const [isModifyPw, setIsModifyPw] = useState(false);
     return(
         <Container>
             <Header/>
             <Content>
-                <UserContent id={id}/>
-                <UserPostContent id={id}/>
+                {isModifyPw ? (
+                    <ModifyPwd id={id} onClick={() => setIsModifyPw((current)=> !current)}/>
+                ):(
+                    <>
+                        <UserContent id={id} onClick={()=>setIsModifyPw(true)}/>
+                        <UserPostContent id={id}/>
+                    </>
+                )}
             </Content>
         </Container>
     );

@@ -21,12 +21,6 @@ export const Content = styled.div`
     gap: 15px;
 `
 
-export const MainUserInfo = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
-`
 
 export const ModifyBtn = styled.div<{color ?: boolean, align ?: string, size ?: string}>`
     color: ${(props)=>props.color?"#301C86":"#AAA"};
@@ -35,25 +29,7 @@ export const ModifyBtn = styled.div<{color ?: boolean, align ?: string, size ?: 
     text-align: ${(props)=>props.align};
 `
 
-export const UserImageContainer = styled.div`
-    width: 80px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-`
 
-export const UserImage = styled.img`
-    background: black;
-    border-radius: 100px;
-    overflow: clip;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-`;
-
-export const FileBtn = styled.input`
-    display: none;
-`
 
 export const UserInfo = styled.div`
     color: #AAA;
@@ -61,26 +37,6 @@ export const UserInfo = styled.div`
     font-size: 16px;
 `
 
-export const UsernameContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    gap: 5px;
-`
-
-export const InputBox = styled.input<{ isModify?: boolean } >`
-    padding: ${(props) => props.isModify ? "5px" : "6px"};
-    font-size: 20px;
-    color: #000;
-    box-sizing: border-box;
-    border-radius: 5px;
-    border: ${(props) => props.isModify? "1px solid #C2C2C2" : "none"};
-    background: none;
-    outline: none;
-    text-align: center;
-    width: 100%;
-`
 
 export const TextAreaBox = styled.div<{ isModify?: boolean } >`
     padding: ${(props) => props.isModify ? "5px" : "6px"};
