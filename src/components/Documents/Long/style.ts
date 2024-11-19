@@ -42,6 +42,7 @@ export const infoBox = styled.section`
 `
 
 export const postInfo = styled.span`
+    cursor: pointer;
     width: 100px;
     text-align: center;
 `

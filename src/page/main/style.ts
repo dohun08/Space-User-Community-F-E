@@ -30,6 +30,8 @@ export const section2 = styled.section`
     border-radius: 30px;
     display: flex;
     padding: 14px 14px 11px 14px;
+    box-sizing: border-box;
+    width: 20%;
     flex-direction: column;
     align-items: center;
     align-self: stretch;

@@ -1,12 +1,11 @@
 import styled from 'styled-components';
 import Pen from '../../../assets/penIcon.svg'
 
-function User({username, IsModify, onChange, onClick, modifiable}) {
-
+function User({username, IsModify, onChange, onClick, modifiable, profile}) {
     return (
         <MainUserInfo>
             <UserImageContainer>
-                <UserImage src={""}/>
+                <UserImage src={profile}/>
                 {modifiable? (
                     <>
                         <FileBtn type={"file"} id={"file"}/>
