@@ -9,8 +9,8 @@ export const writer = styled(Link)`
     }
 `
 export const title = styled(Link)`
-    margin-bottom:5px;
     color: #301C86;
+    margin-left: 10px;
     text-decoration-line: none;
     &:hover{
         text-decoration-line: underline;
@@ -22,4 +22,8 @@ export const content = styled.div`
      border-bottom: 1px solid gray;
      display: flex;
      flex-direction: column;
+    & > div{
+        display: flex;
+        align-items: center;
+    }
 `

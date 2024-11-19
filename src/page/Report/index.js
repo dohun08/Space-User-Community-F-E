@@ -24,7 +24,7 @@ export default function Report(){
                 credentials:'include',
                 body:JSON.stringify({
                   title:title,
-                  content:content
+                  contents:content
                 })
             })
             if(response.ok){

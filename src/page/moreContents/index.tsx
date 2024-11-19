@@ -14,14 +14,14 @@ function MoreContents(){
             'userId':1,
             'title':'string',
             'content':'string',
-            'icon':'string',
+            'icon':1,
             'category':'string',
             'likes':1,
             'createdAt':'string'
         }
     ]);
     const [page, setPage] = useState(1);
-    const [isLoading, setLoading] = useState(false);
+    const [isLoading, setLoading] = useState(true);
     const fetchDoc = async ()=>{
         try{
             const documents:Doc[] = await getDoc("createdAt");
@@ -32,6 +32,7 @@ function MoreContents(){
             setLoading(false);
         }
     }
+
     useEffect(() => {
         fetchDoc();
     }, []);
@@ -44,13 +45,16 @@ function MoreContents(){
                     Array.from({ length: 9 }).map((_, index) => {
                             const item = content[(page - 1) * 9 + index];
                             return item ? (
-                                    <LongLongDocument data={item} key={item.id}/>
+                                    <LongLongDocument data={item} />
                             ) : (
-                            <S.unBox key={index} />
+                            <S.unBox />
                         );
                     })
                     }
-                    <PageScroll page={page} setPage={setPage} contentLength={content.length/9} />
+
+                    {!isLoading && (
+                        <PageScroll page={page} setPage={setPage} contentLength={content.length / 9} />
+                    )}
                 </S.ContentsBox> : <Loading></Loading>
             }
 

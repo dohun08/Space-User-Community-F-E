@@ -50,7 +50,7 @@ function Login(){
                     navigate('/');
                 }
                 else{
-                    console.log("login 실패");
+                    console.log("login 실패", response.status);
                 }
             }catch(error){
                 console.log("error on login: ",error);

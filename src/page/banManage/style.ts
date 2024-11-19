@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {Link} from 'react-router-dom';
 
 export const container = styled.div`
     display: flex;
@@ -20,14 +21,19 @@ export const main = styled.main`
 export const section = styled.section`
     width: 500px;
     display: flex;
+    margin: 10px 0;
     justify-content: space-between;
     border-bottom: 2px solid #DFDFDF;
-    padding: 0 10px;
+    padding: 5px 10px;
     align-items: center;
 `
-export const reportText = styled.p`
+export const reportText = styled(Link)`
+    text-decoration-line: none;
     color: #301C86;
     cursor: pointer;
+    &:hover{
+        text-decoration-line: underline;
+    }
 `
 export const banBtn = styled.input`
     background-color: #FF5757;
@@ -58,6 +64,9 @@ export const search = styled.input`
     outline: none;
     border: none;
     
+`
+export const img = styled.img`
+    cursor: pointer;
 `
 export const searchBox = styled.section`
     display: flex;

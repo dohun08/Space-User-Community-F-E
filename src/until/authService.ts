@@ -59,15 +59,17 @@ export const useCheck = ()=> {
                 })
                 return true;
             }
-            else return false;
+            else if(response.status === 401){
+                console.log("refresh token 만료");
+                setAuth({
+                    access_Token: '',
+                    username: '',
+                    isAdmin:false
+                })
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('username');
+            }
         }catch(error){
-            setAuth({
-                access_Token: '',
-                username: '',
-                isAdmin:false
-            })
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('username');
             console.log("on error accessToken 재발급", error);
         }
     }

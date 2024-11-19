@@ -10,23 +10,27 @@ const Report = ()=>{
     const [page, setPage] = useState(1);
     const [report, setReport] = useState(['']);
     const auth = useRecoilValue(authAtom);
+    const [loading, setLoading] = useState(true);
 
     const getReport = async ()=>{
         try{
-            const response = await fetch('/api/admin/report', {
+            const response = await fetch('/api/admin/reportlist', {
                 method:'GET',
                 headers:{
                     'Content-Type':'application/json',
                     'Authorization': auth.access_Token
-                }
+                },
+                credentials: 'include'
             })
             if(response.ok){
                 const data = await response.json();
                 console.log(data);
-                setReport(data.data);
+                setReport(data);
             }
         }catch (error){
             console.log('on error getReport', error);
+        }finally {
+            setLoading(false);
         }
     }
     useEffect(() => {
@@ -42,14 +46,15 @@ const Report = ()=>{
                     const item = report[(page-1)*9 + index];
                     return item ? (
                         <S.section>
-                            <S.reportText to={`/report/manage/${1}`}>신고제목</S.reportText>
-                            <S.reportText to={`/user/${'username'}`}>유저</S.reportText>
+                            <S.reportText to={`/report/manage/${item.id}`}>{item.title}</S.reportText>
+                            <S.reportText to={`/user/${item.authorName}`}>{item.authorName}</S.reportText>
                         </S.section>
                     ):( <S.unBox></S.unBox>
                     )
                 })}
 
-                <PageScroll page={page} setPage={setPage} contentLength={report.length/9} />
+                {!loading ? <PageScroll page={page} setPage={setPage} contentLength={report.length/9} /> : null}
+
             </S.main>
         </S.container>
     )

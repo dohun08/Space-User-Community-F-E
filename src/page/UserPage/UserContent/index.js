@@ -24,7 +24,6 @@ export default function UserContent({id, onClick}){
 
         }catch(error){
             console.log("error on : ",error);
-            navigate("/error");
         }
     };
 

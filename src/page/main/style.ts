@@ -23,13 +23,15 @@ export const section1 = styled.section`
     width: 350px;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
     padding: 30px 30px 12px 30px;
 `
 export const section2 = styled.section`
     border: 3px solid #DFDFDF;
     border-radius: 30px;
     display: flex;
-    padding: 14px 14px 11px 14px;
+    width: 18%;
+    padding: 14px 2%;
     flex-direction: column;
     align-items: center;
     align-self: stretch;

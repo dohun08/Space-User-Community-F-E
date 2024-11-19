@@ -1,8 +1,8 @@
 import React from "react";
 import * as S from './style.ts';
 import Speaker from '../../../assets/speaker_small.svg';
-import {postInfo} from "./style.ts";
-//data. 애들 다 중괄호 씌우기
+
+
 function LongDocument({data, isMain}){
     return(
         <>{data.category === "공지" ?(
