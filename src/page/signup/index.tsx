@@ -85,6 +85,7 @@ function Signup(){
             });
             //data로 인증번호 받아오기
             if(response.ok){
+                // setVerifyNumber();
                 setConfirm(true);
             }
         }catch(error){

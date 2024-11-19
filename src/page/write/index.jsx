@@ -20,6 +20,8 @@ function Write() {
     const [isImg, setIsImg] = useState(false);
     const navigate = useNavigate();
     const auth = useRecoilValue(authAtom);
+    const create = Create();
+
     const smart = (event) => {
         const {value, selectionStart} = event.target;
         let updatedValue = value;
@@ -43,33 +45,58 @@ function Write() {
         setContent(updatedValue);
     }
 
+
     //문서를 생성했을때 성공이라면 바로 메인으로 이동, 실패라면 엑세스토큰을 재발급받고 다시실행
     const postData = async () => {
+        if(title === "" || content === "") return alert("값이 비어져있습니다.");
         let icon = images.findIndex((item) => item === imgSrc);
+
         const jwt = decodeJWT(auth.access_Token);
-        if (icon === 0) icon += 1;
         console.log(jwt.userId);
-        try {
-            const response = await fetch('/api/community/doc', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `${auth.access_Token}`
-                },
-                credentials: 'include',
-                body: JSON.stringify({
-                    authorId: jwt.userId,
-                    title: title,
-                    content: content,
-                    icon: icon,
-                    category: category
-                })
-            });
-            if (response.ok){
-                navigate("/");
+        if(category !== "공지"){
+            try {
+                const response = await fetch('/api/community/doc', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `${auth.access_Token}`
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        authorId: jwt.userId,
+                        title: title,
+                        content: content,
+                        icon: icon,
+                        category: category
+                    })
+                });
+                if (response.ok){
+                    navigate("/");
+                }
+            } catch (error) {
+                console.log('on error announcement post', error);
             }
-        } catch (error) {
-            console.log('on error announcement post', error);
+        }
+        else{
+            try {
+                const response = await fetch('/api/broadcast', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `${auth.access_Token}`
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        title: title,
+                        contents: content
+                    })
+                });
+                if (response.ok){
+                    navigate("/");
+                }
+            } catch (error) {
+                console.log('on error announcement post', error);
+            }
         }
     }
 

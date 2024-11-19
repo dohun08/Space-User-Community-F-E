@@ -68,6 +68,7 @@ export const useCheck = ()=> {
                 })
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('username');
+                alert("오래된 로그인 세션으로 인해 로그아웃되었습니다. 다시 로그인해주세요.");
             }
         }catch(error){
             console.log("on error accessToken 재발급", error);

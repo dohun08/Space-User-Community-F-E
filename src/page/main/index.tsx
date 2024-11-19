@@ -21,7 +21,6 @@ function Main(){
             setPopular(documents2);
             setContent(documents);
             setBroad(documents3);
-            console.log(documents3);
         }catch (err) {
             console.log('Failed to load documents');
         } finally {
@@ -32,11 +31,10 @@ function Main(){
     useEffect(()=>{
         fetchDoc();
     }, []);
-
     if(loading) return (
         <Loading></Loading>
     )
-
+    const remainder = broad.length % 3 || 2;
     return(
         <S.container>
             <Header />
@@ -52,7 +50,7 @@ function Main(){
                 </S.section2>
                 <S.section1>
                     {broad &&
-                     Array.from ({ length: 2 }).map((_, index) => {
+                     Array.from ({ length: remainder }).map((_, index) => {
                          const doc = broad[index];
                          return doc ? (
                              <LongLongDocument data={doc} key={doc.id} />
@@ -62,7 +60,7 @@ function Main(){
                      })
                     }
                     {content &&
-                        Array.from({ length: 7 }).map((_, index) => {
+                        Array.from({ length: 9-remainder }).map((_, index) => {
                             const doc = content[index];
                             return doc ? (
                                 <LongLongDocument data={doc} key={doc.id} />

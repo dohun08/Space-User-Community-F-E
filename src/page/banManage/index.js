@@ -7,6 +7,8 @@ import {useNavigate} from "react-router-dom";
 import PageScroll from "../../components/pageScroll";
 import {useRecoilValue} from "recoil";
 import {authAtom} from "../../recoil/authAtom";
+import {BanUser} from "../../api/banManage";
+import {useCheck} from "../../until/authService";
 
 const BanManage = ()=>{
     const navigate = useNavigate();
@@ -15,7 +17,7 @@ const BanManage = ()=>{
     const [userData, setUserData] = useState(['']);
     const auth = useRecoilValue(authAtom);
     const [loading, setLoading] = useState(true);
-
+    const check = useCheck();
     const goBan = ()=>{
         navigate('/ban/user');
     }
@@ -39,26 +41,43 @@ const BanManage = ()=>{
             console.log('on error search user : ', error);
         }
     }
+
     const banUser = async (name)=>{
         try{
-            const response = await fetch(`/api/admin/ban/${name}`, {
-                method:'GET',
-                headers:{
-                    'Content-Type':'application/json',
-                    'Authorization':`${auth.access_Token}`
-                },
-                credentials: 'include'
-            });
-
-            if(response.ok){
+            if(await BanUser(name)){
+                console.log("성공");
                 searchUser(user);
             }
-
+            else{
+                if(await check()) {
+                    await BanUser(name);
+                }
+            }
         }catch (error){
             console.log('on error post ban user : ', error);
         }finally {
             setLoading(false);
         }
+
+        // try{
+        //     const response = await fetch(`/api/admin/ban/${name}`, {
+        //         method:'GET',
+        //         headers:{
+        //             'Content-Type':'application/json',
+        //             'Authorization':`${auth.access_Token}`
+        //         },
+        //         credentials: 'include'
+        //     });
+        //
+        //     if(response.ok){
+        //         searchUser();
+        //     }
+        //
+        // }catch (error){
+        //     console.log('on error post ban user : ', error);
+        // }finally {
+        //     setLoading(false);
+        // }
     }
 
     const renderItems = useMemo(()=>{

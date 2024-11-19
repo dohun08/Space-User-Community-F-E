@@ -16,7 +16,7 @@ export const broadcast = styled.div`
     justify-content: space-between;
     padding: 0 10px;
     max-height: 52px;
-    background-color: #ddd1ff;
+    background-color: #ece5ff;
     border-radius: 10px;
 `
 export const titleBox = styled.section`

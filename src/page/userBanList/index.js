@@ -35,6 +35,7 @@ const UserBan = ()=>{
     }
     useEffect(() => {
         getUserData();
+        console.log(userData);
     }, [page]);
     const unBan = async (name)=>{
         try{
