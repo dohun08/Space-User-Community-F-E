@@ -13,7 +13,6 @@ export default function UserPage(){
     const {id} = useParams();
     const [isModifyPw, setIsModifyPw] = useState(false);
     const [auth, setAuth] = useRecoilState(authAtom);
-    const jwt = auth.access_Token
 
 
     const updateUserInfo = async (formData, id) => {
