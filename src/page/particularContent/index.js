@@ -5,31 +5,51 @@ import FamousPost from "./FamousPost";
 import Like from "./Like";
 import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
+import {getDoc} from "../../api/getDoc";
 
 export default function ParticularContent() {
     const navigate = useNavigate();
     const {id} = useParams();
-    const [PostData, setPostData] = useState({})
-
+    const [PostData, setPostData] = useState({});
+    const [famousDocuments, setFamousDocuments] = useState(['']);
+    const [isLoading, setIsLoading] = useState(true);
     const getPost = async ()=>{
+        setIsLoading(true);
         try{
-            const response = await fetch(`/community/doc/${id}`, {
+            const response = await fetch(`/api/community/doc/${id}`, {
                 method:'GET',
             })
 
             const data = await response.json();
-            if(data.status===200){
-                console.log("글 조회 성공");
-                setPostData(data["data"]);
+            if(response.ok){
+                setPostData(data);
+            }
+            else{
+                console.log(response.ok);
             }
         }catch(error){
             console.log("error on : ",error);
             navigate("/error");
+        }finally {
+            setIsLoading(false);
         }
     };
 
+    const famousPost = async () => {
+        setIsLoading(true);
+        try{
+            const documents = await getDoc("likes");
+            setFamousDocuments(documents);
+        }catch(error){
+            console.log("error on : ",error);
+            navigate("/error");
+        }finally {
+            setIsLoading(false);
+        }
+    }
     useEffect(()=>{
         getPost();
+        famousPost();
     }, []);
 
     return (
@@ -37,8 +57,8 @@ export default function ParticularContent() {
             <Header/>
             <Content>
                 <Like likes={PostData["likes"]}/>
-                <PostContent data={PostData}/>
-                <FamousPost/>
+                <PostContent data={PostData} isLoading = {isLoading}/>
+                <FamousPost famous = {famousDocuments}/>
             </Content>
         </Container>
     );

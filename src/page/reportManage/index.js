@@ -34,7 +34,7 @@ const Report = ()=>{
         }
     }
     useEffect(() => {
-        getReport()
+        getReport();
     }, []);
     return(
         <S.container>

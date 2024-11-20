@@ -6,6 +6,7 @@ import BackArrow from "../../assets/back_Arrow.svg";
 import {useNavigate} from "react-router-dom";
 import {useRecoilValue} from "recoil";
 import {authAtom} from "../../recoil/authAtom";
+import {useUserBan} from "../../api/banManage";
 
 const UserBan = ()=>{
     const [page, setPage] = useState(1);
@@ -13,20 +14,10 @@ const UserBan = ()=>{
     const auth = useRecoilValue(authAtom);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
+    const banUserCheck = useUserBan();
     const getUserData = async ()=>{
         try{
-            const response = await fetch('/api/admin/banlist', {
-                method:'GET',
-                headers:{
-                    'Content-Type':'application/json',
-                    'Authorization':`${auth.access_Token}`
-                }
-            })
-            const data = await response.json();
-
-            if(response.ok){
-                setUserData(data);
-            }
+            setUserData(await banUserCheck());
         }catch (error){
             console.log("getUserBanData error : ",error);
         }finally {

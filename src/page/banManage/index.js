@@ -7,8 +7,7 @@ import {useNavigate} from "react-router-dom";
 import PageScroll from "../../components/pageScroll";
 import {useRecoilValue} from "recoil";
 import {authAtom} from "../../recoil/authAtom";
-import {BanUser} from "../../api/banManage";
-import {useCheck} from "../../until/authService";
+import {useBanUser} from "../../api/banManage";
 
 const BanManage = ()=>{
     const navigate = useNavigate();
@@ -17,7 +16,8 @@ const BanManage = ()=>{
     const [userData, setUserData] = useState(['']);
     const auth = useRecoilValue(authAtom);
     const [loading, setLoading] = useState(true);
-    const check = useCheck();
+    const banUser = useBanUser();
+
     const goBan = ()=>{
         navigate('/ban/user');
     }
@@ -42,50 +42,25 @@ const BanManage = ()=>{
         }
     }
 
-    const banUser = async (name)=>{
+    const handleBan = async (name) => {
         try{
-            if(await BanUser(name)){
-                console.log("성공");
+            if(await banUser(name)){
                 searchUser(user);
             }
-            else{
-                if(await check()) {
-                    await BanUser(name);
-                }
-            }
         }catch (error){
-            console.log('on error post ban user : ', error);
+            console.log('on error ban user : ', error);
         }finally {
             setLoading(false);
         }
 
-        // try{
-        //     const response = await fetch(`/api/admin/ban/${name}`, {
-        //         method:'GET',
-        //         headers:{
-        //             'Content-Type':'application/json',
-        //             'Authorization':`${auth.access_Token}`
-        //         },
-        //         credentials: 'include'
-        //     });
-        //
-        //     if(response.ok){
-        //         searchUser();
-        //     }
-        //
-        // }catch (error){
-        //     console.log('on error post ban user : ', error);
-        // }finally {
-        //     setLoading(false);
-        // }
-    }
+    };
 
     const renderItems = useMemo(()=>{
         return Array.from({length:11}).map((_, index)=>{
             const item = userData[(page-1)*9 +index];
             return(item ? (<S.section key={item.username}>
                     <S.reportText>{item.username}</S.reportText>
-                    <S.banBtn onClick={()=>banUser(item.username)} type={"button"} value={"차단"}></S.banBtn>
+                    <S.banBtn onClick={()=>handleBan(item.username)} type={"button"} value={"차단"}></S.banBtn>
                 </S.section>
             ) : (
                 <S.unBox key={index}></S.unBox>
@@ -110,7 +85,7 @@ const BanManage = ()=>{
                     <Cbtn onClick={goBan} name={"밴 목록"}/>
                 </S.BanBox>
                 {renderItems}
-                {!loading ? <PageScroll page={page} setPage={setPage} contentLength={userData.length/9} /> : null}
+                {loading ? <PageScroll page={page} setPage={setPage} contentLength={userData.length/9} /> : null}
 
             </S.main>
 

@@ -1,15 +1,15 @@
 import * as S from './style.ts';
 import Logo from '../../assets/Logo.svg';
 import Cbtn from "../../components/Button/Circle";
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {ToolBar} from "../../components/ToolBar";
 import {Preview} from "../../components/Preview";
 import {authAtom} from "../../recoil/authAtom";
-import {useRecoilValue} from "recoil";
+import {useRecoilState} from "recoil";
 import {useNavigate} from "react-router-dom";
 import {images} from "../../assets/iconImage";
 import {decodeJWT} from "../../until/authService";
-import {Create} from "../../api/postDoc";
+import {useCheck} from "../../until/authService";
 
 function Write() {
     const [category, setCategory] = useState("문제");
@@ -19,8 +19,8 @@ function Write() {
     const contentRef = useRef();
     const [isImg, setIsImg] = useState(false);
     const navigate = useNavigate();
-    const auth = useRecoilValue(authAtom);
-    const create = Create();
+    const [auth, setAuth] = useRecoilState(authAtom);
+    const check = useCheck();
 
     const smart = (event) => {
         const {value, selectionStart} = event.target;
@@ -181,6 +181,23 @@ function Write() {
 
             return <S.div>{renderedLines}</S.div>;
         };
+
+    useEffect(() => {
+        const checkAuth = async () => {
+            if (!await check()) {
+                navigate('/login');
+            }
+        };
+        if(auth.access_Token){
+            if(decodeJWT(auth.access_Token).role === 'ROLE_ADMIN'){
+                setAuth({
+                    ...auth,
+                    isAdmin:true
+                })
+            }
+        }
+        checkAuth();
+    }, []);
         return (
             <S.container>
                 <S.header>

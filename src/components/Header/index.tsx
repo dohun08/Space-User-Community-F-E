@@ -20,14 +20,7 @@ function Header(){
     const Check = useCheck();
     const goLogout = async ()=>{
         try{
-            if(await logout()){
-                navigate('/');
-            }
-            else{
-                if(await Check()){
-                    await logout();
-                }
-            }
+            await logout();
         }
         catch(error){
             console.log("on error logout", error);
@@ -47,6 +40,12 @@ function Header(){
                 })
             }
         }
+        const checkAuth = async () => {
+            if (!await Check()) {
+                navigate('/login');
+            }
+        };
+        checkAuth();
     }, []);
     return(
         <S.container>
