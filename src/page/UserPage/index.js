@@ -14,7 +14,6 @@ export default function UserPage(){
     const [isModifyPw, setIsModifyPw] = useState(false);
     const [auth, setAuth] = useRecoilState(authAtom);
 
-
     const updateUserInfo = async (formData, id) => {
         try{
             const response = await fetch('/api/user/update', {
@@ -26,11 +25,11 @@ export default function UserPage(){
             })
 
             if(response.ok){
-                navigate(`/user/${id}`);
                 setAuth({
                     access_Token: response.headers.get('authorization') || '',
                     username: id
                 })
+                navigate(`/user/${id}`);
                 return 1;
             } else {
                 const data = await response.json();

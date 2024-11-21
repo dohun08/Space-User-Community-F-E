@@ -1,8 +1,35 @@
 import styled from "styled-components";
 import {ModifyBtn} from "../UserContent/style.ts";
 import User from "../User";
+import {useCallback, useState} from "react";
 
-function ModifyPwd({id, onClick}) {
+function ModifyPwd({id, onClick, update}) {
+    const [pwds, setPwds] = useState({current : "", new : "", reEnter : ""});
+    const onClickHandler = async(e) => {
+        e.preventDefault();
+        if(pwds["current"].trim() === "" || pwds["new"].trim() === "" || pwds["reEnter"].trim() === ""){
+            return;
+        }
+        if(pwds["new"].trim() !== pwds["reEnter"].trim()){
+            alert("비밀번호가 일치하지 않습니다.");
+            return;
+        }
+
+        const formData = new FormData();
+        const blob = new Blob(pwds["new"], { type: "application/json" });
+        formData.append("password", blob);
+        if(!(await update(pwds["reEnter"]))){
+            return;
+        }
+        onClick();
+    }
+    const onChangeHandler = (e) => {
+        const { name, value } = e.target;
+        setPwds(pwds => ({...pwds, [name]: value}));
+        console.log(name, value);
+        console.log(pwds);
+    }
+
     return (
         <Container>
             <Content>
@@ -10,15 +37,15 @@ function ModifyPwd({id, onClick}) {
                 <InputContainer>
                     <InputBox>
                         <Label>Current<br/>Password</Label>
-                        <Input type={"password"} placeholder={"현재 비밀번호를 입력해주세요"}/>
+                        <Input name={"current"} type={"password"} placeholder={"현재 비밀번호를 입력해주세요"} onChange={onChangeHandler}/>
                     </InputBox>
                     <InputBox>
                         <Label>New<br/>Password</Label>
-                        <Input type={"password"} placeholder={"새로운 비밀번호를 입력해주세요"}/>
+                        <Input name={"new"} type={"password"} placeholder={"새로운 비밀번호를 입력해주세요"} onChange={onChangeHandler}/>
                     </InputBox>
                     <InputBox>
                         <Label>Re-Enter<br/>Password</Label>
-                        <Input type={"password"} placeholder={"새로운 비밀번호를 다시 입력해주세요"}/>
+                        <Input name={"reEnter"} type={"password"} placeholder={"새로운 비밀번호를 다시 입력해주세요"} onChange={onChangeHandler}/>
                     </InputBox>
                 </InputContainer>
             </Content>
@@ -45,7 +72,7 @@ const Content = styled.div`
     justify-content: center;
     gap: 30px;
     width: 35%;
-    
+    min-width: 300px;
 `
 
 const InputContainer = styled.div`
