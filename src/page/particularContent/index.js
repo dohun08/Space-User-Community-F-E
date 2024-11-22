@@ -49,7 +49,6 @@ export default function ParticularContent() {
             }
         }catch(error){
             console.log("error on : ",error);
-            navigate("/error");
         }finally {
             setIsLoading(false);
         }
