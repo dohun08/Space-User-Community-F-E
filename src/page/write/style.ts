@@ -32,7 +32,8 @@ export const write = styled.section`
     padding: 30px;
     display: flex;
     flex-flow: column nowrap;
-    box-shadow: 0.1em 0.1em 0.5em rgba(0, 0, 0, 0.6);
+        box-shadow: 0.05em 0.1em 0.2em rgba(0, 0, 0, 0.6);
+        border-radius: 20px;
 
 `
 interface IsimageProps {
