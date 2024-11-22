@@ -20,8 +20,11 @@ export const getDoc = async (order:string):Promise<Doc[]> => {
     }
     else{
         try{
-            const response = await fetch(`/api/community/doclist?orderby=${order}`, {
+            const response = await fetch(`/api/community/doclist?orderBy=${order}`, {
                 method:'GET',
+                headers:{
+                    'Content-Type':'application/json',
+                }
             })
             const data = await response.json();
             if(response.ok){
