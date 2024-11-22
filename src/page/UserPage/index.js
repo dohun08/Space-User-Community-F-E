@@ -3,16 +3,18 @@ import Header from "../../components/Header";
 import UserContent from "./UserContent";
 import {useNavigate, useParams} from "react-router-dom";
 import UserPostContent from "./UserPostContent";
-import {useState} from "react";
+import React, {useState} from "react";
 import ModifyPwd from "./ModifyPwd";
 import {authAtom} from "../../recoil/authAtom";
 import { useRecoilState } from 'recoil';
+import Loading from "../../components/loading/loading";
 
 export default function UserPage(){
     const navigate = useNavigate();
     const {id} = useParams();
     const [isModifyPw, setIsModifyPw] = useState(false);
     const [auth, setAuth] = useRecoilState(authAtom);
+    const isOwner = auth.username===id;
 
     const updateUserInfo = async (formData, id) => {
         try{
@@ -47,11 +49,11 @@ export default function UserPage(){
             <Header/>
             <Content>
                 {isModifyPw ? (
-                    <ModifyPwd update={updateUserInfo} id={id} onClick={() => setIsModifyPw((current)=> !current)}/>
+                    <ModifyPwd isOwner={isOwner} update={updateUserInfo} id={id} onClick={() => setIsModifyPw((current)=> !current)}/>
                 ):(
                     <>
-                        <UserContent update={updateUserInfo} id={id} onClick={()=>setIsModifyPw(true)}/>
-                        <UserPostContent id={id}/>
+                        <UserContent isAdmin={auth.isAdmin} isOwner={isOwner} update={updateUserInfo} id={id} onClick={()=>setIsModifyPw(true)}/>
+                        <UserPostContent isOwner={isOwner} id={id}/>
                     </>
                 )}
             </Content>

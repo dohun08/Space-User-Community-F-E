@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import User from "../User";
 
-export default function UserContent({id, onClick, update}){
+export default function UserContent({id, onClick, update, isOwner, isAdmin}){
     const navigate = useNavigate();
     const [username, setUsername] = useState(id);
     const [introduce, setIntroduce] = useState("");
@@ -34,9 +34,12 @@ export default function UserContent({id, onClick, update}){
 
     const modifyNameHandler = async () => {
         if(IsModifyName){
+            if(username.trim() === ""){
+                return;
+            }
             const formData = new FormData();
             const blob = new Blob([JSON.stringify({ username })], { type: "application/json" });
-            formData.append("updateDTO", blob);
+            formData.append("UserUpdateDTO", blob);
             if(!(await update(formData, username))){
                 return;
             }
@@ -48,12 +51,34 @@ export default function UserContent({id, onClick, update}){
         if(IsModifyIntroduce){
             const formData = new FormData();
             const blob = new Blob([JSON.stringify({ introduce })], { type: "application/json" });
-            formData.append("updateDTO", blob);
+            formData.append("UserUpdateDTO", blob);
             if(!(await update(formData, username))){
                 return;
             }
         }
-        setIntroduce((current) => !current);
+        setIsModifyIntroduce((current) => !current);
+    }
+
+    const modifyProfileHandler = async (e) => {
+        const file = e.target.files[0];
+        if (!file) {
+            alert("파일을 선택하지 않았습니다.");
+            return;
+        }
+
+        const allowedImageTypes = ["image/jpeg", "image/png", "image/gif"];
+        if (!allowedImageTypes.includes(file.type)) {
+            alert("이미지 파일만 업로드할 수 있습니다. (jpg, png, gif)");
+            return;
+        }
+
+        const formData = new FormData();
+        const blob = new Blob([file]);
+        console.log(formData);
+        formData.append("profile", blob);
+        if(!(await update(formData, username))) {
+            alert("업로드 중 오류가 발생했습니다.")
+        }
     }
 
     useEffect(()=>{
@@ -68,22 +93,24 @@ export default function UserContent({id, onClick, update}){
                     username={username}
                     onChange={(e) => setUsername(e.target.value)}
                     onClick={modifyNameHandler}
-                    modifiable={true}
+                    modifiable={isOwner}
                     profile={profile}
+                    updateProfile={modifyProfileHandler}
                 />
                 <S.TextAreaBox isModify={IsModifyIntroduce} >
                     <S.TextArea
                         value={introduce}
-                        onChange={modifyIntroduceHandler}
+                        onChange={(e) => setIntroduce(e.target.value)}
+                        readOnly={!IsModifyIntroduce}
                     />
-                    <S.ModifyBtn align={"right"} color={IsModifyIntroduce} onClick={()=>setIsModifyIntroduce((current) => !current)}>{IsModifyIntroduce? "수정완료": "수정하기"}</S.ModifyBtn>
+                    {isOwner? <S.ModifyBtn align={"right"} color={IsModifyIntroduce} onClick={modifyIntroduceHandler}>{IsModifyIntroduce? "수정완료": "수정하기"}</S.ModifyBtn> : null}
                 </S.TextAreaBox>
                 <S.UserInfo>
                     <div>User {username}</div>
-                    <div>Role</div>
+                    <div>Role {isAdmin? "Admin":"User"}</div>
                     <div>Created At {createdAt}</div>
                 </S.UserInfo>
-                <S.ModifyBtn size={"16px"} align={"right"} color={true} onClick={onClick}>비밀번호 변경하기</S.ModifyBtn>
+                {isOwner? <S.ModifyBtn size={"16px"} align={"right"} color={true} onClick={onClick}>비밀번호 변경하기</S.ModifyBtn>:<></>}
             </S.Content>
         </S.Wrapper>
     );
