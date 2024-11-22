@@ -33,7 +33,7 @@ export default function Comment({writer, date, content, id, getComment}) {
             return ;
         }
         try{
-            const res = await fetch(`/api/community/comment/${id}`, {
+            const res = await fetch(`/api/community/comment`, {
                 method: "PATCH",
                 headers: {
                     'Content-Type': 'application/json',
@@ -41,6 +41,7 @@ export default function Comment({writer, date, content, id, getComment}) {
                 },
                 credentials: 'include',
                 body:JSON.stringify({
+                    id:id,
                     content: CommentContent
                 })
             })
