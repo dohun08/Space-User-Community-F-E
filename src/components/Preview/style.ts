@@ -25,7 +25,8 @@ export const outContent = styled.div`
 export const outPut = styled.section`
     width: 44%;
     padding: 30px;
-    box-shadow: 0.1em 0.1em 0.5em rgba(0, 0, 0, 0.6);
+    box-shadow: 0.05em 0.1em 0.2em rgba(0, 0, 0, 0.6);
+    border-radius: 20px;
 
 `
 export const title = styled.div`
