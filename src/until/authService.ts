@@ -37,45 +37,6 @@ export const useLogout =  ()=>{
     return logout;
 };
 
-// accessToken이 유효하지않다면 accessToken 재발급하기
-export const useCheck = ()=> {
-    const [auth, setAuth] = useRecoilState(authAtom);
-    const Check = async () => {
-        try{
-            const response = await fetch('/api/user/reissue', {
-                method:'GET',
-                credentials:'include',
-                headers:{
-                    'Content-Type':'application/json',
-                    'Authorization': `${auth.access_Token}`
-                }
-            });
-
-            if(response.ok){
-                setAuth({
-                    access_Token: response.headers.get('authorization') || '',
-                    username: auth.username,
-                    isAdmin: auth.isAdmin
-                })
-                return true;
-            }
-            else if(response.status === 401){
-                console.log("refresh token 만료");
-                setAuth({
-                    access_Token: '',
-                    username: '',
-                    isAdmin:false
-                })
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('username');
-                alert("오래된 로그인 세션으로 인해 로그아웃되었습니다. 다시 로그인해주세요.");
-            }
-        }catch(error){
-            console.log("on error accessToken 재발급", error);
-        }
-    }
-    return Check;
-}
 
 // jwt decode
 export function decodeJWT(token:string) {
