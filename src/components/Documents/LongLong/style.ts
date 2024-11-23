@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {Link} from "react-router-dom";
+import {Link, LinkProps} from "react-router-dom";
 
 export const Document = styled.div`
     width: 100%;
@@ -48,6 +48,14 @@ export const date = styled.span`
 `
 export const LinkBtn = styled(Link)`
     color: #301C86;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
+`
+export const LinkBtnB = styled.span`
+    color: #301C86;
+    cursor: pointer;
     text-decoration: none;
     &:hover {
         text-decoration: underline;

@@ -7,14 +7,8 @@ export interface Doc{
     content:string,
     icon:number,
     category:string,
-    likes:number
-}
-export interface CreateDoc{
-    title:string,
-    content:string,
-    category:string
-    authorId:number,
-    icon:number
+    likes:number,
+    contents:string
 }
 export interface User{
     id:string,

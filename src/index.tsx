@@ -23,6 +23,7 @@ import Search from "./page/search";
 import AdminRoute from "./until/AdminRoute";
 import PatchDocument from "./page/patchDocument";
 import TokenRefresher from "./until/check";
+import BroadCastContent from "./page/broadCast";
 
 const rootElement = document.getElementById('root') as HTMLElement;
 const root = ReactDOM.createRoot(rootElement);
@@ -39,6 +40,7 @@ root.render(
                     <Route path='/more' element={<MoreContents />}></Route>
                     <Route path={'/write'} element={<Write />}></Route>
                     <Route path={'/post/:id'} element={<Post />}></Route>
+                    <Route path={'/broadcast/:id'} element={<BroadCastContent />}></Route>
                     <Route path={'/report'} element={<Report />}></Route>
                     <Route path={'/user/:username'} element={<UserPage/>}></Route>
                     <Route path={'/search/:title'} element={<Search />}></Route>

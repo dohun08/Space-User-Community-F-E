@@ -28,7 +28,6 @@ export default function ParticularContent() {
     const [isLoading, setIsLoading] = useState(true);
 
     const getPost = async ()=>{
-        console.log(getAuth.access_Token);
         setIsLoading(true);
         try{
             const response = await fetch(`/api/community/doc/${id}`, {
@@ -46,7 +45,7 @@ export default function ParticularContent() {
                 console.log(data);
             }
             else{
-                console.log(response.status);
+               console.log(response.message);
             }
         }catch(error){
             console.log("error on : ",error);

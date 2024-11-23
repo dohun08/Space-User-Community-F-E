@@ -17,7 +17,8 @@ function MoreContents(){
             'icon':1,
             'category':'string',
             'likes':1,
-            'date':'string'
+            'date':'string',
+            "contents":"string"
         }
     ]);
     const [page, setPage] = useState(1);
