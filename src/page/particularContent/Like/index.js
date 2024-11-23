@@ -9,6 +9,10 @@ export default function Like({likes, id, getPost, isLiked}){
 
     const auth = useRecoilValue(authAtom);
     async function onClickHandler(){
+        if(!auth.access_Token){
+            alert("로그인 후 사용해주세요.");
+            return
+        }
         const authorId = decodeJWT(auth.access_Token);
         if(isLiked){
             try{
