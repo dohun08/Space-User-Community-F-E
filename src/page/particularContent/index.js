@@ -28,22 +28,25 @@ export default function ParticularContent() {
     const [isLoading, setIsLoading] = useState(true);
 
     const getPost = async ()=>{
+        console.log(getAuth.access_Token);
         setIsLoading(true);
         try{
             const response = await fetch(`/api/community/doc/${id}`, {
                 method:'GET',
                 headers:{
-                    'Content-Type':'application/json'
-                }
+                    'Content-Type':'application/json',
+                    'Authorization': getAuth.access_Token ? getAuth.access_Token : 'Bearer null'
+                },
+                credentials: 'include'
             })
 
-            const data = await response.json();
             if(response.ok){
+                const data = await response.json();
                 setPostData(data);
                 console.log(data);
             }
             else{
-                console.log(response.ok);
+                console.log(response.status);
             }
         }catch(error){
             console.log("error on : ",error);
