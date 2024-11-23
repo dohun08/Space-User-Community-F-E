@@ -5,7 +5,7 @@ import Circle from "../../components/Button/Circle";
 import Megaphone from "../../assets/Megaphone.svg"
 import {authAtom} from "../../recoil/authAtom";
 import {useRecoilValue} from "recoil";
-import {useState} from "react";
+import { useState} from "react";
 import {useNavigate} from 'react-router-dom'
 
 export default function Report(){
@@ -24,7 +24,7 @@ export default function Report(){
                 credentials:'include',
                 body:JSON.stringify({
                   title:title,
-                  content:content
+                  contents:content
                 })
             })
             if(response.ok){
@@ -34,6 +34,7 @@ export default function Report(){
             console.log("on error postReport", error)
         }
     }
+
     return (
         <Container>
             <Header/>

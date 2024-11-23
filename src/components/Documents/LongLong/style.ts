@@ -9,6 +9,16 @@ export const Document = styled.div`
     padding: 0 10px;
     max-height: 52px;
 `
+export const broadcast = styled.div`
+    width: 100%;
+    border-bottom: 1px solid gray;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+    max-height: 52px;
+    background-color: #ece5ff;
+    border-radius: 10px;
+`
 export const titleBox = styled.section`
     display: flex;
     flex-flow:row nowrap;

@@ -32,12 +32,11 @@ export const write = styled.section`
     padding: 30px;
     display: flex;
     flex-flow: column nowrap;
-        box-shadow: 0.05em 0.1em 0.2em rgba(0, 0, 0, 0.6);
-        border-radius: 20px;
+    box-shadow: 0.1em 0.1em 0.5em rgba(0, 0, 0, 0.6);
 
 `
 interface IsimageProps {
-        $isImg?: boolean;
+    $isImg?: boolean;
 }
 export const imgBox = styled.div<IsimageProps>`
     display: ${(props) => props.$isImg ? "flex" : "none"};
@@ -69,7 +68,7 @@ export const img = styled.div`
     }
 `
 interface ToggleProps {
-        $toggle?: boolean;
+    $toggle?: boolean;
 }
 export const selectImg = styled.div<ToggleProps>`
     width: 80px;

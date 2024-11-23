@@ -1,17 +1,64 @@
 import styled from "styled-components";
 import Heart1 from "../../../assets/Heart1.svg";
 import Heart2 from "../../../assets/Heart2.svg";
-import {useState} from "react";
+import {authAtom} from "../../../recoil/authAtom";
+import {useRecoilValue} from "recoil";
+import {decodeJWT} from "../../../until/authService";
 
-export default function Like({Likes}){
-    const [isLiked, setIsLiked] = useState(false);
-    function onClickHandler(){
-        setIsLiked((current) => (!current));
+export default function Like({likes, id, getPost, isLiked}){
+
+    const auth = useRecoilValue(authAtom);
+    async function onClickHandler(){
+        const authorId = decodeJWT(auth.access_Token);
+        if(isLiked){
+            try{
+                const res = await fetch('/api/community/doc/unlike', {
+                    method:'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                        'Authorization': auth.access_Token
+                    },
+                    credentials:'include',
+                    body:JSON.stringify({
+                        authorId:authorId.userId,
+                        documentId:id
+                    })
+                });
+
+                if(res.ok){
+                    getPost();
+                }
+            }catch (error){
+                console.log(error, "error on like");
+            }
+        }
+        else{
+            try{
+                const res = await fetch('/api/community/doc/like', {
+                    method:'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                        'Authorization': auth.access_Token
+                    },
+                    credentials:'include',
+                    body:JSON.stringify({
+                        authorId:authorId.userId,
+                        documentId:id
+                    })
+                });
+
+                if(res.ok){
+                    getPost();
+                }
+            }catch (error){
+                console.log(error, "error on like");
+            }
+        }
     }
     return(
         <Container onClick={onClickHandler}>
             <img src={isLiked? Heart2:Heart1} alt="heart" width="25px"/>
-            <CountText>{Likes||0}</CountText>
+            <CountText>{likes||0}</CountText>
         </Container>
     );
 }

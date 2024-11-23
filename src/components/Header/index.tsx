@@ -8,7 +8,7 @@ import CircleBtn from '../Button/Circle';
 import {Link, useNavigate} from 'react-router-dom';
 import { useRecoilState, useRecoilValue} from "recoil";
 import {authAtom, isLoginSelector} from "../../recoil/authAtom";
-import {useLogout, useCheck, decodeJWT} from '../../until/authService'
+import {useLogout, decodeJWT} from '../../until/authService'
 
 function Header(){
     const navigate = useNavigate();
@@ -17,17 +17,9 @@ function Header(){
     const [auth, setAuth] = useRecoilState(authAtom);
     const isLogin = useRecoilValue(isLoginSelector);
     const logout = useLogout();
-    const Check = useCheck();
     const goLogout = async ()=>{
         try{
-            if(await logout()){
-                navigate('/');
-            }
-            else{
-                if(await Check()){
-                    await logout();
-                }
-            }
+            await logout();
         }
         catch(error){
             console.log("on error logout", error);

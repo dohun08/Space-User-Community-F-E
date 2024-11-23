@@ -1,9 +1,10 @@
 export interface Doc{
     id:number
     userId:number,
+    authorName?:string,
     title:string,
     content:string,
-    icon:string,
+    icon:number,
     category:string,
     likes:number,
     createdAt:string
@@ -12,7 +13,8 @@ export interface CreateDoc{
     title:string,
     content:string,
     category:string
-    username:string
+    authorId:number,
+    icon:number
 }
 export interface User{
     id:string,

@@ -28,7 +28,6 @@ export default function UserContent({id, onClick, update, isOwner, isAdmin}){
 
         }catch(error){
             console.log("error on : ",error);
-            navigate("/error");
         }
     };
 

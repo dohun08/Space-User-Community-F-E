@@ -13,7 +13,10 @@ export const main = styled.main`
     border: 2px solid #DFDFDF;
     border-radius: 30px;
     display: flex;
+    height: 80%;
+    overflow: scroll;
     flex-flow: column nowrap;
+    position: relative;
 `
 export const ReportText = styled.h2`
     color: #301C86;
@@ -37,3 +40,10 @@ export const backArrow =  styled.section`
 `
 export const title = styled.h1``
 export const content = styled.p``
+export const complete = styled.div`
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 10px 20px;
+    border-radius: 20px 0 0 0;
+`

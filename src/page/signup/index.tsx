@@ -5,6 +5,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import {useRecoilValue} from "recoil";
 import {authAtom} from "../../recoil/authAtom";
 import BackArrow from "../../assets/back_Arrow.svg";
+import OImg from '../../assets/O.svg'
+import XImg from '../../assets/X.svg'
 
 function Signup(){
     const [id, setId] = useState('');
@@ -13,11 +15,13 @@ function Signup(){
     const [age, setAge] = useState('');
     const [email, setEmail] = useState('');
     const idRef = useRef<HTMLInputElement | null>(null);
-    const pwRef = useRef<HTMLInputElement | null>(null);
-    const ageRef = useRef<HTMLInputElement | null>(null);
-    const emailRef = useRef<HTMLInputElement | null>(null);
     const auth = useRecoilValue(authAtom);
-
+    const [confirm, setConfirm] = useState<boolean>(false);
+    const [isConfirm, setIsConfirm] = useState({
+        status:false,
+        message:false
+    });
+    const [valueNumber, setValueNumber] = useState('');
     useEffect(()=>{
         if(auth.access_Token !== '') navigate('/');
         idRef.current?.focus();
@@ -25,28 +29,21 @@ function Signup(){
 
     const navigate = useNavigate();
     const goSignup = async ()=>{
-        if(id === ""){
-            alert("아이디가 비어있습니다.");
-            idRef.current?.focus();
-        }
-        else if(pw===""){
-            alert("비밀번호가 비어있습니다.");
-            pwRef.current?.focus();
-        }
-        else if(age === ""){
-            alert("나이가 비어있습니다.");
-            ageRef.current?.focus();
-        }
-        else if(email === ""){
-            alert("나이가 비어있습니다.");
-            emailRef.current?.focus();
+        if(id === "" || pw === "" || repw === "" || age === "" || email === ""){
+            alert("데이터가 부족합니다.");
         }
         else if(pw !== repw){
             alert("비밀번호가 일치하지 않습니다.");
         }
+        else if(parseInt(age, 10) >= 80 || parseInt(age, 10) <= 3){
+            alert("나이가 정상적으로 입력되지 않습니다.");
+        }
+        else if(!isConfirm.message){
+            alert("이메일 인증이 제대로 되지않았습니다.");
+        }
         else{
             try{
-                const response = await fetch('http://10.150.151.149:8080/user/register', {
+                const response = await fetch('/api/user/register', {
                     method:'POST',
                     headers:{
                         'Content-Type':'application/json',
@@ -55,7 +52,8 @@ function Signup(){
                         email: email,
                         username: id,
                         password: pw,
-                        age: age
+                        age: age,
+                        status:isConfirm.message
                     }),
                 });
                 if(response.status === 201){
@@ -65,6 +63,58 @@ function Signup(){
             }catch(error){
                 console.log("error on ", error);
             }
+        }
+    }
+    const postEmail = async ()=>{
+        try{
+            const res = await fetch('/api/user/sendEmail', {
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json',
+                },
+                credentials:'include',
+                body:JSON.stringify({
+                    email: email
+                }),
+            });
+            if(res.ok){
+                setConfirm(true);
+            }
+            else{
+                alert("이메일이 보내지지 않았습니다.")
+            }
+        }catch(error){
+            console.log("error on postEmail", error);
+        }
+    }
+    const confirmNumber = async ()=>{
+        // 올바른 인증번호인지 확인
+        try{
+            const response = await fetch('/api/user/verifyEmail', {
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json',
+                },
+                body:JSON.stringify({
+                    email: email,
+                    token: valueNumber
+                })
+            });
+
+            if(response.ok){
+                setIsConfirm({
+                    status:true,
+                    message:true
+                });
+
+            }else{
+                setIsConfirm({
+                    status:true,
+                    message:false
+                });
+            }
+        }catch(error){
+            console.log("error on confirmNumber", error);
         }
     }
     return(
@@ -86,7 +136,6 @@ function Signup(){
                 <S.dataIn>
                     <S.Label>비밀번호</S.Label>
                     <S.Input
-                        ref={pwRef}
                         type='password'
                         placeholder='비밀번호를 입력해주세요'
                         value={pw}
@@ -105,7 +154,6 @@ function Signup(){
                 <S.dataIn>
                     <S.Label>나이</S.Label>
                     <S.Input
-                        ref={ageRef}
                         type='number'
                         placeholder='나이를 입력해주세요'
                         value={age}
@@ -113,29 +161,59 @@ function Signup(){
                     />
                 </S.dataIn>
 
-                <S.dataIn>
-                    <S.Label>이메일</S.Label>
-                    <S.Input
-                        ref={emailRef}
-                        type='email'
-                        placeholder='이메일을 입력해주세요'
-                        value={email}
-                        onChange={(e)=>setEmail(e.target.value)}
-                    />
-                </S.dataIn>
+                <S.email>
+                    <div>
+                        <S.Label>이메일</S.Label>
+                        <S.Input
+                            type='email'
+                            placeholder='이메일을 입력해주세요'
+                            value={email}
+                            onChange={(e)=>setEmail(e.target.value)}
+                        />
+                    </div>
+                    {confirm ?
+                        null :
+                        <S.confirmBtn type={"button"} onClick={()=> {
+                            email ? postEmail() : alert("이메일이 없습니다.");}
+                        } value={"인증번호 보내기"}></S.confirmBtn>
+                    }
+                </S.email>
+
+                {confirm ? <S.dataIn>
+                    <S.Label>인증번호</S.Label>
+                    <S.valueNumberBox>
+                        <S.valueNumber
+                            type='text'
+                            placeholder='이메일로 보내진 인증번호를 입력해주세요'
+                            value={valueNumber}
+                            onChange={(e)=>setValueNumber(e.target.value)}
+                        />
+                        {isConfirm.status ?
+                            <S.statusImgBox>
+                                <img src={isConfirm.message ? OImg : XImg} alt={"status"}></img>
+                                {isConfirm.message ?
+                                    <S.O>완료</S.O>
+                                    : <S.X>실패</S.X>}
+                            </S.statusImgBox> :
+                            null}
+                    </S.valueNumberBox>
+                </S.dataIn> : <S.unBox></S.unBox>}
+
+                {confirm ?
+                    <S.confirmBtn type={"button"} onClick={confirmNumber} value={"인증번호 확인"}></S.confirmBtn>
+                : null}
+
                 <S.nativeLogin>
                     <p>이미 회원이신가요?</p>
                     <Link to={'/login'}>로그인</Link>
                 </S.nativeLogin>
-                
-             
-             
-              <S.Signup
-                onClick={goSignup}
-                >
-                    회원가입
-                </S.Signup>
+
             </S.form>
+            <S.Signup
+                onClick={goSignup}
+            >
+                회원가입
+            </S.Signup>
         </S.container>
     )
 }

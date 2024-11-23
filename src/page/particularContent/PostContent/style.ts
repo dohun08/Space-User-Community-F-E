@@ -42,6 +42,7 @@ export const titleWrap = styled.div`
     gap: 10px;
     display: flex;
     align-content: center;
+    align-items: center;
     padding: 10px;
 `
 
@@ -86,4 +87,31 @@ export const CommentTitle = styled.div`
 export const BtnContainer = styled.div`
     display: flex;
     justify-content: end;
+`
+
+export const H1 = styled.span`
+        font-size: 30px;
+        font-weight: 700;
+`
+export const H2 = styled.span`
+        font-weight: 650;
+        font-size: 25px;
+`
+export const H3 = styled.span`
+        font-size: 20px;
+        font-weight: 650;
+`
+export const div = styled.div`
+        width: 500px;
+        display: flex;
+        flex-flow: column wrap;
+        & > *{
+                margin: 5px;
+        }
+`
+export const underLine = styled.span`
+        text-decoration-line: underline;
+`
+export const cancelLine = styled.span`
+        text-decoration-line: line-through;
 `

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Comment from "./comment";
 import {useEffect, useState} from "react";
 
-export default function CommentList({data}){
+export default function CommentList({data, getComment}){
     const [comments, setComments] = useState([]);
 
     useEffect(()=>{
@@ -15,9 +15,11 @@ export default function CommentList({data}){
                 <>
                     <Comment
                         key={index}
-                        writer={comment.userid}
-                        date={comment.date}
+                        writer={comment.authorName}
+                        date={comment.date.slice(0, 10)}
                         content={comment.content}
+                        id={comment.id}
+                        getComment={getComment}
                     />
                     <Hr/>
                 </>

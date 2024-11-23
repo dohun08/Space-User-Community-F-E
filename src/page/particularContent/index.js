@@ -5,40 +5,80 @@ import FamousPost from "./FamousPost";
 import Like from "./Like";
 import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
+import {getDoc} from "../../api/getDoc";
+import {useRecoilValue} from "recoil";
+import {authAtom} from "../../recoil/authAtom";
 
 export default function ParticularContent() {
     const navigate = useNavigate();
     const {id} = useParams();
-    const [PostData, setPostData] = useState({})
+    const getAuth = useRecoilValue(authAtom);
+    const [PostData, setPostData] = useState({
+        authorName: "admins",
+        category: "문제",
+        content: "",
+        date: "2024-11-20T15:30:09.759530",
+        documentId: 1,
+        icon: 14,
+        likeStatus: false,
+        likes: 0,
+        title: ""
+    });
+    const [famousDocuments, setFamousDocuments] = useState(['']);
+    const [isLoading, setIsLoading] = useState(true);
 
     const getPost = async ()=>{
+        setIsLoading(true);
         try{
-            const response = await fetch(`/community/doc/${id}`, {
+            const response = await fetch(`/api/community/doc/${id}`, {
                 method:'GET',
+                credentials:'include',
+                headers:{
+                    'Content-Type':'application/json',
+                    'Authorization': getAuth.access_Token
+                }
             })
 
             const data = await response.json();
-            if(data.status===200){
-                console.log("글 조회 성공");
-                setPostData(data["data"]);
+            if(response.ok){
+                setPostData(data);
+                console.log(data);
+            }
+            else{
+                console.log(response.ok);
             }
         }catch(error){
             console.log("error on : ",error);
-            navigate("/error");
+        }finally {
+            setIsLoading(false);
         }
     };
 
+    const famousPost = async () => {
+        setIsLoading(true);
+        try{
+            const documents = await getDoc("likes");
+            setFamousDocuments(documents);
+        }catch(error){
+            console.log("error on : ",error);
+            navigate("/error");
+        }finally {
+            setIsLoading(false);
+        }
+    }
+
     useEffect(()=>{
         getPost();
+        famousPost();
+        console.log(PostData);
     }, []);
-
     return (
         <Container>
             <Header/>
             <Content>
-                <Like likes={PostData["likes"]}/>
-                <PostContent data={PostData}/>
-                <FamousPost/>
+                <Like isLiked={PostData.likeStatus} likes={PostData.likes} id={PostData.documentId} getPost = {getPost}/>
+                <PostContent data={PostData} isLoading = {isLoading}/>
+                <FamousPost famous = {famousDocuments}/>
             </Content>
         </Container>
     );

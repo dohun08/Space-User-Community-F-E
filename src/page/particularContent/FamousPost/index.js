@@ -1,16 +1,16 @@
 import styled from 'styled-components';
+import {Link} from "react-router-dom";
 
-export default function FamousPost(){
+export default function FamousPost({famous}){
     return(
         <Container>
             <Title>인기 문서</Title>
             <Content>
-                <ShortPost title={"edafasdf"}/>
-                <ShortPost title={"edafasdf"}/>
-                <ShortPost title={"edafasdf"}/>
-                <ShortPost title={"edafasdf"}/>
-                <ShortPost title={"edafasdf"}/>
-                <ShortPost title={"edafasdf"}/>
+                {famous && famous.slice(0, 6).map((item, index)=>{
+                    return(
+                        <ShortPost title={item.title} index={index+1}/>
+                    )
+                })}
             </Content>
         </Container>
     );
@@ -29,7 +29,7 @@ const Container = styled.div`
 `
 
 const Content = styled.div`
-    width: 10vw;
+    max-width: 15vw;
     overflow-x: scroll;
     display: flex;
     gap: 20px;
@@ -42,18 +42,24 @@ const Title = styled.div`
     font-size: 18px;
 `
 
-function ShortPost({title}){
+function ShortPost({title, index}){
     return(
         <div>
+            <span>{index}등</span>
             <ShortTitle>{title}</ShortTitle>
             <Hr/>
         </div>
     );
 }
 
-const ShortTitle = styled.div`
-    margin: 8px;
+const ShortTitle = styled(Link)`
+    margin: 0 10px;
     color: #51008B;
+    text-decoration-line: none;
+    cursor: pointer;
+    &:hover{
+        text-decoration-line: underline;
+    }
 `
 
 const Hr = styled.hr`

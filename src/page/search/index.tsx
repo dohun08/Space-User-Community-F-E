@@ -20,8 +20,9 @@ function Search(){
                 method:'GET'
             });
             const data = await response.json();
+            console.log(data);
             if (response.ok) {
-                setContent((data.data));
+                setContent((data));
             }
         }catch (error){
             console.log("Search on : ", error);
@@ -45,10 +46,9 @@ function Search(){
                          :
                             Array.from({ length: 9 }).map((_, index) => {
                                 const item = content[(page - 1) * 9 + index];
+                                console.log(item);
                                 return item ? (
-                                    <div key={index}>
                                         <LongLongDocument data={item} />
-                                    </div>
                                 ) : (
                                     <S.unBox key={index} />
                                 );
@@ -56,7 +56,9 @@ function Search(){
 
                 )}
                 {content.length === 0 ?
-                    <PageScroll page={page} setPage={setPage} contentLength={1} />
+                    !isLoading && (
+                    <PageScroll page={page} setPage={setPage} contentLength={content.length / 9} />
+                )
                     :                 <PageScroll page={page} setPage={setPage} contentLength={content.length/9} />
             }
             </S.ContentsBox>
