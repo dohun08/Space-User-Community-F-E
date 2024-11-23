@@ -1,20 +1,57 @@
 import styled from "styled-components";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Document from "../../../components/Documents/Long";
 import PageScroll from "../../../components/pageScroll";
+import {useNavigate} from "react-router-dom";
 
 
-export default function UserPostContent(){
+export default function UserPostContent({id}){
+    const navigate = useNavigate();
     const [page, setPage] = useState(1);
-    const [Posts, setPosts] = useState([{title: "dsfadfasd", date: "asdfkjasdfkasd", category: "fjasldjfalksdj"}, {title: "dsfadfasd", date: "asdfkjasdfkasd", category: "fjasldjfalksdj"}, {title: "dsfadfasd", date: "asdfkjasdfkasd", category: "fjasldjfalksdj"}, {title: "dsfadfasd", date: "asdfkjasdfkasd", category: "fjasldjfalksdj"}, {title: "dsfadfasd", date: "asdfkjasdfkasd", category: "fjasldjfalksdj"}, {title: "dsfadfasd", date: "asdfkjasdfkasd", category: "fjasldjfalksdj"}, {title: "dsfadfasd", date: "asdfkjasdfkasd", category: "fjasldjfalksdj"}, {title: "dsfadfasd", date: "asdfkjasdfkasd", category: "fjasldjfalksdj"}, {title: "dsfadfasd", date: "asdfkjasdfkasd", category: "fjasldjfalksdj"}]);
+    const [Posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const getPostData = async ()=>{
+        try {
+            const response = await fetch(`/api/community/doclist/${id}`, {
+                method:'GET',
+            })
+
+            if(response.ok){
+                const data = await response.json();
+                console.log("유저 게시물 조회 성공")
+                setPosts(data);
+            }
+        } catch (err) {
+            console.log(err);
+            navigate('/error');
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        getPostData();
+    }, []);
 
     return (
-        <Container>
-            <PostWrapper>
-                {Posts.map((Post) => <Document data={Post} key={Post.id}/>)}
-            </PostWrapper>
-            <PageScroll page={page} setPage={setPage} contentLength={Posts.length} />
-        </Container>
+        <>
+            {loading? <></>:(
+                <Container>
+                    <PostWrapper>
+                        {Posts.length < 1 ? <></> :
+                            Array.from({ length: 9 }).map((_, index) => {
+                                const item = Posts[(page - 1) * 9 + index];
+                                return item ? (
+                                    <Document data={item} key={item.id}/>
+                                ) : null;
+                            })
+                        }
+                    </PostWrapper>
+                    <PageScroll page={page} setPage={setPage} contentLength={Posts.length/9} />
+                </Container>
+            )}
+        </>
     );
 }
 
