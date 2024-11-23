@@ -5,15 +5,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import {useRecoilValue} from "recoil";
 import {authAtom} from "../../recoil/authAtom";
 import BackArrow from "../../assets/back_Arrow.svg";
+import {btnText, navi} from "./style";
 
 function Signup(){
     const [id, setId] = useState('');
     const [pw, setPw] = useState('');
     const [repw, setRePw] = useState('');
-    const [age, setAge] = useState('');
+    const [age, setAge] = useState('0');
     const [email, setEmail] = useState('');
     const idRef = useRef<HTMLInputElement | null>(null);
     const auth = useRecoilValue(authAtom);
+    const [isOn, setIsOn] = useState<boolean>(false);
     const [confirm, setConfirm] = useState<boolean>(false);
     const [valueNumber, setValueNumber] = useState('');
     useEffect(()=>{
@@ -78,12 +80,19 @@ function Signup(){
             console.log("error on postEmail", error);
         }
     }
-
+    const check = () => {
+        if(pw.length >= 4){
+            setIsOn(false);
+        }
+        else{
+            setIsOn(true);
+        }
+    }
     return(
         <S.container>
             <S.backArrow src={BackArrow} alt="Back Arrow" onClick={()=>navigate(-1)}/>
-            <img src={Logo} alt='LogoImg' />
-            <h2>반가워요!</h2>
+            <S.Logo src={Logo} alt='LogoImg' />
+            <h3>회원가입</h3>
             <S.form>
                 <S.dataIn>
                     <S.Label>아이디</S.Label>
@@ -95,36 +104,7 @@ function Signup(){
                         onChange={(e)=>setId(e.target.value)}
                     />
                 </S.dataIn>
-                <S.dataIn>
-                    <S.Label>비밀번호</S.Label>
-                    <S.Input
-                        type='password'
-                        placeholder='비밀번호를 입력해주세요'
-                        value={pw}
-                        onChange={(e)=>setPw(e.target.value)}
-                    />
-                </S.dataIn>
-                <S.dataIn>
-                    <S.Label>비밀번호확인</S.Label>
-                    <S.Input
-                        type='password'
-                        placeholder='비밀번호를 입력해주세요'
-                        value={repw}
-                        onChange={(e)=>setRePw(e.target.value)}
-                    />
-                </S.dataIn>
-                <S.dataIn>
-                    <S.Label>나이</S.Label>
-                    <S.Input
-                        type='number'
-                        placeholder='나이를 입력해주세요'
-                        value={age}
-                        onChange={(e)=>setAge(e.target.value)}
-                    />
-                </S.dataIn>
-
                 <S.email>
-                    <div>
                         <S.Label>이메일</S.Label>
                         <S.Input
                             type='email'
@@ -132,33 +112,61 @@ function Signup(){
                             value={email}
                             onChange={(e)=>setEmail(e.target.value)}
                         />
-                    </div>
-                    {confirm ?
-                        null :
-                        <S.confirmBtn type={"button"} onClick={()=> {
-                            email ? postEmail() : alert("이메일이 없습니다.");}
-                        } value={"인증번호 보내기"}></S.confirmBtn>
-                    }
+                        <S.btn onClick={postEmail}>이메일발송</S.btn>
                 </S.email>
 
-                {confirm ? <S.dataIn>
+                 <S.dataIn>
                     <S.Label>인증번호</S.Label>
-                    <S.valueNumberBox>
-                        <S.valueNumber
+                        <S.Input
                             type='text'
                             placeholder='이메일로 보내진 인증번호를 입력해주세요'
                             value={valueNumber}
                             onChange={(e)=>setValueNumber(e.target.value)}
                         />
-                    </S.valueNumberBox>
-                </S.dataIn> : <S.unBox></S.unBox>}
-
-                <S.nativeLogin>
+                </S.dataIn>
+                <S.pwBox>
+                    <S.pw>
+                        <S.Label>비밀번호</S.Label>
+                        <S.Input
+                            type='password'
+                            placeholder='비밀번호를 입력해주세요'
+                            value={pw}
+                            onClick={()=>check()}
+                            onChange={(e)=>{
+                                setPw(e.target.value);
+                                check();
+                            }}
+                        />
+                        <S.chpw $isOn={isOn}>비밀번호 4자리 이상이 되지않았습니다.</S.chpw>
+                    </S.pw>
+                    <S.pw>
+                        <S.Label>비밀번호확인</S.Label>
+                        <S.Input
+                            type='password'
+                            placeholder='비밀번호를 입력해주세요'
+                            value={repw}
+                            onChange={(e)=>setRePw(e.target.value)}
+                        />
+                    </S.pw>
+                </S.pwBox>
+                <S.dataIn>
+                    <S.Label>나이</S.Label>
+                    <S.Input
+                        type='range'
+                        placeholder='나이를 입력해주세요'
+                        value={age}
+                        onChange={(e)=>setAge(e.target.value)}
+                    />
+                    <p>{age}</p>
+                </S.dataIn>
+                <S.navi>
                     <p>이미 회원이신가요?</p>
-                    <Link to={'/login'}>로그인</Link>
-                </S.nativeLogin>
+                    <S.btnText to={'/login'}>로그인</S.btnText>
+                </S.navi>
+
 
             </S.form>
+
             <S.Signup
                 onClick={goSignup}
             >

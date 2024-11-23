@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {Link} from "react-router-dom";
 
 export const container = styled.div`
      width: 90vw;
@@ -9,49 +10,62 @@ export const container = styled.div`
     align-items: center;
     
 `
-
-export const form = styled.form`
-    width: 80%;
+export const Logo = styled.img`
+    width: 300px;
+`
+export const pwBox = styled.div`
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+`
+export const pw = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    width: 48%;
+    border-bottom: 1px solid #a3a3a3;
+    position: relative;
+`
+export const form = styled.form`
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
     align-items: center;
-    height: 480px;
     margin-top: 20px;
+    & > div:nth-child(5){
+        border: none;
+        margin-bottom: 0;
+    }
+    & > *{
+        margin-bottom: 30px;
+    }
 `
 export const dataIn = styled.div`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
-    width: 460px;
+    width: 100%;
+    border-bottom: 1px solid #a3a3a3;
 `
 export const email = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    width: 460px;
-    & > div{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        width: 100%;
-    }
+    width: 500px;
+    border-bottom: 1px solid #a3a3a3;
+    position: relative;
 `
 export const Label = styled.label`
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 600;
 `
 export const Input = styled.input`
-    width: 360px;
+    width: 100%;
     outline: none;
     font-size: 16px;
-    font-weight: 600;
     border: none;
-    border-bottom: 1px solid black;
-`
-export const nativeLogin = styled.span`
-    display: flex;
-    align-items: center;
+    padding: 5px;
 `
 
 export const Signup = styled.div`
@@ -78,38 +92,47 @@ export const backArrow = styled.img`
     width: 40px;
     height: 40px;
 `
-export const unBox = styled.div`
-    height: 60px;
+interface Check{
+    $isOn: boolean
+}
+export const chpw = styled.p<Check>`
+    position: absolute;
+    font-size: 14px;
+    display: ${(props) => props.$isOn ? "block" : "none"};
+    right: 0;
+    color: red;
+    bottom: -40px;
 `
-export const confirmBtn = styled.input`
-    border-radius: 10px;
-    cursor: pointer;
-    width: max-content;
-    padding: 5px 10px;
-    margin-top: 10px;
+export const navi = styled.div`
+    color:gray;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    & > p{
+        margin-right: 10px;
+    }
+`
+export const btnText = styled(Link)`
     color: black;
-    transition: 0.2s;
-    background-color: #ffffff;
-
-    &:hover {
-        background-color: black;
+    font-size: 15px;
+    text-decoration-line: none;
+    &:hover{
+        text-decoration-line: underline;
+    }
+`
+export const btn = styled.div`
+    cursor: pointer;
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: 1px solid black;
+    position: absolute;
+    right: 0;
+    top:15px;
+    transition: 0.5s;
+    &:hover{
+        background: black;
         color: white;
     }
-
-    &:active {
-        background-color: #5e5e5e;
-    }
-`
-export const valueNumber = styled.input`
-    width: 360px;
-    outline: none;
-    font-size: 16px;
-    font-weight: 600;
-    border: none;
-`
-export const valueNumberBox = styled.div`
-    width: 360px;
-    position: relative;
-    padding: 2px 0;
-    border-bottom: 1px solid black;
 `

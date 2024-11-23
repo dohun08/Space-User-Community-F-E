@@ -6,6 +6,8 @@ import {Link, useNavigate} from 'react-router-dom';
 import {authAtom} from "../../recoil/authAtom";
 import { useRecoilState } from 'recoil';
 import BackArrow from '../../assets/back_Arrow.svg'
+import {btnText} from "./style";
+import {navi} from "../signup/style";
 
 function Login(){
     const [email, setEmail] = useState<string>('');
@@ -85,11 +87,12 @@ function Login(){
                         type='password'
                         placeholder='비밀번호를 입력해주세요'
                         value={pw}
-                        onChange={(e) => setPw(e.target.value)}
+                        onChange={(e) => {setPw(e.target.value);}}
                         onKeyDown={(e) => {
                             enter(e)
                         }}
                     />
+
                 </S.dataIn>
 
                 <S.LoginBtn
@@ -98,7 +101,10 @@ function Login(){
                     value={"로그인"}
                 />
             </S.form>
-            <p>아직 회원이 아니세요? <Link to={'/signup'}>회원가입</Link></p>
+            <S.navi>
+                <p>아직 회원이 아니세요?</p>
+                <S.btnText to={'/signup'}>회원가입</S.btnText>
+            </S.navi>
         </S.container>
     )
 }
