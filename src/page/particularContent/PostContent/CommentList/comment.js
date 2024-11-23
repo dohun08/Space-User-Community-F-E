@@ -89,7 +89,6 @@ const Wrapper = styled.li`
     flex-direction: column;
     gap: 14px;
     padding: 0 6px;
-    border-bottom: 2px solid #B1B1B1;
 `
 
 const TitleWrapper = styled.div`
