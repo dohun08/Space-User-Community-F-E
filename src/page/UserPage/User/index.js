@@ -1,15 +1,14 @@
 import styled from 'styled-components';
 import Pen from '../../../assets/penIcon.svg'
 
-function User({username, IsModify, onChange, onClick, modifiable}) {
-
+function User({username, IsModify, onChange, onClick, modifiable, profile, updateProfile}) {
     return (
         <MainUserInfo>
             <UserImageContainer>
-                <UserImage src={""}/>
+                <UserImage src={profile || null} />
                 {modifiable? (
                     <>
-                        <FileBtn type={"file"} id={"file"}/>
+                        <FileBtn type={"file"} id={"file"} onChange={updateProfile} accept="image/*"/>
                         <CustomFileBtn htmlFor={"file"}>
                             <img src={Pen} alt=""/>
                         </CustomFileBtn>
@@ -91,6 +90,9 @@ const InputBox = styled.input`
     outline: none;
     text-align: center;
     width: 100%;
+    &::placeholder {
+        font-size: 14px;
+    }
 `
 
 
