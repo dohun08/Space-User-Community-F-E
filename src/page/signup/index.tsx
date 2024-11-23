@@ -5,8 +5,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import {useRecoilValue} from "recoil";
 import {authAtom} from "../../recoil/authAtom";
 import BackArrow from "../../assets/back_Arrow.svg";
-import OImg from '../../assets/O.svg'
-import XImg from '../../assets/X.svg'
 
 function Signup(){
     const [id, setId] = useState('');
@@ -17,10 +15,6 @@ function Signup(){
     const idRef = useRef<HTMLInputElement | null>(null);
     const auth = useRecoilValue(authAtom);
     const [confirm, setConfirm] = useState<boolean>(false);
-    const [isConfirm, setIsConfirm] = useState({
-        status:false,
-        message:false
-    });
     const [valueNumber, setValueNumber] = useState('');
     useEffect(()=>{
         if(auth.access_Token !== '') navigate('/');
@@ -38,9 +32,6 @@ function Signup(){
         else if(parseInt(age, 10) >= 80 || parseInt(age, 10) <= 3){
             alert("나이가 정상적으로 입력되지 않습니다.");
         }
-        else if(!isConfirm.message){
-            alert("이메일 인증이 제대로 되지않았습니다.");
-        }
         else{
             try{
                 const response = await fetch('/api/user/register', {
@@ -53,7 +44,7 @@ function Signup(){
                         username: id,
                         password: pw,
                         age: age,
-                        status:isConfirm.message
+                        token: valueNumber
                     }),
                 });
                 if(response.status === 201){
@@ -87,36 +78,7 @@ function Signup(){
             console.log("error on postEmail", error);
         }
     }
-    const confirmNumber = async ()=>{
-        // 올바른 인증번호인지 확인
-        try{
-            const response = await fetch('/api/user/verifyEmail', {
-                method:'POST',
-                headers:{
-                    'Content-Type':'application/json',
-                },
-                body:JSON.stringify({
-                    email: email,
-                    token: valueNumber
-                })
-            });
 
-            if(response.ok){
-                setIsConfirm({
-                    status:true,
-                    message:true
-                });
-
-            }else{
-                setIsConfirm({
-                    status:true,
-                    message:false
-                });
-            }
-        }catch(error){
-            console.log("error on confirmNumber", error);
-        }
-    }
     return(
         <S.container>
             <S.backArrow src={BackArrow} alt="Back Arrow" onClick={()=>navigate(-1)}/>
@@ -188,20 +150,8 @@ function Signup(){
                             value={valueNumber}
                             onChange={(e)=>setValueNumber(e.target.value)}
                         />
-                        {isConfirm.status ?
-                            <S.statusImgBox>
-                                <img src={isConfirm.message ? OImg : XImg} alt={"status"}></img>
-                                {isConfirm.message ?
-                                    <S.O>완료</S.O>
-                                    : <S.X>실패</S.X>}
-                            </S.statusImgBox> :
-                            null}
                     </S.valueNumberBox>
                 </S.dataIn> : <S.unBox></S.unBox>}
-
-                {confirm ?
-                    <S.confirmBtn type={"button"} onClick={confirmNumber} value={"인증번호 확인"}></S.confirmBtn>
-                : null}
 
                 <S.nativeLogin>
                     <p>이미 회원이신가요?</p>
