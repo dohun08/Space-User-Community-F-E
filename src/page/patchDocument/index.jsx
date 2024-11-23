@@ -53,7 +53,6 @@ function Write() {
         if(title === "" || content === "") return alert("값이 비어져있습니다.");
         let icon = images.findIndex((item) => item === imgSrc);
 
-        console.log(documentId);
         if(category !== "공지"){
             try {
                 const response = await fetch('/api/community/doc', {
@@ -81,7 +80,7 @@ function Write() {
         else{
             try {
                 const response = await fetch('/api/broadcast', {
-                    method: 'POST',
+                    method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `${auth.access_Token}`
@@ -115,7 +114,6 @@ function Write() {
                 })
             }
         }
-        console.log(patchDocumentId);
 
         setContent(patchContent);
         setTitle(patchTitle);
@@ -130,6 +128,7 @@ function Write() {
     }, []);
     return (
         <S.container>
+            {isImg ? <S.black onClick={() => setIsImg(false)}></S.black>: null}
             <S.header>
                 <img src={Logo} alt={"로고이미지"}/>
                 <S.info>

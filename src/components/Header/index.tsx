@@ -69,6 +69,7 @@ function Header(){
                     <p>{auth.username}</p>
                     <img src={ButtonArrowImg} alt='buttonArrowIcon' />
                 </S.user>
+
                 <S.setting $isOn = {isOn}>
                     <S.logout to={`/user/${auth.username}`}><span>마이페이지</span></S.logout>
                     <span onClick={()=>goLogout()}>로그아웃</span>
@@ -83,6 +84,9 @@ function Header(){
                 <S.login to={'/login'}><p>로그인</p></S.login>
                 <S.login to={'/signup'}><p>회원가입</p></S.login>
             </S.Info>}
+            {
+                isOn ? <S.black onClick={()=>setIsOn(false)}></S.black> : null
+            }
         </S.container>
     )
 }

@@ -115,6 +115,7 @@ function Write() {
     }, []);
         return (
             <S.container>
+                {isImg ? <S.black onClick={()=>setIsImg(false)}></S.black> : null}
                 <S.header>
                     <img src={Logo} alt={"로고이미지"}/>
                     <S.info>
