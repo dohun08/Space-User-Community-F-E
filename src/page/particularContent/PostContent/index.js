@@ -123,7 +123,7 @@ function PostContent({data, isLoading}) {
                                         }}>
                                             수정
                                         </S.ManageBtn>
-                                        ---
+
                                         <S.ManageBtn onClick={delPost}>제거</S.ManageBtn>
                                     </S.ManagePost> : null
                                 }
@@ -160,7 +160,7 @@ function PostContent({data, isLoading}) {
                                     }}>
                                         수정
                                     </S.ManageBtn>
-                                    ---
+
                                     <S.ManageBtn onClick={delPost}>제거</S.ManageBtn>
                                 </S.ManagePost>
                                 :  getAuth.isAdmin?

@@ -17,7 +17,7 @@ function MoreContents(){
             'icon':1,
             'category':'string',
             'likes':1,
-            'createdAt':'string'
+            'date':'string'
         }
     ]);
     const [page, setPage] = useState(1);
@@ -41,7 +41,7 @@ function MoreContents(){
             <Header />
             {!isLoading ?
                 <S.ContentsBox>
-                    {content.length === 1 ? null :
+                    {
                     Array.from({ length: 9 }).map((_, index) => {
                             const item = content[(page - 1) * 9 + index];
                             return item ? (

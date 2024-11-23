@@ -28,6 +28,9 @@ export const category = styled.div`
 export const ManagePost = styled.div`
     color: #9A9A9A;
     font-size: 14px;
+    width: 70px;
+    display: flex;
+    justify-content: space-between;
 `
 export const ManageBtn = styled.button`
     color: unset;

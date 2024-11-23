@@ -1,4 +1,5 @@
 export interface Doc{
+    date: string;
     id:number
     userId:number,
     authorName?:string,
@@ -6,8 +7,7 @@ export interface Doc{
     content:string,
     icon:number,
     category:string,
-    likes:number,
-    createdAt:string
+    likes:number
 }
 export interface CreateDoc{
     title:string,

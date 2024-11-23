@@ -32,10 +32,8 @@ export default function ParticularContent() {
         try{
             const response = await fetch(`/api/community/doc/${id}`, {
                 method:'GET',
-                credentials:'include',
                 headers:{
-                    'Content-Type':'application/json',
-                    'Authorization': getAuth.access_Token
+                    'Content-Type':'application/json'
                 }
             })
 
@@ -70,7 +68,6 @@ export default function ParticularContent() {
     useEffect(()=>{
         getPost();
         famousPost();
-        console.log(PostData);
     }, []);
     return (
         <Container>

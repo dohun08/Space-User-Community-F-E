@@ -41,15 +41,15 @@ function Main(){
             <S.main>
                 <S.section2>
                     <h3>인기 문서</h3>
-                    {popular && popular.slice(0, 10).map((doc, index)=>{
+                    {popular.length > 0 ? popular.slice(0, 10).map((doc, index)=>{
                         return (
                                 <Popular data = {doc} key={doc.id} rank= {index}/>
                         )
-                    })}
+                    }) : <p>인기 문서가 없습니다</p>}
 
                 </S.section2>
                 <S.section1>
-                    {broad &&
+                    {broad.length > 0 ?
                      Array.from ({ length: remainder }).map((_, index) => {
                          const doc = broad[index];
                          return doc ? (
@@ -57,9 +57,9 @@ function Main(){
                          ) : (
                              <S.unBox key={index}></S.unBox>
                          );
-                     })
+                     }) : <p>공지가 없습니다</p>
                     }
-                    {content &&
+                    {content.length > 0 ?
                         Array.from({ length: 9-remainder }).map((_, index) => {
                             const doc = content[index];
                             return doc ? (
@@ -67,9 +67,11 @@ function Main(){
                             ) : (
                                 <S.unBox key={index}></S.unBox>
                             );
-                        })}
-
+                        }) : <p>문서가 없습니다</p>
+                    }
+                    {content.length > 0 ?
                     <Link to={'/more'}>더보기</Link>
+                        : <div></div>}
                 </S.section1>
             </S.main>
         </S.container>

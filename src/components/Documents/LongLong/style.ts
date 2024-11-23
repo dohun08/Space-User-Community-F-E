@@ -38,12 +38,13 @@ export const Contenttype = styled.section`
 export const title = styled.span`
     display: flex;
     align-items: start;
+    flex-direction: column;
     padding: 0 20px;
     width: 180px;
 `
 export const date = styled.span`
-    font-size: 20px;
-    color: red;
+    font-size: 10px;
+    color: gray;
 `
 export const LinkBtn = styled(Link)`
     color: #301C86;
