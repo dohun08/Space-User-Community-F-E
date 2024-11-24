@@ -55,7 +55,7 @@ function Main(){
                          return doc ? (
                              <LongLongDocument data={doc} key={doc.id} />
                          ) : (
-                             <S.unBox key={index}></S.unBox>
+                             <S.unBox></S.unBox>
                          );
                      }) : <p>공지가 없습니다</p>
                     }
@@ -65,7 +65,7 @@ function Main(){
                             return doc ? (
                                 <LongLongDocument data={doc} key={doc.id} />
                             ) : (
-                                <S.unBox key={index}></S.unBox>
+                                <S.unBox></S.unBox>
                             );
                         }) : <p>문서가 없습니다</p>
                     }
