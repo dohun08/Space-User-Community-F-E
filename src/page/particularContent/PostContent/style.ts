@@ -67,7 +67,9 @@ export const postInfo = styled.div`
 
 export const contents = styled.div`
     text-wrap: wrap;
+    word-break: break-word;
     font-size: 16px;
+    width: 100%;
 `
 
 export const hr = styled.hr`
@@ -105,7 +107,7 @@ export const H3 = styled.span`
         font-weight: 650;
 `
 export const div = styled.div`
-        width: 500px;
+        width: 100%;
         display: flex;
         flex-flow: column wrap;
         & > *{

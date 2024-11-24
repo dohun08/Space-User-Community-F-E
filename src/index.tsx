@@ -40,7 +40,7 @@ root.render(
                     <Route path={'/write'} element={<Write />}></Route>
                     <Route path={'/post/:id'} element={<Post />}></Route>
                     <Route path={'/report'} element={<Report />}></Route>
-                    <Route path={'/user/:username'} element={<UserPage/>}></Route>
+                    <Route path={'/user/:id'} element={<UserPage/>}></Route>
                     <Route path={'/search/:title'} element={<Search />}></Route>
                     <Route path={'/patch/:id'} element={<PatchDocument />}></Route>
                     <Route element={<AdminRoute />}> {/* admin route*/}

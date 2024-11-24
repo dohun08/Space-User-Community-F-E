@@ -1,8 +1,8 @@
-import React from "react";
+import React, {useEffect} from "react";
 import * as S from './style.ts';
 import Speaker from '../../../assets/speaker_small.svg';
 import {postInfo} from "./style.ts";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 //data. 애들 다 중괄호 씌우기
 
 function LongDocument({data, isMain}){
@@ -27,8 +27,8 @@ function LongDocument({data, isMain}){
         <S.titleBox>
             <img src={`/images/man.svg`} alt="우주선1" />
             <S.title>
-                <span>{data.title}</span>
-                <S.date>{data.date}</S.date>
+                <S.LinkBtn to={`/post/${data.id}`}>{data.title}</S.LinkBtn>
+                <S.date>{data.date.slice(0, 10)}</S.date>
             </S.title>
         </S.titleBox>
         <S.infoBox>
