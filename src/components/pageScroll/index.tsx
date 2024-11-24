@@ -12,7 +12,6 @@ export default function PageScroll(props : {
         else setLeft(true);
         if(props.page === Math.ceil(props.contentLength)) setRight(false);
         else setRight(true);
-        console.log(Math.ceil(props.contentLength))
     }, [props.page]);
     return (
         <S.pageNum>
