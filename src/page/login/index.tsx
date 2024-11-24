@@ -49,7 +49,8 @@ function Login(){
                             isAdmin: false,
                             username: email
                         })
-                    navigate('/');
+                    
+                    navigate(-1);
                 }
                 else{
                     console.log("login 실패", response.status);

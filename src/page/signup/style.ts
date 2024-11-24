@@ -67,7 +67,44 @@ export const Input = styled.input`
     border: none;
     padding: 5px;
 `
+export const age = styled.input`
+    width: 100%;
+    outline: none;
+    font-size: 16px;
+    border: none;
+    padding: 5px;
+    color: red;
+    border-radius: 5px;
+    -webkit-appearance: none; /* 크롬, 사파리 */
+    -moz-appearance: none; /* 파이어폭스 */
+    appearance: none;
 
+    &::-webkit-slider-thumb {
+        -webkit-appearance: none; /* 크롬, 사파리 */
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #b8b8b8; /* thumb 색상 */
+        cursor: pointer;
+        margin-top: -5px;
+    }
+
+    &::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #b8b8b8;
+        cursor: pointer;
+        margin-top: -5px;
+    }
+
+    &::-webkit-slider-runnable-track {
+        height: 10px;
+        background: #e6e6e6; /* 트랙 색상 */
+        border-radius: 5px;
+    }
+`
 export const Signup = styled.div`
     cursor: pointer;
     width: max-content;

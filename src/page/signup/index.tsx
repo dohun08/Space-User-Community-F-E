@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import * as S from './style'
 import Logo from '../../assets/Logo.svg'
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {useRecoilValue} from "recoil";
 import {authAtom} from "../../recoil/authAtom";
 import BackArrow from "../../assets/back_Arrow.svg";
-import {btnText, navi} from "./style";
+import {age} from "./style";
 
 function Signup(){
     const [id, setId] = useState('');
@@ -16,7 +16,6 @@ function Signup(){
     const idRef = useRef<HTMLInputElement | null>(null);
     const auth = useRecoilValue(authAtom);
     const [isOn, setIsOn] = useState<boolean>(false);
-    const [confirm, setConfirm] = useState<boolean>(false);
     const [valueNumber, setValueNumber] = useState('');
     useEffect(()=>{
         if(auth.access_Token !== '') navigate('/');
@@ -70,12 +69,6 @@ function Signup(){
                     email: email
                 }),
             });
-            if(res.ok){
-                setConfirm(true);
-            }
-            else{
-                alert("이메일이 보내지지 않았습니다.")
-            }
         }catch(error){
             console.log("error on postEmail", error);
         }
@@ -151,7 +144,7 @@ function Signup(){
                 </S.pwBox>
                 <S.dataIn>
                     <S.Label>나이</S.Label>
-                    <S.Input
+                    <S.age
                         type='range'
                         placeholder='나이를 입력해주세요'
                         value={age}
