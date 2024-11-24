@@ -1,14 +1,15 @@
 export interface Doc{
-    date: string;
-    id:number
-    userId:number,
+    createdAt: string;
+    date?: string;
+    id?:number
+    userId?:number,
     authorName?:string,
     title:string,
-    content:string,
+    content?:string,
     icon:number,
     category:string,
-    likes:number,
-    contents:string
+    likes?:number,
+    contents?:string
 }
 export interface User{
     id:string,

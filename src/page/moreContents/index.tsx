@@ -18,7 +18,9 @@ function MoreContents(){
             'category':'string',
             'likes':1,
             'date':'string',
-            "contents":"string"
+            "contents":"string",
+            "authorName":"string",
+            "createdAt":"string"
         }
     ]);
     const [page, setPage] = useState(1);

@@ -9,7 +9,12 @@ function LongLong(props : {data:Doc}){
     const [Date, setDate] = React.useState("");
     const navigate = useNavigate();
     useEffect(() => {
-        setDate(props.data.date.slice(0, 10));
+        if(props.data.date) {
+            setDate(props.data.date?.slice(0, 10));
+        }
+        else if(props.data.createdAt){
+            setDate(props.data.createdAt?.slice(0, 10));
+        }
     }, []);
     return(
         props.data.category === "공지" ?
