@@ -120,7 +120,6 @@ export const textArea = styled.textarea`
     margin-top: 20px;
     height: 70%;
     font-size: 16px;
-        
 `
 
 export const H1 = styled.span`

@@ -105,6 +105,8 @@ export const H3 = styled.span`
         font-weight: 650;
 `
 export const div = styled.div`
+        flex: 1 1 100%; 
+        word-wrap: break-word;
         width: 500px;
         display: flex;
         flex-flow: column wrap;

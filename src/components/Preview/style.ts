@@ -4,11 +4,6 @@ export const H1 = styled.span`
         font-size: 30px;
         font-weight: 700;
 `
-export const div = styled.div`
-        width: 500px;
-        display: flex;
-        flex-flow: column wrap;
-`
 export const categoryOut = styled.p`
         background:  linear-gradient(to bottom, #99479C 0%, #99479C 2%, #301C86 50%, #090029 88%, #120049 100%);
         color: white;
@@ -16,11 +11,13 @@ export const categoryOut = styled.p`
         width: max-content;
         padding: 5px 20px;
 `
-
 export const outContent = styled.div`
         height:  70%;
-        overflow: auto;
+        width: 500px;
+        display: flex;
+        flex-flow: row wrap;
         font-size: 16px;
+        max-width: 500px;
 `
 export const outPut = styled.section`
     width: 44%;
