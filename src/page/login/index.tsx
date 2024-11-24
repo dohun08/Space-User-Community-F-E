@@ -2,20 +2,19 @@ import * as S from './style'
 import Logo from '../../assets/Logo.svg'
 import { useEffect, useRef, useState } from 'react';
 import React from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {authAtom} from "../../recoil/authAtom";
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import BackArrow from '../../assets/back_Arrow.svg'
-import {btnText} from "./style";
-import {navi} from "../signup/style";
+import {backSightAtom} from "../../recoil/backSight";
 
 function Login(){
     const [email, setEmail] = useState<string>('');
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [pw, setPw] = useState<string>('');
-
+    const backSight = useRecoilValue(backSightAtom);
     useEffect(()=>{
-        if(auth.access_Token !== ''){
+        if(auth.access_Token !== '' || auth.access_Token !== undefined){
             navigate('/');
         }
         inputRef.current?.focus();
@@ -49,8 +48,7 @@ function Login(){
                             isAdmin: false,
                             username: email
                         })
-                    
-                    navigate(-1);
+                    backSight.before === "/signup" ?  navigate(-2) : navigate(-1);
                 }
                 else{
                     console.log("login 실패", response.status);

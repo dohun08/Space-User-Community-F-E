@@ -18,7 +18,7 @@ function Signup(){
     const [isOn, setIsOn] = useState<boolean>(false);
     const [valueNumber, setValueNumber] = useState('');
     useEffect(()=>{
-        if(auth.access_Token !== '') navigate('/');
+        if(auth.access_Token !== '' || auth.access_Token !== undefined) navigate('/');
         idRef.current?.focus();
     }, [])
 
