@@ -17,7 +17,10 @@ function MoreContents(){
             'icon':1,
             'category':'string',
             'likes':1,
-            'date':'string'
+            'date':'string',
+            "contents":"string",
+            "authorName":"string",
+            "createdAt":"string"
         }
     ]);
     const [page, setPage] = useState(1);

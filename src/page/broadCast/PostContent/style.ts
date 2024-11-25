@@ -75,23 +75,6 @@ export const hr = styled.hr`
     width: 100%;
 `
 
-export const InputCommentBox = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 13px 0;
-`
-
-export const CommentTitle = styled.div`
-    font-size: 20px;
-    font-weight: 500;
-`
-
-export const BtnContainer = styled.div`
-    display: flex;
-    justify-content: end;
-`
-
 export const H1 = styled.span`
         font-size: 30px;
         font-weight: 700;
@@ -105,18 +88,10 @@ export const H3 = styled.span`
         font-weight: 650;
 `
 export const div = styled.div`
-        flex: 1 1 100%;
-        word-break: break-all;
         width: 500px;
         display: flex;
         flex-flow: column wrap;
         & > *{
                 margin: 5px;
         }
-`
-export const underLine = styled.span`
-        text-decoration-line: underline;
-`
-export const cancelLine = styled.span`
-        text-decoration-line: line-through;
 `

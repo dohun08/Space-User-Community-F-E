@@ -50,6 +50,7 @@ export const imgBox = styled.div<IsimageProps>`
     position: absolute;
     top: 20px;
     left: 30px;
+    z-index: 2;
     & > * {
         margin: 0 5px;
         cursor: pointer;
@@ -119,7 +120,6 @@ export const textArea = styled.textarea`
     margin-top: 20px;
     height: 70%;
     font-size: 16px;
-        
 `
 
 export const H1 = styled.span`
@@ -142,9 +142,11 @@ export const div = styled.div`
                 margin: 5px;
         }
 `
-export const underLine = styled.span`
-        text-decoration-line: underline;
-`
-export const cancelLine = styled.span`
-        text-decoration-line: line-through;
+export const black = styled.div`
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
 `

@@ -3,12 +3,18 @@ import React, {useEffect} from "react";
 import {Doc} from "../../../types";
 import {images} from "../../../assets/iconImage";
 import Speaker from "../../../assets/speaker.svg"
+import {useNavigate} from "react-router-dom";
 
 function LongLong(props : {data:Doc}){
     const [Date, setDate] = React.useState("");
-
+    const navigate = useNavigate();
     useEffect(() => {
-        setDate(props.data.date.slice(0, 10));
+        if(props.data.date) {
+            setDate(props.data.date?.slice(0, 10));
+        }
+        else if(props.data.createdAt){
+            setDate(props.data.createdAt?.slice(0, 10));
+        }
     }, []);
     return(
         props.data.category === "공지" ?
@@ -18,7 +24,17 @@ function LongLong(props : {data:Doc}){
                         <img src={Speaker} alt="우주선1" width={'100%'}/>
                     </S.img>
                     <S.title>
-                        <S.LinkBtn to={`/post/${props.data.id}`}>{props.data.title}</S.LinkBtn>
+                        <S.LinkBtnB onClick={()=> {
+                            navigate(`/broadcast/${props.data.id}`, {
+                                state: {
+                                    title: props.data.title,
+                                    contents: props.data.contents,
+                                    documentId: props.data.id
+                                }
+                            });
+                        }}>
+                            {props.data.title}
+                        </S.LinkBtnB>
                         <S.date>{Date}</S.date>
                     </S.title>
                 </S.titleBox>

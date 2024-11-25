@@ -59,7 +59,7 @@ const BanManage = ()=>{
         return Array.from({length:11}).map((_, index)=>{
             const item = userData[(page-1)*9 +index];
             return(item ? (<S.section key={item.username}>
-                    <S.reportText>{item.username}</S.reportText>
+                    <S.reportText to={`/user/${item.username}`}>{item.username}</S.reportText>
                     <S.banBtn onClick={()=>handleBan(item.username)} type={"button"} value={"차단"}></S.banBtn>
                 </S.section>
             ) : (
