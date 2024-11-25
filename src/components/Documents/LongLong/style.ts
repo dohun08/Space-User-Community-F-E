@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {Link, LinkProps} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 export const Document = styled.div`
     width: 100%;
@@ -40,7 +40,7 @@ export const title = styled.span`
     align-items: start;
     flex-direction: column;
     padding: 0 20px;
-    width: 180px;
+    width: 200px;
 `
 export const date = styled.span`
     font-size: 10px;
