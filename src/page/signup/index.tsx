@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import {useRecoilValue} from "recoil";
 import {authAtom} from "../../recoil/authAtom";
 import BackArrow from "../../assets/back_Arrow.svg";
-import {age} from "./style";
 
 function Signup(){
     const [id, setId] = useState('');
@@ -18,7 +17,7 @@ function Signup(){
     const [isOn, setIsOn] = useState<boolean>(false);
     const [valueNumber, setValueNumber] = useState('');
     useEffect(()=>{
-        if(auth.access_Token !== '' || auth.access_Token !== undefined) navigate('/');
+        if(auth.access_Token !== '') navigate('/');
         idRef.current?.focus();
     }, [])
 

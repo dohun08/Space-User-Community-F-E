@@ -16,9 +16,6 @@ export default function BackSite() {
     }, [location.pathname]);
     useEffect(() => {
         setBackSightCallback();
-        console.log(location.pathname);
-        console.log(backSight);
-
     }, [setBackSightCallback]);
     return (
             <Outlet />

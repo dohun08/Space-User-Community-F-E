@@ -14,7 +14,7 @@ function Login(){
     const [pw, setPw] = useState<string>('');
     const backSight = useRecoilValue(backSightAtom);
     useEffect(()=>{
-        if(auth.access_Token !== '' || auth.access_Token !== undefined){
+        if(auth.access_Token !== ''){
             navigate('/');
         }
         inputRef.current?.focus();
