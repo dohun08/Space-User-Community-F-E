@@ -87,6 +87,7 @@ function Write() {
                     },
                     credentials: 'include',
                     body: JSON.stringify({
+                        id: documentId,
                         title: title,
                         contents: content
                     })
