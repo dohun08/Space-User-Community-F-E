@@ -18,6 +18,7 @@ function Main(){
             const documents:Doc[] = await getDoc("createdAt");
             const documents2:Doc[] = await getDoc("likes");
             const documents3: Doc[] = await getDoc("broad");
+            console.log(documents);
             setPopular(documents2);
             setContent(documents);
             setBroad(documents3);
@@ -43,7 +44,7 @@ function Main(){
                     <h3>인기 문서</h3>
                     {popular.length > 0 ? popular.slice(0, 10).map((doc, index)=>{
                         return (
-                                <Popular data = {doc} key={doc.id} rank= {index}/>
+                                <Popular data = {doc} key={doc.documentId} rank= {index}/>
                         )
                     }) : <p>인기 문서가 없습니다</p>}
 
@@ -53,7 +54,7 @@ function Main(){
                      Array.from ({ length: remainder }).map((_, index) => {
                          const doc = broad[index];
                          return doc ? (
-                             <LongLongDocument data={doc} key={doc.id} />
+                             <LongLongDocument data={doc} key={doc.documentId} />
                          ) : (
                              <S.unBox></S.unBox>
                          );
@@ -63,7 +64,7 @@ function Main(){
                         Array.from({ length: 9-remainder }).map((_, index) => {
                             const doc = content[index];
                             return doc ? (
-                                <LongLongDocument data={doc} key={doc.id} />
+                                <LongLongDocument data={doc} key={doc.documentId} />
                             ) : (
                                 <S.unBox></S.unBox>
                             );

@@ -7,7 +7,7 @@ function Popular(props: {data:Doc, rank:number}){
         <S.content>
             <div>
                 <span>{props.rank+1}등</span>
-                <S.title to={`/post/${props.data.id}`}>{props.data.title}</S.title>
+                <S.title to={`/post/${props.data.documentId}`}>{props.data.title}</S.title>
             </div>
             <S.writer to={`/user/${props.data.userId}`}>{props.data.userId}</S.writer>
         </S.content>
