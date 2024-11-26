@@ -1,7 +1,7 @@
 export interface Doc{
     createdAt: string;
     date?: string;
-    id?:number
+    documentId?:number
     userId?:number,
     authorName?:string,
     title:string,

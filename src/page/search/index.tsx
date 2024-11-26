@@ -10,7 +10,7 @@ import {Doc} from "../../types";
 function Search(){
     const [content, setContent] = useState<Doc[]>([
         {
-            'id':1,
+            'documentId':1,
             'userId':1,
             'title':'string',
             'content':'string',

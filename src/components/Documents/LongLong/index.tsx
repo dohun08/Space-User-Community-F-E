@@ -25,11 +25,11 @@ function LongLong(props : {data:Doc}){
                     </S.img>
                     <S.title>
                         <S.LinkBtnB onClick={()=> {
-                            navigate(`/broadcast/${props.data.id}`, {
+                            navigate(`/broadcast/${props.data.documentId}`, {
                                 state: {
                                     title: props.data.title,
                                     contents: props.data.contents,
-                                    documentId: props.data.id
+                                    documentId: props.data.documentId
                                 }
                             });
                         }}>
@@ -49,7 +49,7 @@ function LongLong(props : {data:Doc}){
                         <img src={images[props.data.icon]} alt="우주선1" width={'100%'}/>
                     </S.img>
                     <S.title>
-                        <S.LinkBtn to={`/post/${props.data.id}`}>{props.data.title}</S.LinkBtn>
+                        <S.LinkBtn to={`/post/${props.data.documentId}`}>{props.data.title}</S.LinkBtn>
                         <S.date>{Date}</S.date>
                     </S.title>
                 </S.titleBox>
