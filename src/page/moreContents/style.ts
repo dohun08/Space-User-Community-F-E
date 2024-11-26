@@ -12,7 +12,7 @@ export const ContentsBox = styled.main`
     border: 3px solid #DFDFDF;
     padding: 10px 30px;
     text-align: center;
-    width: 80%;
+    width: 70%;
     height: 80%;
     & > *{
         margin-bottom: 10px;

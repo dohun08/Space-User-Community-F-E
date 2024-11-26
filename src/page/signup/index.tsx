@@ -1,26 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react'
 import * as S from './style'
 import Logo from '../../assets/Logo.svg'
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {useRecoilValue} from "recoil";
 import {authAtom} from "../../recoil/authAtom";
 import BackArrow from "../../assets/back_Arrow.svg";
-import OImg from '../../assets/O.svg'
-import XImg from '../../assets/X.svg'
 
 function Signup(){
     const [id, setId] = useState('');
     const [pw, setPw] = useState('');
     const [repw, setRePw] = useState('');
-    const [age, setAge] = useState('');
+    const [age, setAge] = useState('0');
     const [email, setEmail] = useState('');
     const idRef = useRef<HTMLInputElement | null>(null);
     const auth = useRecoilValue(authAtom);
-    const [confirm, setConfirm] = useState<boolean>(false);
-    const [isConfirm, setIsConfirm] = useState({
-        status:false,
-        message:false
-    });
+    const [isOn, setIsOn] = useState<boolean>(false);
     const [valueNumber, setValueNumber] = useState('');
     useEffect(()=>{
         if(auth.access_Token !== '') navigate('/');
@@ -38,9 +32,6 @@ function Signup(){
         else if(parseInt(age, 10) >= 80 || parseInt(age, 10) <= 3){
             alert("나이가 정상적으로 입력되지 않습니다.");
         }
-        else if(!isConfirm.message){
-            alert("이메일 인증이 제대로 되지않았습니다.");
-        }
         else{
             try{
                 const response = await fetch('/api/user/register', {
@@ -53,12 +44,15 @@ function Signup(){
                         username: id,
                         password: pw,
                         age: age,
-                        status:isConfirm.message
+                        token: valueNumber
                     }),
                 });
                 if(response.status === 201){
                     console.log("회원가입성공");
                     navigate('/login');
+                }
+                else if(response.status === 409){
+                    alert("이미 등록되어있는 이메일입니다.");
                 }
             }catch(error){
                 console.log("error on ", error);
@@ -77,51 +71,23 @@ function Signup(){
                     email: email
                 }),
             });
-            if(res.ok){
-                setConfirm(true);
-            }
-            else{
-                alert("이메일이 보내지지 않았습니다.")
-            }
         }catch(error){
             console.log("error on postEmail", error);
         }
     }
-    const confirmNumber = async ()=>{
-        // 올바른 인증번호인지 확인
-        try{
-            const response = await fetch('/api/user/verifyEmail', {
-                method:'POST',
-                headers:{
-                    'Content-Type':'application/json',
-                },
-                body:JSON.stringify({
-                    email: email,
-                    token: valueNumber
-                })
-            });
-
-            if(response.ok){
-                setIsConfirm({
-                    status:true,
-                    message:true
-                });
-
-            }else{
-                setIsConfirm({
-                    status:true,
-                    message:false
-                });
-            }
-        }catch(error){
-            console.log("error on confirmNumber", error);
+    const check = () => {
+        if(pw.length >= 4){
+            setIsOn(false);
+        }
+        else{
+            setIsOn(true);
         }
     }
     return(
         <S.container>
             <S.backArrow src={BackArrow} alt="Back Arrow" onClick={()=>navigate(-1)}/>
-            <img src={Logo} alt='LogoImg' />
-            <h2>반가워요!</h2>
+            <S.Logo src={Logo} alt='LogoImg' />
+            <h3>회원가입</h3>
             <S.form>
                 <S.dataIn>
                     <S.Label>아이디</S.Label>
@@ -133,36 +99,7 @@ function Signup(){
                         onChange={(e)=>setId(e.target.value)}
                     />
                 </S.dataIn>
-                <S.dataIn>
-                    <S.Label>비밀번호</S.Label>
-                    <S.Input
-                        type='password'
-                        placeholder='비밀번호를 입력해주세요'
-                        value={pw}
-                        onChange={(e)=>setPw(e.target.value)}
-                    />
-                </S.dataIn>
-                <S.dataIn>
-                    <S.Label>비밀번호확인</S.Label>
-                    <S.Input
-                        type='password'
-                        placeholder='비밀번호를 입력해주세요'
-                        value={repw}
-                        onChange={(e)=>setRePw(e.target.value)}
-                    />
-                </S.dataIn>
-                <S.dataIn>
-                    <S.Label>나이</S.Label>
-                    <S.Input
-                        type='number'
-                        placeholder='나이를 입력해주세요'
-                        value={age}
-                        onChange={(e)=>setAge(e.target.value)}
-                    />
-                </S.dataIn>
-
                 <S.email>
-                    <div>
                         <S.Label>이메일</S.Label>
                         <S.Input
                             type='email'
@@ -170,45 +107,61 @@ function Signup(){
                             value={email}
                             onChange={(e)=>setEmail(e.target.value)}
                         />
-                    </div>
-                    {confirm ?
-                        null :
-                        <S.confirmBtn type={"button"} onClick={()=> {
-                            email ? postEmail() : alert("이메일이 없습니다.");}
-                        } value={"인증번호 보내기"}></S.confirmBtn>
-                    }
+                        <S.btn onClick={postEmail}>이메일발송</S.btn>
                 </S.email>
 
-                {confirm ? <S.dataIn>
+                 <S.dataIn>
                     <S.Label>인증번호</S.Label>
-                    <S.valueNumberBox>
-                        <S.valueNumber
+                        <S.Input
                             type='text'
                             placeholder='이메일로 보내진 인증번호를 입력해주세요'
                             value={valueNumber}
                             onChange={(e)=>setValueNumber(e.target.value)}
                         />
-                        {isConfirm.status ?
-                            <S.statusImgBox>
-                                <img src={isConfirm.message ? OImg : XImg} alt={"status"}></img>
-                                {isConfirm.message ?
-                                    <S.O>완료</S.O>
-                                    : <S.X>실패</S.X>}
-                            </S.statusImgBox> :
-                            null}
-                    </S.valueNumberBox>
-                </S.dataIn> : <S.unBox></S.unBox>}
-
-                {confirm ?
-                    <S.confirmBtn type={"button"} onClick={confirmNumber} value={"인증번호 확인"}></S.confirmBtn>
-                : null}
-
-                <S.nativeLogin>
+                </S.dataIn>
+                <S.pwBox>
+                    <S.pw>
+                        <S.Label>비밀번호</S.Label>
+                        <S.Input
+                            type='password'
+                            placeholder='비밀번호를 입력해주세요'
+                            value={pw}
+                            onClick={()=>check()}
+                            onChange={(e)=>{
+                                setPw(e.target.value);
+                                check();
+                            }}
+                        />
+                        <S.chpw $isOn={isOn}>비밀번호 4자리 이상이 되지않았습니다.</S.chpw>
+                    </S.pw>
+                    <S.pw>
+                        <S.Label>비밀번호확인</S.Label>
+                        <S.Input
+                            type='password'
+                            placeholder='비밀번호를 입력해주세요'
+                            value={repw}
+                            onChange={(e)=>setRePw(e.target.value)}
+                        />
+                    </S.pw>
+                </S.pwBox>
+                <S.dataIn>
+                    <S.Label>나이</S.Label>
+                    <S.age
+                        type='range'
+                        placeholder='나이를 입력해주세요'
+                        value={age}
+                        onChange={(e)=>setAge(e.target.value)}
+                    />
+                    <p>{age}</p>
+                </S.dataIn>
+                <S.navi>
                     <p>이미 회원이신가요?</p>
-                    <Link to={'/login'}>로그인</Link>
-                </S.nativeLogin>
+                    <S.btnText to={'/login'}>로그인</S.btnText>
+                </S.navi>
+
 
             </S.form>
+
             <S.Signup
                 onClick={goSignup}
             >

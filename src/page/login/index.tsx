@@ -2,16 +2,17 @@ import * as S from './style'
 import Logo from '../../assets/Logo.svg'
 import { useEffect, useRef, useState } from 'react';
 import React from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {authAtom} from "../../recoil/authAtom";
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import BackArrow from '../../assets/back_Arrow.svg'
+import {backSightAtom} from "../../recoil/backSight";
 
 function Login(){
     const [email, setEmail] = useState<string>('');
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [pw, setPw] = useState<string>('');
-
+    const backSight = useRecoilValue(backSightAtom);
     useEffect(()=>{
         if(auth.access_Token !== ''){
             navigate('/');
@@ -47,7 +48,7 @@ function Login(){
                             isAdmin: false,
                             username: email
                         })
-                    navigate('/');
+                    backSight.before === "/signup" ?  navigate(-2) : navigate(-1);
                 }
                 else{
                     console.log("login 실패", response.status);
@@ -85,11 +86,12 @@ function Login(){
                         type='password'
                         placeholder='비밀번호를 입력해주세요'
                         value={pw}
-                        onChange={(e) => setPw(e.target.value)}
+                        onChange={(e) => {setPw(e.target.value);}}
                         onKeyDown={(e) => {
                             enter(e)
                         }}
                     />
+
                 </S.dataIn>
 
                 <S.LoginBtn
@@ -98,7 +100,10 @@ function Login(){
                     value={"로그인"}
                 />
             </S.form>
-            <p>아직 회원이 아니세요? <Link to={'/signup'}>회원가입</Link></p>
+            <S.navi>
+                <p>아직 회원이 아니세요?</p>
+                <S.btnText to={'/signup'}>회원가입</S.btnText>
+            </S.navi>
         </S.container>
     )
 }

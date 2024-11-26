@@ -8,7 +8,7 @@ export default function FamousPost({famous}){
             <Content>
                 {famous && famous.slice(0, 6).map((item, index)=>{
                     return(
-                        <ShortPost title={item.title} index={index+1}/>
+                        <ShortPost title={item.title} id ={item.id}index={index+1}/>
                     )
                 })}
             </Content>
@@ -42,11 +42,11 @@ const Title = styled.div`
     font-size: 18px;
 `
 
-function ShortPost({title, index}){
+function ShortPost({title, index, id}){
     return(
         <div>
             <span>{index}등</span>
-            <ShortTitle>{title}</ShortTitle>
+            <ShortTitle to={`/post/${id}`}>{title}</ShortTitle>
             <Hr/>
         </div>
     );

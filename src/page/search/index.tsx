@@ -8,7 +8,21 @@ import PageScroll from "../../components/pageScroll";
 import {Doc} from "../../types";
 
 function Search(){
-    const [content, setContent] = useState<Doc[]>([]);
+    const [content, setContent] = useState<Doc[]>([
+        {
+            'documentId':1,
+            'userId':1,
+            'title':'string',
+            'content':'string',
+            'icon':1,
+            'category':'string',
+            'likes':1,
+            'date':'string',
+            "contents":"string",
+            "authorName":"string",
+            "createdAt":"string"
+        }
+    ]);
     const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
     const params = useParams();
@@ -48,7 +62,14 @@ function Search(){
                                 const item = content[(page - 1) * 9 + index];
                                 console.log(item);
                                 return item ? (
-                                        <LongLongDocument data={item} />
+                                        <LongLongDocument data={{
+                                            title: item.title,
+                                            createdAt: item.createdAt,
+                                            authorName: item.authorName,
+                                            category: item.category,
+                                            icon: item.icon
+                                        }
+                                        } />
                                 ) : (
                                     <S.unBox key={index} />
                                 );
@@ -59,7 +80,7 @@ function Search(){
                     !isLoading && (
                     <PageScroll page={page} setPage={setPage} contentLength={content.length / 9} />
                 )
-                    :                 <PageScroll page={page} setPage={setPage} contentLength={content.length/9} />
+                    :  <PageScroll page={page} setPage={setPage} contentLength={content.length/9} />
             }
             </S.ContentsBox>
         </S.container>

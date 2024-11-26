@@ -23,7 +23,8 @@ import Search from "./page/search";
 import AdminRoute from "./until/AdminRoute";
 import PatchDocument from "./page/patchDocument";
 import TokenRefresher from "./until/check";
-
+import BroadCastContent from "./page/broadCast";
+import BackSite from "./until/backSite";
 const rootElement = document.getElementById('root') as HTMLElement;
 const root = ReactDOM.createRoot(rootElement);
 
@@ -33,16 +34,19 @@ root.render(
         <BrowserRouter>
             <TokenRefresher>
                 <Routes>
-                    <Route path={'/'} element={<Main />}></Route>
-                    <Route path={'/login'} element={<Login />}></Route>
-                    <Route path={'/signup'} element={<Signup />}></Route>
-                    <Route path='/more' element={<MoreContents />}></Route>
-                    <Route path={'/write'} element={<Write />}></Route>
-                    <Route path={'/post/:id'} element={<Post />}></Route>
-                    <Route path={'/report'} element={<Report />}></Route>
-                    <Route path={'/user/:id'} element={<UserPage/>}></Route>
-                    <Route path={'/search/:title'} element={<Search />}></Route>
-                    <Route path={'/patch/:id'} element={<PatchDocument />}></Route>
+                    <Route element={<BackSite/>}>
+                        <Route path={'/'} element={<Main />}></Route>
+                        <Route path={'/login'} element={<Login />}></Route>
+                        <Route path={'/signup'} element={<Signup />}></Route>
+                        <Route path='/more' element={<MoreContents />}></Route>
+                        <Route path={'/write'} element={<Write />}></Route>
+                        <Route path={'/post/:id'} element={<Post />}></Route>
+                        <Route path={'/broadcast/:id'} element={<BroadCastContent />}></Route>
+                        <Route path={'/report'} element={<Report />}></Route>
+                        <Route path={'/user/:username'} element={<UserPage/>}></Route>
+                        <Route path={'/search/:title'} element={<Search />}></Route>
+                        <Route path={'/patch/:id'} element={<PatchDocument />}></Route>
+                    </Route>
                     <Route element={<AdminRoute />}> {/* admin route*/}
                         <Route path={'/report/manage'} element={<ReportManage />}></Route>
                         <Route path={'/report/manage/:id'} element={<DetailedReport />}></Route>

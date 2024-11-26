@@ -77,6 +77,7 @@ export const setting = styled.div<IsonProps>`
     border-radius: 5px;
     display: ${(props)=>props.$isOn ? "flex" : "none"};
     flex-direction: column;
+    z-index: 2;
     & > *{
         cursor: pointer;
     }
@@ -98,4 +99,12 @@ export const logout = styled(Link)`
 export const link = styled(Link)`
     color: black;
     text-decoration-line: none;
+`
+export const black = styled.div`
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
 `

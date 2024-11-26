@@ -10,14 +10,17 @@ import PageScroll from "../../components/pageScroll";
 function MoreContents(){
     const [content, setContent] = useState<Doc[]>([
         {
-            'id':1,
+            'documentId':1,
             'userId':1,
             'title':'string',
             'content':'string',
             'icon':1,
             'category':'string',
             'likes':1,
-            'date':'string'
+            'date':'string',
+            "contents":"string",
+            "authorName":"string",
+            "createdAt":"string"
         }
     ]);
     const [page, setPage] = useState(1);

@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import {Link} from "react-router-dom";
+import Check from "../../until/check";
 
 export const container = styled.div`
     width: 40%;
@@ -23,25 +25,28 @@ export const form = styled.form`
 export const dataIn = styled.div`
     display: flex;
     width: 500px;
+    flex-direction: column;
     justify-content: center;
     @media (max-width: 700px) {
         width: 200px;
     }
+    position: relative;
 `
 export const Label = styled.label`
     font-size: 16px;
-    font-weight: 700;
-    margin-right: 20px;
+    margin-bottom: 10px;
+    font-weight: 600;
     
 `
 export const Input = styled.input`
     outline: none;
     font-size: 16px;
-    font-weight: 600;
-    width: 350px;
+    width: 100%;
     border: none;
     border-bottom: 1px solid black;
+    padding: 5px;
 `
+
 export const LoginBtn = styled.input`
     cursor: pointer;
     width: max-content;
@@ -67,4 +72,22 @@ export const backArrow = styled.img`
     cursor: pointer;
     width: 40px;
     height: 40px;
+`
+export const btnText = styled(Link)`
+    color: black;
+    font-size: 15px;
+    text-decoration-line: none;
+    &:hover{
+        text-decoration-line: underline;
+    }
+`
+export const navi = styled.div`
+    color:gray;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    & > p{
+        margin-right: 10px;
+    }
 `
