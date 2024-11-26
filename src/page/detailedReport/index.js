@@ -39,15 +39,15 @@ const DetailedReport = ()=>{
     }
     const completeReport = async ()=>{
         try{
-            const response = await fetch('/api/admin/report/complete', {
-                method:'POST',
+            const response = await fetch('/api/report', {
+                method:'DELETE',
                 headers:{
                     'Content-Type':'application/json',
                     'Authorization': auth.access_Token
                 },
                 credentials: 'include',
                 body:JSON.stringify({
-                    id:params.id
+                    reportId:params.id
                 })
             });
             if(response.ok){
