@@ -188,30 +188,6 @@ function PostContent({data, isLoading}) {
                     </S.InputCommentBox>
                     <CommentList data={commentData} getComment = {getComment} />
                 </S.Wrapper>))
-
-                            <S.ManageBtn onClick={delPost}>제거</S.ManageBtn>
-                        </S.ManagePost>
-                        :  getAuth.isAdmin?
-                            <S.ManagePost>
-                                <S.ManageBtn onClick={delPost}>제거</S.ManageBtn>
-                            </S.ManagePost>
-                        :
-                         null}
-                </S.HeaderHead>
-                <S.titleWrap><S.titleImg src={images[data.icon]}/><S.title>{data["title"]}</S.title></S.titleWrap>
-                <S.postInfo>{data["date"].slice(0, 10)} - {data["authorName"]}</S.postInfo>
-            </S.Header>
-            <S.contents>{makeContent(data["content"])}</S.contents>
-            <S.hr/>
-            <S.InputCommentBox>
-                <S.CommentTitle>{commentData.length}개의 댓글</S.CommentTitle>
-                <InputText value={comment} onchange={setComment} type={"textarea"} placeholder={"댓글을 입력해주세요"} height={"90px"}/>
-                <S.BtnContainer>
-                    <Rectangle onClick={createComent} name={"댓글 작성"} display={true}/>
-                </S.BtnContainer>
-            </S.InputCommentBox>
-            <CommentList data={commentData} getComment = {getComment} />
-        </S.Wrapper>
     );
 }
 
