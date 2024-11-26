@@ -11,7 +11,7 @@ import make from "../../../until/postDoc";
 function PostContent({data, isLoading}) {
     const navigate = useNavigate();
     const getAuth = useRecoilValue(authAtom);
-    const id = useParams();
+    const {id} = useParams();
     const [comment, setComment] = useState("");
     const [commentData, setCommentData] = useState([]);
 
@@ -19,7 +19,7 @@ function PostContent({data, isLoading}) {
         if(window.confirm("정말 삭제하시겠습니까?")){
             if(getAuth.isAdmin){
                 try{
-                    const response = await fetch(`/api/admin/doc/${id.id}`, {
+                    const response = await fetch(`/api/admin/doc/${id}`, {
                         method:'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ function PostContent({data, isLoading}) {
             }
             else{
                 try{
-                    const response = await fetch(`/api/community/doc/${id.id}`, {
+                    const response = await fetch(`/api/community/doc/${id}`, {
                         method:'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ function PostContent({data, isLoading}) {
                 },
                 credentials:'include',
                 body: JSON.stringify({
-                    documentId:parseInt(id.id, 10),
+                    documentId:parseInt(id, 10),
                     content:comment
                 })
             })
@@ -88,7 +88,7 @@ function PostContent({data, isLoading}) {
 
     const getComment = async () => {
         try{
-            const response = await fetch(`/api/community/comment/${id.id}`,{
+            const response = await fetch(`/api/community/comment/${id}`,{
                 method:'GET',
             })
             const data = await response.json();
@@ -111,7 +111,7 @@ function PostContent({data, isLoading}) {
                                 {getAuth.isAdmin ?
                                     <S.ManagePost>
                                         <S.ManageBtn onClick={() => {
-                                            navigate(`/patch/${id.id}`, {
+                                            navigate(`/patch/${id}`, {
                                                 state: {
                                                     patchContent: data.content || "",
                                                     patchTitle: data.title,
