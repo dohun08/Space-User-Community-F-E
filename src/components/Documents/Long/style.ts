@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {Link} from "react-router-dom";
 
 interface manageProps {
     manage: boolean
@@ -17,7 +18,6 @@ export const titleBox = styled.section`
     flex-flow:row nowrap;
     align-items: center;
     gap: 10px;
-    color: #301C86;
 `
 
 export const title = styled.span`
@@ -25,8 +25,17 @@ export const title = styled.span`
     flex-flow: column nowrap;
     align-items: start;
     padding: 0 20px;
-    width: 100px;
+    flex: 1 1;
 `
+
+export const LinkBtn = styled(Link)`
+    color: #301C86;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
+`
+
 export const date = styled.span`
     font-size: 12px;
     color: gray;

@@ -1,6 +1,6 @@
 import {useRecoilState} from "recoil";
 import {authAtom} from "../recoil/authAtom";
-import React, {ReactElement, useEffect} from "react";
+import React, {useEffect} from "react";
 // accessToken이 유효하지않다면 accessToken 재발급하기
 
 const TokenRefresher = ({ children }) => {

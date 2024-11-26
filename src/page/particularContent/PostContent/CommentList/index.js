@@ -19,7 +19,9 @@ export default function CommentList({data, getComment}){
                         date={comment.date.slice(0, 10)}
                         content={comment.content}
                         id={comment.id}
+                        reCommentCount={comment.recommentNumber}
                         getComment={getComment}
+                        isReComment={false}
                     />
                     <Hr/>
                 </>

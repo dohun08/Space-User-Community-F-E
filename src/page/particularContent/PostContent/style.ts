@@ -67,7 +67,9 @@ export const postInfo = styled.div`
 
 export const contents = styled.div`
     text-wrap: wrap;
+    word-break: break-word;
     font-size: 16px;
+    width: 100%;
 `
 
 export const hr = styled.hr`

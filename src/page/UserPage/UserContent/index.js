@@ -38,7 +38,7 @@ export default function UserContent({id, onClick, update, isOwner, isAdmin}){
             }
             const formData = new FormData();
             const blob = new Blob([JSON.stringify({ username })], { type: "application/json" });
-            formData.append("UserUpdateDTO", blob);
+            formData.append("UserUpdate", blob);
             if(!(await update(formData, username))){
                 return;
             }
@@ -50,7 +50,7 @@ export default function UserContent({id, onClick, update, isOwner, isAdmin}){
         if(IsModifyIntroduce){
             const formData = new FormData();
             const blob = new Blob([JSON.stringify({ introduce })], { type: "application/json" });
-            formData.append("UserUpdateDTO", blob);
+            formData.append("UserUpdate", blob);
             if(!(await update(formData, username))){
                 return;
             }
