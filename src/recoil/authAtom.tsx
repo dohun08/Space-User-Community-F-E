@@ -1,6 +1,5 @@
-import {atom, selector, useRecoilValue} from "recoil";
+import {atom, selector} from "recoil";
 import {Auth} from "../types";
-import {decodeJWT} from "../until/authService";
 
 const loadAccessToken = () => {
     const savedAccessToken = localStorage.getItem('accessToken');
@@ -10,17 +9,13 @@ const loadUsername = () => {
     const savedUsername = localStorage.getItem('username');
     return savedUsername || '';
 }
-const Admin = ()=>{
-    const auth:Auth = useRecoilValue(authAtom);
-    return decodeJWT(auth.access_Token).role === 'ROLE_ADMIN';
-}
 
 export const authAtom = atom<Auth>({
     key:'authState',
     default:{
         username:loadUsername(),
         access_Token: loadAccessToken(),
-        isAdmin:Admin()
+        isAdmin:false
     },
     effects_UNSTABLE: [
         ({onSet}) =>{
@@ -31,7 +26,6 @@ export const authAtom = atom<Auth>({
         }
     ]
 });
-
 
 export const isLoginSelector = selector<boolean>({
     key: 'isLoginSelector',
