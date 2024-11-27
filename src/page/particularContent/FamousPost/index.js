@@ -42,11 +42,11 @@ const Title = styled.div`
     font-size: 18px;
 `
 
-function ShortPost({title, index, id}){
+function ShortPost({title, index, documentId}){
     return(
         <div>
             <span>{index}등</span>
-            <ShortTitle to={`/post/${id}`}>{title}</ShortTitle>
+            <ShortTitle to={`/post/${documentId}`}>{title}</ShortTitle>
             <Hr/>
         </div>
     );

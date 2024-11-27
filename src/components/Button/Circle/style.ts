@@ -11,10 +11,6 @@ export const Cbtn = styled.button`
     background-color: white;
     transition: 0.5s;
     color: #301C86;
-    &:hover{
-        background:  linear-gradient(to bottom, #99479C 0%, #99479C 2%, #301C86 50%, #090029 88%, #120049 100%);
-        color: white;
-    }
 `
 export const name = styled.p`
     font-weight: 700;

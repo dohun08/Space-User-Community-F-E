@@ -28,7 +28,6 @@ function PostContent({data, isLoading}) {
                         credentials: 'include'
                     })
                     if(response.ok){
-                        console.log("글 삭제 성공");
                         navigate("/");
                     }
                 }catch (error){
