@@ -48,7 +48,7 @@ function Login(){
                             isAdmin: false,
                             username: email
                         })
-                    backSight.before === "/signup" ?  navigate(-2) : navigate(-1);
+                        navigate('/');
                 }
                 else{
                     console.log("login 실패", response.status);
