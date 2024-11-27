@@ -56,14 +56,6 @@ export const LoginBtn = styled.input`
     border: 2px solid black;
     background-color: black;
     transition: 0.5s;
-    &:hover{
-        background-color: white;
-        color: black;
-        border: 2px solid black;
-    }
-    &:active{
-        border: 2px solid #301C86;
-    }
 `
 export const backArrow = styled.img`
     position: absolute;

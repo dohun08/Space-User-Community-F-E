@@ -112,14 +112,6 @@ export const Signup = styled.div`
     border-radius: 20px;
     border: 2px solid black;
     transition: 0.5s;
-    &:hover{
-        background-color: ${props => ("black")};
-        color: ${props => ('white')};
-        border: 2px solid black;
-    }
-    &:active{
-        border: 2px solid #301C86;
-    }
 `
 export const backArrow = styled.img`
     position: absolute;
