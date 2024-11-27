@@ -149,10 +149,10 @@ function PostContent({data, isLoading}) {
                     <S.Header>
                         <S.HeaderHead>
                             <S.category>{data["category"]}</S.category>
-                            {getAuth.username ===data["authorName"] ?
+                            {getAuth.username === data["authorName"] ?
                                 <S.ManagePost>
                                     <S.ManageBtn onClick={() => {
-                                        navigate(`/patch/${id.id}`, {
+                                        navigate(`/patch/${id}`, {
                                             state: {
                                                 patchContent: data.content || "",
                                                 patchTitle: data.title,

@@ -3,7 +3,8 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import User from "../User";
 
-export default function UserContent({id, onClick, update, isOwner, isAdmin}){
+export default function UserContent({id, onClick, update, isOwner, isAdmin, data}){
+    console.log(id);
     const navigate = useNavigate();
     const [username, setUsername] = useState(id);
     const [introduce, setIntroduce] = useState("");
@@ -12,25 +13,6 @@ export default function UserContent({id, onClick, update, isOwner, isAdmin}){
     const [IsModifyName, setIsModifyName] = useState(false);
     const [IsModifyIntroduce, setIsModifyIntroduce] = useState(false);
 
-    const getInfo = async ()=>{
-        try{
-            const response = await fetch(`/api/user/profile/${id}`, {
-                method: 'GET',
-            });
-
-            if(response.ok){
-                const data = await response.json();
-                console.log("유저 조회 성공");
-                setIntroduce(data["introduce"]);
-                setCreatedAt(data["createdAt"]);
-                setProfile(data["profile"]);
-            }
-
-        }catch(error){
-            console.log("error on : ",error);
-        }
-    };
-
     const modifyNameHandler = async () => {
         if(IsModifyName){
             if(username.trim() === ""){
@@ -38,7 +20,7 @@ export default function UserContent({id, onClick, update, isOwner, isAdmin}){
             }
             const formData = new FormData();
             const blob = new Blob([JSON.stringify({ username })], { type: "application/json" });
-            formData.append("UserUpdate", blob);
+            formData.append("userUpdate", blob);
             if(!(await update(formData, username))){
                 return;
             }
@@ -50,7 +32,7 @@ export default function UserContent({id, onClick, update, isOwner, isAdmin}){
         if(IsModifyIntroduce){
             const formData = new FormData();
             const blob = new Blob([JSON.stringify({ introduce })], { type: "application/json" });
-            formData.append("UserUpdate", blob);
+            formData.append("userUpdate", blob);
             if(!(await update(formData, username))){
                 return;
             }
@@ -60,29 +42,36 @@ export default function UserContent({id, onClick, update, isOwner, isAdmin}){
 
     const modifyProfileHandler = async (e) => {
         const file = e.target.files[0];
+        console.log(file);
         if (!file) {
             alert("파일을 선택하지 않았습니다.");
             return;
         }
 
-        const allowedImageTypes = ["image/jpeg", "image/png", "image/gif"];
+        const allowedImageTypes = ["image/jpeg", "image/png", "image/jpg"];
         if (!allowedImageTypes.includes(file.type)) {
-            alert("이미지 파일만 업로드할 수 있습니다. (jpg, png, gif)");
+            alert("이미지 파일만 업로드할 수 있습니다. (jpg, png, jpeg)");
             return;
         }
 
         const formData = new FormData();
-        const blob = new Blob([file]);
         console.log(formData);
-        formData.append("profile", blob);
+        formData.append("profile", file);
+        const blob = new Blob([JSON.stringify({})], { type: "application/json" });
+        formData.append("userUpdate", blob);
         if(!(await update(formData, username))) {
             alert("업로드 중 오류가 발생했습니다.")
         }
     }
 
     useEffect(()=>{
-        getInfo();
-    }, [id])
+        console.log(data);
+        if(data){
+            setIntroduce(data["introduce"] || "");
+            setProfile(data["profile"] || "");
+            setCreatedAt(data["date"] || "");
+        }
+    }, [id, data])
 
     return (
         <S.Wrapper>
@@ -107,7 +96,7 @@ export default function UserContent({id, onClick, update, isOwner, isAdmin}){
                 <S.UserInfo>
                     <div>User {username}</div>
                     <div>Role {isAdmin? "Admin":"User"}</div>
-                    <div>Created At {createdAt}</div>
+                    <div>Created At {createdAt.slice(0, 10)}</div>
                 </S.UserInfo>
                 {isOwner? <S.ModifyBtn size={"16px"} align={"right"} color={true} onClick={onClick}>비밀번호 변경하기</S.ModifyBtn>:<></>}
             </S.Content>

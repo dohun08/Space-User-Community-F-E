@@ -3,35 +3,47 @@ import Header from "../../components/Header";
 import UserContent from "./UserContent";
 import {useNavigate, useParams} from "react-router-dom";
 import UserPostContent from "./UserPostContent";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import ModifyPwd from "./ModifyPwd";
 import {authAtom} from "../../recoil/authAtom";
 import { useRecoilState } from 'recoil';
 import Loading from "../../components/loading/loading";
+import {getUserInfo} from "../../api/getUserInfo";
 
 export default function UserPage(){
     const navigate = useNavigate();
     const {id} = useParams();
+    console.log(id);
     const [isModifyPw, setIsModifyPw] = useState(false);
     const [auth, setAuth] = useRecoilState(authAtom);
     const isOwner = auth.username===id;
+    const [data, setData] = useState({});
+
+    const getInfo = async ()=>{
+        setData(await getUserInfo(id));
+    };
+
+    useEffect(() => {
+        getInfo();
+    }, [id]);
 
     const updateUserInfo = async (formData, id) => {
+        console.log(id);
         try{
             const response = await fetch('/api/user/update', {
                 method: 'PATCH',
                 headers: {
                     Authorization: `${auth.access_Token}`,
                 },
+                credentials: 'include',
                 body: formData,
             })
 
             if(response.ok){
                 setAuth({
-                    access_Token: response.headers.get('authorization') || '',
+                    access_Token: response.headers.get('authorization') || auth.access_Token,
                     username: id
                 })
-                navigate(`/user/${id}`);
                 return 1;
             } else {
                 const data = await response.json();
@@ -49,10 +61,10 @@ export default function UserPage(){
             <Header/>
             <Content>
                 {isModifyPw ? (
-                    <ModifyPwd isOwner={isOwner} update={updateUserInfo} id={id} onClick={() => setIsModifyPw((current)=> !current)}/>
+                    <ModifyPwd profile={data["profile"]} isOwner={isOwner} update={updateUserInfo} id={id} onClick={() => setIsModifyPw((current)=> !current)}/>
                 ):(
                     <>
-                        <UserContent isAdmin={auth.isAdmin} isOwner={isOwner} update={updateUserInfo} id={id} onClick={()=>setIsModifyPw(true)}/>
+                        <UserContent data={data} isAdmin={auth.isAdmin} isOwner={isOwner} update={updateUserInfo} id={id} onClick={()=>setIsModifyPw(true)}/>
                         <UserPostContent isOwner={isOwner} id={id}/>
                     </>
                 )}

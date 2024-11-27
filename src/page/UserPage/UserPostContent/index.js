@@ -32,7 +32,7 @@ export default function UserPostContent({id}){
 
     useEffect(() => {
         getPostData();
-    }, []);
+    }, [id]);
 
     return (
         <>
