@@ -2,9 +2,12 @@ import * as S from './style.ts'
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import User from "../User";
+import {useRecoilValue} from "recoil";
+import {authAtom} from "../../../recoil/authAtom";
 
-export default function UserContent({id, onClick, update, isOwner, isAdmin, data}){
+export default function UserContent({id, onClick, update, isOwner, data}){
     console.log(id);
+    const getAuth = useRecoilValue(authAtom);
     const navigate = useNavigate();
     const [username, setUsername] = useState(id);
     const [introduce, setIntroduce] = useState("");
@@ -95,7 +98,7 @@ export default function UserContent({id, onClick, update, isOwner, isAdmin, data
                 </S.TextAreaBox>
                 <S.UserInfo>
                     <div>User {username}</div>
-                    <div>Role {isAdmin? "Admin":"User"}</div>
+                    <div>Role {getAuth.isAdmin? "Admin":"User"}</div>
                     <div>Created At {createdAt.slice(0, 10)}</div>
                 </S.UserInfo>
                 {isOwner? <S.ModifyBtn size={"16px"} align={"right"} color={true} onClick={onClick}>비밀번호 변경하기</S.ModifyBtn>:<></>}

@@ -48,7 +48,7 @@ export default function UserPostContent({id}){
                             })
                         }
                     </PostWrapper>
-                    <PageScroll page={page} setPage={setPage} contentLength={Posts.length/9} />
+                    <PageScroll page={page} setPage={setPage} contentLength={Posts.length === 0 ? 1 : Posts.length/9} />
                 </Container>
             )}
         </>

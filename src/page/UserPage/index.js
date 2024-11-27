@@ -40,10 +40,11 @@ export default function UserPage(){
             })
 
             if(response.ok){
-                setAuth({
+                setAuth((prev) => ({
+                    ...prev,
                     access_Token: response.headers.get('authorization') || auth.access_Token,
                     username: id
-                })
+                }));
                 return 1;
             } else {
                 const data = await response.json();
@@ -64,7 +65,7 @@ export default function UserPage(){
                     <ModifyPwd profile={data["profile"]} isOwner={isOwner} update={updateUserInfo} id={id} onClick={() => setIsModifyPw((current)=> !current)}/>
                 ):(
                     <>
-                        <UserContent data={data} isAdmin={auth.isAdmin} isOwner={isOwner} update={updateUserInfo} id={id} onClick={()=>setIsModifyPw(true)}/>
+                        <UserContent data={data} isOwner={isOwner} update={updateUserInfo} id={id} onClick={()=>setIsModifyPw(true)}/>
                         <UserPostContent isOwner={isOwner} id={id}/>
                     </>
                 )}
