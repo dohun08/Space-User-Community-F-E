@@ -172,10 +172,10 @@ export default function Comment({writer, date, content, id, getComment, isReComm
                                 <DelBtn type={"button"} value={"수정완료"} onClick={updateComment}></DelBtn>
                                 : <DelBtn type={"button"} value={"수정"} onClick={update}></DelBtn>
                             }
-                            <DelBtn type={"button"} value={"제거"} onClick={deleteComment("user")}></DelBtn>
+                            <DelBtn type={"button"} value={"제거"} onClick={()=>deleteComment("user")}></DelBtn>
                         </>:
                         getAuth.isAdmin ?
-                                <DelBtn type={"button"} value={"제거"} onClick={deleteComment("admin")}></DelBtn>
+                                <DelBtn type={"button"} value={"제거"} onClick={()=>deleteComment("admin")}></DelBtn>
                              :
                         null
                     }
