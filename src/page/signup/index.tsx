@@ -52,7 +52,7 @@ function Signup(){
                     navigate('/login');
                 }
                 else if(response.status === 409){
-                    alert("이미 등록되어있는 이메일입니다.");
+                    alert("등록되어있는 계정입니다.");
                 }
             }catch(error){
                 console.log("error on ", error);
