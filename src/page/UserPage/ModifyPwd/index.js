@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import {ModifyBtn} from "../UserContent/style.ts";
 import User from "../User";
-import {useCallback, useState} from "react";
+import {useState} from "react";
 
-function ModifyPwd({id, onClick, update}) {
+function ModifyPwd({id, onClick, update, profile}) {
+
     const isValidPassword = (password) => {
         const lengthCheck = password.length >= 8 && password.length <= 15;
         const alphaCheck = /[A-Za-z]/.test(password);
@@ -47,8 +48,9 @@ function ModifyPwd({id, onClick, update}) {
         }
 
         const formData = new FormData();
-        const blob = new Blob([JSON.stringify({"password": pwds["new"]})], { type: "application/json" });
-        formData.append("UserUpdate", blob);
+        const blob = new Blob([JSON.stringify({"afterPassword": pwds["new"], "beforePassword": pwds["current"]})], { type: "application/json" });
+        formData.append("userUpdate", blob);
+        console.log(formData);
         if(!(await update(formData, id))){
             return;
         }
@@ -57,14 +59,12 @@ function ModifyPwd({id, onClick, update}) {
     const onChangeHandler = (e) => {
         const { name, value } = e.target;
         setPwds(pwds => ({...pwds, [name]: value}));
-        console.log(name, value);
-        console.log(pwds);
     }
 
     return (
         <Container>
             <Content>
-                <User username={id} modifiable={false}/>
+                <User username={id} modifiable={false} profile={profile}/>
                 <InputContainer>
                     <InputBox>
                         <Label>Current<br/>Password</Label>

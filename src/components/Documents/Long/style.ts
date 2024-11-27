@@ -46,7 +46,7 @@ export const infoBox = styled.section`
     flex-flow:row nowrap;
     align-items: center;
     width: 230px;
-    justify-content: space-between;
+    justify-content: end;
     color: #301C86;
 `
 

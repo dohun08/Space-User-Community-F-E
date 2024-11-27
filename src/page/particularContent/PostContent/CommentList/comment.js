@@ -4,18 +4,40 @@ import {useEffect, useRef, useState} from "react";
 import {authAtom} from "../../../../recoil/authAtom";
 import Rectangle from "../../../../components/Button/Rectangle";
 
-export default function Comment({writer, date, content, id, getComment, isReComment, reCommentCount}) {
+export default function Comment({writer, date, content, id, getComment, isReComment, reCommentCount, getReComment}) {
     const getAuth = useRecoilValue(authAtom);
     const [isUpdate, setIsUpdate] = useState(false);
     const [CommentContent, setCommentContent] = useState(content);
     const [isCreateReComment, setIsCreateReComment] = useState(false);
     const [ReComment, setReComment] = useState("");
+    const [ReCommentList, setReCommentList] = useState([]);
+    const [isShowRecomment, setIsShowRecomment] = useState(false);
 
     const textarea = useRef();
 
+    const getReComments = async () => {
+        try{
+            const res = await fetch(`/api/community/recomment/${id}`, {
+                method:'GET',
+                headers:{
+                    'Content-Type':'application/json',
+                    'Authorization': getAuth.access_Token ? getAuth.access_Token : 'Bearer null'
+                },
+                credentials: 'include'
+            });
+            if(res.ok){
+                const data = await res.json();
+                setReCommentList(data);
+            }
+
+        } catch(err) {
+            console.log(err);
+        }
+    }
+
     const deleteComment = async () => {
         try{
-            const res = await fetch(`/api/community/comment/${id}`, {
+            const res = await fetch(`/api/community/${isReComment? "recomment" : "comment"}/${id}`, {
                 method: "DELETE",
                 headers: {
                     'Content-Type': 'application/json',
@@ -24,7 +46,13 @@ export default function Comment({writer, date, content, id, getComment, isReComm
                 credentials: 'include'
             })
             if(res.ok){
-                getComment();
+                console.log(typeof getComment);
+                await getComment();
+                if(isReComment){
+                    setReComment("");
+                    await getReComment();
+                    console.log(ReCommentList);
+                }
             }
         }catch (error){
             console.log(error);
@@ -39,7 +67,7 @@ export default function Comment({writer, date, content, id, getComment, isReComm
             return ;
         }
         try{
-            const res = await fetch(`/api/community/comment`, {
+            const res = await fetch(`/api/community/${isReComment? "recomment" : "comment"}`, {
                 method: "PATCH",
                 headers: {
                     'Content-Type': 'application/json',
@@ -53,7 +81,11 @@ export default function Comment({writer, date, content, id, getComment, isReComm
             })
             if(res.ok){
                 setIsUpdate(false);
-                getComment();
+                await getComment();
+                if(isReComment){
+                    setReComment("");
+                    await getReComment();
+                }
             }
         }catch (error){
             console.log("error patch comment on : ",error);
@@ -81,6 +113,10 @@ export default function Comment({writer, date, content, id, getComment, isReComm
 
             if(res.ok){
                 setIsCreateReComment(false);
+                setReComment("");
+                await getReComments();
+                await getComment();
+                setIsShowRecomment(true);
             }
         } catch (err) {
             console.log(err);
@@ -100,7 +136,7 @@ export default function Comment({writer, date, content, id, getComment, isReComm
     }
 
     return(
-        <Wrapper isReComment={isReComment}>
+        <Wrapper>
             <TitleWrapper>
                 <Title>{writer} - {date}</Title>
                 <span>
@@ -125,26 +161,53 @@ export default function Comment({writer, date, content, id, getComment, isReComm
                 : <Content>{CommentContent}</Content>
             }
             {isReComment ? <></> : (
-                <BlackTextBtn onClick={()=>setIsCreateReComment(true)}>답글</BlackTextBtn>
+                <>
+                    <BlackTextBtn onClick={()=>setIsCreateReComment(true)}>답글</BlackTextBtn>
+                    {reCommentCount===0 ? <></>:(
+                        <ColorTextBtn onClick={()=>{
+                            getReComments();
+                            setIsShowRecomment(true);
+                        }}>답글 {reCommentCount}개 더보기</ColorTextBtn>
+                    )}
+                    <ReCommentContainer>
+                        <ReCommentSmallContainer>
+                    {isCreateReComment && (
+                        <ReCommentInputContainer>
+                            <ReCommentInput placeholder={"댓글을 작성해주세요."} ref={textarea} onChange={onChangeHandler} rows={1}/>
+                            <BtnContainer><BlackTextBtn onClick={()=>setIsCreateReComment(false)}>취소</BlackTextBtn><ColorTextBtn onClick={createReComment}>확인</ColorTextBtn></BtnContainer>
+                        </ReCommentInputContainer>
+                        )}
+                    {isShowRecomment &&
+                        ReCommentList.length > 0 &&
+                        ReCommentList.map((item, index) => (
+                            <Comment
+                                key={index}
+                                writer={item.authorName}
+                                date={item.date.slice(0, 10)}
+                                content={item.content}
+                                id={item.id}
+                                isReComment={true}
+                                getComment={getComment}
+                                getReComment={getReComments}
+                            />
+                        ))
+                    }
+                        </ReCommentSmallContainer>
+                    </ReCommentContainer>
+                </>
             )}
-            {reCommentCount===0 ? <></>:(
-                <ColorTextBtn>답글 {reCommentCount}개 더보기</ColorTextBtn>
-            )}
-            {isCreateReComment? <ReCommentContainer>
-                <ReCommentInput placeholder={"댓글을 작성해주세요."} ref={textarea} onChange={onChangeHandler} rows={1}/>
-                <BtnContainer><BlackTextBtn onClick={()=>setIsCreateReComment(false)}>취소</BlackTextBtn><ColorTextBtn onClick={createReComment}>확인</ColorTextBtn></BtnContainer>
-            </ReCommentContainer>: <></>}
         </Wrapper>
     )
 }
 
 const Wrapper = styled.li`
-    width: ${(props) => props.isReComment ? "90%" : "100%"};
+    width: 100%;
     list-style: none;
     display: flex;
     flex-direction: column;
     gap: 15px;
     padding: 0 6px;
+    box-sizing: border-box;
 `
 
 const TitleWrapper = styled.div`
@@ -191,11 +254,11 @@ const ColorTextBtn = styled(BlackTextBtn)`
     color: #99479C;
 `
 
-const ReCommentContainer = styled.div`
+const ReCommentSmallContainer = styled.div`
+    width: 90%;
     display: flex;
     flex-direction: column;
-    align-items: end;
-    gap: 10px;
+    gap: 30px;
 `
 
 const ReCommentInput = styled.textarea`
@@ -205,12 +268,26 @@ const ReCommentInput = styled.textarea`
     display: flex;
     padding: 10px;
     resize: none;
-    width: 90%;
     outline: none;
     overflow: hidden;
+    width: 100%;
 `
 
 const BtnContainer = styled.div`
     display: flex;
+    gap: 10px;
+`
+
+const ReCommentContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+`
+
+const ReCommentInputContainer = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
     gap: 10px;
 `

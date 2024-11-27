@@ -8,7 +8,7 @@ export default function FamousPost({famous}){
             <Content>
                 {famous && famous.slice(0, 6).map((item, index)=>{
                     return(
-                        <ShortPost title={item.title} id ={item.id} documentId={item.documentId} index={index+1}/>
+                        <ShortPost title={item.title} id={item.documentId} index={index+1}/>
                     )
                 })}
             </Content>
