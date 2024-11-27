@@ -35,7 +35,6 @@ export const die = styled.button`
 export const buttonBox = styled.div`
     display: flex;
     flex-flow: row nowrap;
-    width: 150px;
     justify-content: space-around;
     & > button{
         border: none;
