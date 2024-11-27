@@ -12,7 +12,7 @@ const DetailedReport = ()=>{
     const navigate = useNavigate();
     const auth = useRecoilValue(authAtom);
     const [data, setData] = useState([]);
-
+    const [loading, setLoading] = useState(false);
     const back = (url)=>{
         navigate(url);
     }
@@ -38,23 +38,26 @@ const DetailedReport = ()=>{
         }
     }
     const completeReport = async ()=>{
+        setLoading(true);
         try{
-            const response = await fetch('/api/report', {
+            const response = await fetch(`/api/admin/report/${params.id}`, {
                 method:'DELETE',
                 headers:{
                     'Content-Type':'application/json',
                     'Authorization': auth.access_Token
                 },
-                credentials: 'include',
-                body:JSON.stringify({
-                    reportId:params.id
-                })
+                credentials: 'include'
             });
             if(response.ok){
                 navigate('/report/manage');
             }
+            else{
+                console.log(response.message);
+            }
         }catch (error){
             console.log('on error getReport', error);
+        }finally {
+            setLoading(false);
         }
     }
     useEffect(() => {
@@ -75,7 +78,10 @@ const DetailedReport = ()=>{
                 <S.title>{data.title}</S.title>
                 <S.content>{data.contents}</S.content>
                 <S.complete>
-                    <Cbtn name={"처리완료"} onClick={()=>completeReport} />
+                    <Cbtn name={"처리완료"} onClick={()=>{
+                        if(loading) return;
+                        completeReport();
+                    }}/>
                 </S.complete>
             </S.main>
         </S.container>

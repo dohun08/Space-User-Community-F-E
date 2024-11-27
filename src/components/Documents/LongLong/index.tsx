@@ -9,6 +9,7 @@ function LongLong(props : {data:Doc}){
     const [Date, setDate] = React.useState("");
     const navigate = useNavigate();
     useEffect(() => {
+        console.log(props.data);
         if(props.data.date) {
             setDate(props.data.date?.slice(0, 10));
         }
@@ -55,7 +56,7 @@ function LongLong(props : {data:Doc}){
                 </S.titleBox>
                 <S.Contenttype>
                     <p>{props.data.category}</p>
-                    <S.LinkBtn to={`/user/${props.data.userId}`}>{props.data.authorName}</S.LinkBtn>
+                    <S.LinkBtn to={`/user/${props.data.authorName}`}>{props.data.authorName}</S.LinkBtn>
                 </S.Contenttype>
             </S.Document>
     )
