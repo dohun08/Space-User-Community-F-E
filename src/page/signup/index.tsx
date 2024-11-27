@@ -60,6 +60,7 @@ function Signup(){
         }
     }
     const postEmail = async ()=>{
+        alert('이메일 발송중');
         try{
             const res = await fetch('/api/user/sendEmail', {
                 method:'POST',
@@ -72,7 +73,7 @@ function Signup(){
                 }),
             });
             if(res.ok){
-                alert("이메일 발송중..");
+                alert("이메일이 발송완료");
             }
         }catch(error){
             console.log("error on postEmail", error);

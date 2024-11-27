@@ -35,28 +35,54 @@ export default function Comment({writer, date, content, id, getComment, isReComm
         }
     }
 
-    const deleteComment = async () => {
-        try{
-            const res = await fetch(`/api/community/${isReComment? "recomment" : "comment"}/${id}`, {
-                method: "DELETE",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': getAuth.access_Token,
-                },
-                credentials: 'include'
-            })
-            if(res.ok){
-                console.log(typeof getComment);
-                await getComment();
-                if(isReComment){
-                    setReComment("");
-                    await getReComment();
-                    console.log(ReCommentList);
+    const deleteComment = async (isUser) => {
+        if(isUser === "user"){
+            try{
+                const res = await fetch(`/api/community/${isReComment? "recomment" : "comment"}/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': getAuth.access_Token,
+                    },
+                    credentials: 'include'
+                })
+                if(res.ok){
+                    console.log(typeof getComment);
+                    await getComment();
+                    if(isReComment){
+                        setReComment("");
+                        await getReComment();
+                        console.log(ReCommentList);
+                    }
                 }
+            }catch (error){
+                console.log(error);
             }
-        }catch (error){
-            console.log(error);
         }
+        else{
+            try{
+                const res = await fetch(`/api/admin/${isReComment? "recomment" : "comment"}/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': getAuth.access_Token,
+                    },
+                    credentials: 'include'
+                })
+                if(res.ok){
+                    console.log(typeof getComment);
+                    await getComment();
+                    if(isReComment){
+                        setReComment("");
+                        await getReComment();
+                        console.log(ReCommentList);
+                    }
+                }
+            }catch (error){
+                console.log(error);
+            }
+        }
+
     }
     const update = () => {
         setIsUpdate(true);
@@ -146,10 +172,10 @@ export default function Comment({writer, date, content, id, getComment, isReComm
                                 <DelBtn type={"button"} value={"수정완료"} onClick={updateComment}></DelBtn>
                                 : <DelBtn type={"button"} value={"수정"} onClick={update}></DelBtn>
                             }
-                            <DelBtn type={"button"} value={"제거"} onClick={deleteComment}></DelBtn>
+                            <DelBtn type={"button"} value={"제거"} onClick={deleteComment("user")}></DelBtn>
                         </>:
                         getAuth.isAdmin ?
-                                <DelBtn type={"button"} value={"제거"} onClick={deleteComment}></DelBtn>
+                                <DelBtn type={"button"} value={"제거"} onClick={deleteComment("admin")}></DelBtn>
                              :
                         null
                     }
