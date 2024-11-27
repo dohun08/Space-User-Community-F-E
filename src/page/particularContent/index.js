@@ -70,7 +70,7 @@ export default function ParticularContent() {
     useEffect(()=>{
         getPost();
         famousPost();
-    }, []);
+    }, [id]);
     return (
         <Container>
             <Header/>
