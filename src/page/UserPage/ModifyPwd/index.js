@@ -48,7 +48,7 @@ function ModifyPwd({id, onClick, update, profile}) {
         }
 
         const formData = new FormData();
-        const blob = new Blob([JSON.stringify({"newPassword": pwds["new"], "beforePassword": pwds["current"]})], { type: "application/json" });
+        const blob = new Blob([JSON.stringify({"afterPassword": pwds["new"], "beforePassword": pwds["current"]})], { type: "application/json" });
         formData.append("userUpdate", blob);
         console.log(formData);
         if(!(await update(formData, id))){
