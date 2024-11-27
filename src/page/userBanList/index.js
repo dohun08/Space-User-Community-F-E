@@ -60,7 +60,6 @@ const UserBan = ()=>{
                             <p>{item.username}</p>
                             <S.buttonBox>
                                 <S.save onClick={() => unBan(item.username)} type={"button"}>살리기</S.save>
-                                <S.die type={"button"}>죽이기</S.die>
                             </S.buttonBox>
                         </S.section>
                     ) : (
