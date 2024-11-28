@@ -1,6 +1,7 @@
 import {useRecoilState} from "recoil";
 import {authAtom} from "../recoil/authAtom";
 import React, {useEffect} from "react";
+import {decodeJWT} from "./authService";
 // accessToken이 유효하지않다면 accessToken 재발급하기
 
 const TokenRefresher = ({ children }) => {
@@ -22,10 +23,11 @@ const TokenRefresher = ({ children }) => {
 
                 if(response.ok){
                     console.log("accessToken 재발급");
+                    const admin = (decodeJWT(auth.access_Token).role === 'ROLE_ADMIN')
                     setAuth({
                         access_Token: response.headers.get('authorization') || '',
                         username: auth.username,
-                        isAdmin: auth.isAdmin
+                        isAdmin: admin
                     })
                     return true;
                 }

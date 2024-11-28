@@ -30,16 +30,6 @@ function Header(){
         setSearch('');
         navigate(`/search/${search}`)
     }
-    useEffect(() => {
-        if(auth.access_Token){
-            if(decodeJWT(auth.access_Token).role === 'ROLE_ADMIN'){
-                setAuth({
-                    ...auth,
-                    isAdmin:true
-                })
-            }
-        }
-    }, []);
     return(
         <S.container>
             <Link to={'/'} ><img src={LogoImg} alt='logo' /></Link>

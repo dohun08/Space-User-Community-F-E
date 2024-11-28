@@ -18,7 +18,6 @@ function Main(){
             const documents:Doc[] = await getDoc("createdAt");
             const documents2:Doc[] = await getDoc("likes");
             const documents3: Doc[] = await getDoc("broad");
-            console.log(documents);
             setPopular(documents2);
             setContent(documents);
             setBroad(documents3);
