@@ -10,6 +10,7 @@ import {useNavigate} from "react-router-dom";
 import {images} from "../../assets/iconImage";
 import {decodeJWT} from "../../until/authService";
 import make from "../../until/postDoc";
+import {usePostDocMutation} from "../../api/postDoc";
 
 function Write() {
     const [category, setCategory] = useState("문제");
@@ -44,59 +45,17 @@ function Write() {
         setContent(updatedValue);
     }
 
-
-    //문서를 생성했을때 성공이라면 바로 메인으로 이동, 실패라면 엑세스토큰을 재발급받고 다시실행
-    const postData = async () => {
-        if(title === "" || content === "") return alert("값이 비어져있습니다.");
+    const {mutate : postDoc} = usePostDocMutation(
+        (res) => {
+            navigate('/');
+        },
+        (err) => {
+            console.log('Response data:', err.response.data);
+        }
+    )
+    const handlePostData = () => {
         let icon = images.findIndex((item) => item === imgSrc);
-
-        const jwt = decodeJWT(auth.access_Token);
-        console.log(jwt.userId);
-        if(category !== "공지"){
-            try {
-                const response = await fetch('/api/community/doc', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `${auth.access_Token}`
-                    },
-                    credentials: 'include',
-                    body: JSON.stringify({
-                        authorId: jwt.userId,
-                        title: title,
-                        content: content,
-                        icon: icon,
-                        category: category
-                    })
-                });
-                if (response.ok){
-                    navigate("/");
-                }
-            } catch (error) {
-                console.log('on error announcement post', error);
-            }
-        }
-        else{
-            try {
-                const response = await fetch('/api/broadcast', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `${auth.access_Token}`
-                    },
-                    credentials: 'include',
-                    body: JSON.stringify({
-                        title: title,
-                        contents: content
-                    })
-                });
-                if (response.ok){
-                    navigate("/");
-                }
-            } catch (error) {
-                console.log('on error announcement post', error);
-            }
-        }
+        postDoc({ title, content, icon, category });
     }
 
         const makeDoc = (text) => {
@@ -122,7 +81,7 @@ function Write() {
                         <S.backBtn to={'/'}>
                             <Cbtn name={"돌아가기"}/>
                         </S.backBtn>
-                        <Cbtn onClick={() => postData()} name={"등록하기"}/>
+                        <Cbtn onClick={()=>handlePostData()} name={"등록하기"}/>
                     </S.info>
 
                 </S.header>

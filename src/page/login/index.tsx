@@ -16,7 +16,7 @@ function Login() {
     const [auth, setAuth] = useRecoilState(authAtom);
     const navigate = useNavigate();
 
-    const mutationLogin = useLoginMutation(
+    const {mutate : goLogin} = useLoginMutation(
         (res) => {
             setAuth({
                 access_Token: res.headers.authorization || '',
@@ -39,7 +39,7 @@ function Login() {
 
     const enter = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            mutationLogin.mutate({ email, pw }); // 파라미터를 객체로 전달
+            goLogin({ email, pw }); // 파라미터를 객체로 전달
         }
     };
 
@@ -70,7 +70,7 @@ function Login() {
                     />
                 </S.dataIn>
                 <S.LoginBtn
-                    onClick={() => mutationLogin.mutate({ email, pw })}
+                    onClick={() => goLogin({ email, pw })}
                     type="button"
                     value={"로그인"}
                 />
