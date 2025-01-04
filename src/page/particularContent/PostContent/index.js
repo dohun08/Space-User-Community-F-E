@@ -8,51 +8,29 @@ import {authAtom} from "../../../recoil/authAtom";
 import {images} from "../../../assets/iconImage";
 import {useEffect, useState} from "react";
 import make from "../../../until/postDoc";
-function PostContent({data, isLoading}) {
+import {useQueryClient} from "react-query";
+import {useDeleteDocMutation} from "../../../api/deleteDoc";
+
+function PostContent({data}) {
     const navigate = useNavigate();
     const getAuth = useRecoilValue(authAtom);
     const {id} = useParams();
     const [comment, setComment] = useState("");
     const [commentData, setCommentData] = useState([]);
+    const queryClient = useQueryClient();
 
+    const {mutate : deletePost} = useDeleteDocMutation(
+        (res)=>{
+            navigate('/');
+            queryClient.invalidateQueries('documents');
+        },
+        (err)=>{
+            console.log(err.response);
+        }
+    )
     const delPost = async () => {
         if(window.confirm("정말 삭제하시겠습니까?")){
-            if(getAuth.isAdmin){
-                try{
-                    const response = await fetch(`/api/admin/doc/${id}`, {
-                        method:'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': getAuth.access_Token
-                        },
-                        credentials: 'include'
-                    })
-                    if(response.ok){
-                        navigate("/");
-                    }
-                }catch (error){
-                    console.log("error on : ",error);
-                }
-            }
-            else{
-                try{
-                    const response = await fetch(`/api/community/doc/${id}`, {
-                        method:'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': getAuth.access_Token
-                        },
-                        credentials: 'include'
-                    })
-
-                    if(response.ok){
-                        console.log("글 삭제 성공");
-                        navigate("/");
-                    }
-                }catch (error){
-                    console.log("error on : ",error);
-                }
-            }
+            deletePost({id});
         }
     }
     const makeContent = (text) => {

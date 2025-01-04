@@ -8,6 +8,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {getDoc} from "../../api/getDoc";
 import {useRecoilValue} from "recoil";
 import {authAtom} from "../../recoil/authAtom";
+import axios from 'axios';
 
 export default function ParticularContent() {
     const navigate = useNavigate();
@@ -30,25 +31,16 @@ export default function ParticularContent() {
     const getPost = async ()=>{
         setIsLoading(true);
         try{
-            const response = await fetch(`/api/community/doc/${id}`, {
-                method:'GET',
-                headers:{
-                    'Content-Type':'application/json',
-                    'Authorization': getAuth.access_Token ? getAuth.access_Token : 'Bearer null'
-                },
-                credentials: 'include'
-            })
-
-            if(response.ok){
-                const data = await response.json();
-                setPostData(data);
-                console.log(data);
-            }
-            else{
-               console.log(response.message);
-            }
+            const res = await axios.get(`/api/community/doc/${id}`,{
+            headers:{
+                'Content-Type':'application/json',
+                'Authorization': getAuth.access_Token ? getAuth.access_Token : 'Bearer null'
+            },
+                withCredentials:true
+            });
+            setPostData(res.data);
         }catch(error){
-            console.log("error on : ",error);
+            console.log("error on : ",error.response);
         }finally {
             setIsLoading(false);
         }
