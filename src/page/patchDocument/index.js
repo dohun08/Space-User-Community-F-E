@@ -10,6 +10,8 @@ import {useNavigate, useLocation} from "react-router-dom";
 import {images} from "../../assets/iconImage";
 import {decodeJWT} from "../../until/authService";
 import make from "../../until/postDoc.js";
+import {usePatchDocMutation} from "../../api/patchDoc";
+import {useQueryClient} from "react-query";
 
 function Write() {
     const [category, setCategory] = useState("문제");
@@ -23,6 +25,7 @@ function Write() {
     const [documentId, setDocumentId] = useState(null);
     const location = useLocation();
     const {patchContent, patchTitle, patchCategory, patchIcon, patchDocumentId } = location?.state || {};
+    const queryClient = useQueryClient();
 
     const smart = (event) => {
         const {value, selectionStart} = event.target;
@@ -48,57 +51,21 @@ function Write() {
     }
 
 
-    //문서를 생성했을때 성공이라면 바로 메인으로 이동, 실패라면 엑세스토큰을 재발급받고 다시실행
-    const postData = async () => {
+    const {mutate : patchData} = usePatchDocMutation(
+        (res) => {
+            navigate('/');
+            queryClient.invalidateQueries('documents');
+
+        },
+        (err) =>{
+            console.log(err.response);
+        }
+    )
+    const patchHandler = () => {
         if(title === "" || content === "") return alert("값이 비어져있습니다.");
         let icon = images.findIndex((item) => item === imgSrc);
+        patchData({documentId, title, content, icon, category});
 
-        if(category !== "공지"){
-            try {
-                const response = await fetch('/api/community/doc', {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `${auth.access_Token}`
-                    },
-                    credentials: 'include',
-                    body: JSON.stringify({
-                        documentId: documentId,
-                        title: title,
-                        content: content,
-                        icon: icon,
-                        category: category
-                    })
-                });
-                if (response.ok){
-                    navigate("/");
-                }
-            } catch (error) {
-                console.log('on error announcement post', error);
-            }
-        }
-        else{
-            try {
-                const response = await fetch('/api/broadcast', {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `${auth.access_Token}`
-                    },
-                    credentials: 'include',
-                    body: JSON.stringify({
-                        id: documentId,
-                        title: title,
-                        contents: content
-                    })
-                });
-                if (response.ok){
-                    navigate("/");
-                }
-            } catch (error) {
-                console.log('on error announcement post', error);
-            }
-        }
     }
 
     const makeContent = (text) => {
@@ -136,7 +103,7 @@ function Write() {
                     <S.backBtn to={'/'}>
                         <Cbtn name={"돌아가기"}/>
                     </S.backBtn>
-                    <Cbtn onClick={() => postData()} name={"등록하기"}/>
+                    <Cbtn onClick={() => patchHandler()} name={"등록하기"}/>
                 </S.info>
 
             </S.header>
@@ -145,11 +112,11 @@ function Write() {
                     <S.category value={category} onChange={(e) => setCategory(e.target.value)}>
                         <option key="issue">문제</option>
                         <option key="inquiry">문의</option>
-                        {auth.isAdmin ? <option key="inquiry">공지</option> : null}
+                        {auth.isAdmin ? <option key="broad">공지</option> : null}
                     </S.category>
                     <S.imgBox $isImg={isImg}>
                         {images.map((item) => {
-                            return <S.img key={item}><img src={item} alt='이미지들' onClick={() => {
+                            return <S.img><img src={item} alt='이미지들' onClick={() => {
                                 setImgSrc(item)
                             }}/></S.img>
                         })}

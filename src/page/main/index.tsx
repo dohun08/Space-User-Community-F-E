@@ -6,7 +6,6 @@ import {useDocs} from '../../api/getDoc';
 import LongLongDocument from "../../components/Documents/LongLong";
 import Loading from "../../components/loading/loading";
 
-
 function Main(){
     const broad = useDocs("broad");
     const popular = useDocs("likes");
