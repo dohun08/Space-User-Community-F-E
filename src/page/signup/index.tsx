@@ -71,6 +71,9 @@ function Signup(){
                     email: email
                 }),
             });
+            if (res.ok) {
+                alert('이메일발송중...');
+            }
         }catch(error){
             console.log("error on postEmail", error);
         }

@@ -2,13 +2,14 @@ import styled from 'styled-components';
 import {Link} from "react-router-dom";
 
 export default function FamousPost({famous}){
+    console.log(famous);
     return(
         <Container>
             <Title>인기 문서</Title>
             <Content>
                 {famous && famous.slice(0, 6).map((item, index)=>{
                     return(
-                        <ShortPost title={item.title} id={item.documentId} index={index+1}/>
+                        <ShortPost title={item.title} documentId={item.documentId} index={index+1}/>
                     )
                 })}
             </Content>

@@ -6,6 +6,7 @@ import {
     Routes
 }from 'react-router-dom';
 
+import {QueryClient, QueryClientProvider} from "react-query";
 import {RecoilRoot} from "recoil";
 import Main from './page/main';
 import Login from './page/login';
@@ -28,11 +29,12 @@ import BackSite from "./until/backSite";
 const rootElement = document.getElementById('root') as HTMLElement;
 const root = ReactDOM.createRoot(rootElement);
 
-
+const queryClient = new QueryClient();
 root.render(
     <RecoilRoot>
         <BrowserRouter>
             <TokenRefresher>
+                <QueryClientProvider client={queryClient} >
                 <Routes>
                     <Route element={<BackSite/>}>
                         <Route path={'/'} element={<Main />}></Route>
@@ -54,6 +56,7 @@ root.render(
                         <Route path={'/ban/user'} element={<UserBan />}></Route>
                     </Route>
                 </Routes>
+                </QueryClientProvider>
             </TokenRefresher>
         </BrowserRouter>
     </RecoilRoot>

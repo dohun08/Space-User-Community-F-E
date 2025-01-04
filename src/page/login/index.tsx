@@ -41,7 +41,7 @@ function Login(){
                         password: pw
                     })
                 });
-
+                console.log(response);
                 if(response.ok){
                         setAuth({
                             access_Token: response.headers.get('authorization') || '',
