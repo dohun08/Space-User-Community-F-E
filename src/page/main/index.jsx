@@ -5,14 +5,14 @@ import { Link } from "react-router-dom";
 import {useDocs} from '../../api/getDoc';
 import LongLongDocument from "../../components/Documents/LongLong";
 import Loading from "../../components/loading/loading";
+import { useGet } from '../../hooks/useCommunityQuery';
 
 function Main(){
     const broad = useDocs("broad");
-    const popular = useDocs("likes");
-    const content = useDocs("createdAt");
+    const {data : content, isLoading2} = useGet('createdAt');
+    const {data : popular, isLoading1} = useGet('likes');
 
-
-    if(broad.isLoading || popular.isLoading || content.isLoading) return (
+    if(broad.isLoading || isLoading2 || isLoading1) return (
         <Loading></Loading>
     )
     const remainder = broad.data ? broad.data.length % 3 : 2;
@@ -22,7 +22,7 @@ function Main(){
             <S.main>
                 <S.section2>
                     <h3>인기 문서</h3>
-                    {popular.data && popular.data.length > 0 ? popular.data.slice(0, 10).map((doc, index)=>{
+                    {popular && popular.length > 0 ? popular.slice(0, 10).map((doc, index )=>{
                         return (
                                 <Popular data = {doc} key={doc.documentId} rank= {index}/>
                         )
@@ -40,9 +40,9 @@ function Main(){
                          );
                      }) : <p>공지가 없습니다</p>
                     }
-                    {content.data && content.data.length > 0 ?
+                    {content && content.length > 0 ?
                         Array.from({ length: 9-remainder }).map((_, index) => {
-                            const doc = content.data[index];
+                            const doc = content[index];
                             return doc ? (
                                 <LongLongDocument data={doc} key={doc.documentId} />
                             ) : (
@@ -50,7 +50,7 @@ function Main(){
                             );
                         }) : <p>문서가 없습니다</p>
                     }
-                    {content.data && content.data.length > 0 ?
+                    {content && content.length > 0 ?
                     <Link to={'/more'}>더보기</Link>
                         : <div></div>}
                 </S.section1>

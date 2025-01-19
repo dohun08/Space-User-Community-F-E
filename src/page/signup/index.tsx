@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import {useRecoilValue} from "recoil";
 import {authAtom} from "../../recoil/authAtom";
 import BackArrow from "../../assets/back_Arrow.svg";
+import {useRegister, useSendEmail} from '../../hooks/useUsersQuery';
 
 function Signup(){
     const [id, setId] = useState('');
@@ -21,8 +22,10 @@ function Signup(){
         idRef.current?.focus();
     }, [])
 
+    const {mutate :register } = useRegister();
+    const {mutate : sendEmail} = useSendEmail();
     const navigate = useNavigate();
-    const goSignup = async ()=>{
+    const goSignup = ()=>{
         if(id === "" || pw === "" || repw === "" || age === "" || email === ""){
             alert("데이터가 부족합니다.");
         }
@@ -33,50 +36,11 @@ function Signup(){
             alert("나이가 정상적으로 입력되지 않습니다.");
         }
         else{
-            try{
-                const response = await fetch('/api/user/register', {
-                    method:'POST',
-                    headers:{
-                        'Content-Type':'application/json',
-                    },
-                    body:JSON.stringify({
-                        email: email,
-                        username: id,
-                        password: pw,
-                        age: age,
-                        token: valueNumber
-                    }),
-                });
-                if(response.status === 201){
-                    console.log("회원가입성공");
-                    navigate('/login');
-                }
-                else if(response.status === 409){
-                    alert("이미 등록되어있는 이메일입니다.");
-                }
-            }catch(error){
-                console.log("error on ", error);
-            }
+            register({email, id, pw, age, valueNumber}) 
         }
     }
-    const postEmail = async ()=>{
-        try{
-            const res = await fetch('/api/user/sendEmail', {
-                method:'POST',
-                headers:{
-                    'Content-Type':'application/json',
-                },
-                credentials:'include',
-                body:JSON.stringify({
-                    email: email
-                }),
-            });
-            if (res.ok) {
-                alert('이메일발송중...');
-            }
-        }catch(error){
-            console.log("error on postEmail", error);
-        }
+    const postEmail = ()=>{
+        sendEmail(email)
     }
     const check = () => {
         if(pw.length >= 4){

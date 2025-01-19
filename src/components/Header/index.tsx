@@ -8,7 +8,8 @@ import CircleBtn from '../Button/Circle';
 import {Link, useNavigate} from 'react-router-dom';
 import { useRecoilState, useRecoilValue} from "recoil";
 import {authAtom, isLoginSelector} from "../../recoil/authAtom";
-import {useLogout, decodeJWT} from '../../until/authService'
+import { decodeJWT} from '../../until/authService'
+import { useLogoutMutation } from '../../hooks/useUsersQuery';
 
 function Header(){
     const navigate = useNavigate();
@@ -16,14 +17,9 @@ function Header(){
     const [isOn, setIsOn] = useState<boolean>(false);
     const [auth, setAuth] = useRecoilState(authAtom);
     const isLogin = useRecoilValue(isLoginSelector);
-    const logout = useLogout();
-    const goLogout = async ()=>{
-        try{
-            await logout();
-        }
-        catch(error){
-            console.log("on error logout", error);
-        }
+    const {mutate : log} = useLogoutMutation();
+    const goLogout = ()=>{
+        log()
     }
     const goSearch = ()=>{
         if(search === '') return;

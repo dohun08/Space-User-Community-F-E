@@ -3,32 +3,19 @@ import Logo from '../../assets/Logo.svg';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authAtom } from "../../recoil/authAtom";
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import BackArrow from '../../assets/back_Arrow.svg';
 import { backSightAtom } from "../../recoil/backSight";
-import { useLoginMutation } from '../../api/login';
+import { useLogin } from '../../hooks/useUsersQuery';
 
 function Login() {
     const [email, setEmail] = useState<string>('');
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [pw, setPw] = useState<string>('');
     const backSight = useRecoilValue(backSightAtom);
-    const [auth, setAuth] = useRecoilState(authAtom);
+    const auth = useRecoilValue(authAtom);
     const navigate = useNavigate();
-
-    const {mutate : goLogin} = useLoginMutation(
-        (res) => {
-            setAuth({
-                access_Token: res.headers.authorization || '',
-                isAdmin: false,
-                username: email
-            });
-            navigate(backSight.before === "/signup" ? -2 : -1);
-        },
-        (error) => {
-            console.error("Login failed:", error);
-        }
-    );
+    const { mutate: login, isLoading, isError } = useLogin(email, pw);
 
     useEffect(() => {
         if (auth.access_Token !== '') {
@@ -39,7 +26,7 @@ function Login() {
 
     const enter = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            goLogin({ email, pw }); // 파라미터를 객체로 전달
+            login({ email, pw }); // 파라미터를 객체로 전달
         }
     };
 
@@ -70,7 +57,7 @@ function Login() {
                     />
                 </S.dataIn>
                 <S.LoginBtn
-                    onClick={() => goLogin({ email, pw })}
+                    onClick={() => login({ email, pw })}
                     type="button"
                     value={"로그인"}
                 />

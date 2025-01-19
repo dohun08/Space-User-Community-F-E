@@ -10,8 +10,7 @@ import {useNavigate, useLocation} from "react-router-dom";
 import {images} from "../../assets/iconImage";
 import {decodeJWT} from "../../until/authService";
 import make from "../../until/postDoc.js";
-import {usePatchDocMutation} from "../../api/patchDoc";
-import {useQueryClient} from "react-query";
+import { useUpdate } from '../../hooks/useCommunityQuery.js';
 
 function Write() {
     const [category, setCategory] = useState("문제");
@@ -25,7 +24,6 @@ function Write() {
     const [documentId, setDocumentId] = useState(null);
     const location = useLocation();
     const {patchContent, patchTitle, patchCategory, patchIcon, patchDocumentId } = location?.state || {};
-    const queryClient = useQueryClient();
 
     const smart = (event) => {
         const {value, selectionStart} = event.target;
@@ -51,16 +49,7 @@ function Write() {
     }
 
 
-    const {mutate : patchData} = usePatchDocMutation(
-        (res) => {
-            navigate('/');
-            queryClient.invalidateQueries('documents');
-
-        },
-        (err) =>{
-            console.log(err.response);
-        }
-    )
+    const {mutate : patchData} = useUpdate();
     const patchHandler = () => {
         if(title === "" || content === "") return alert("값이 비어져있습니다.");
         let icon = images.findIndex((item) => item === imgSrc);

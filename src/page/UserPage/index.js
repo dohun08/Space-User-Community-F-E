@@ -8,27 +8,19 @@ import ModifyPwd from "./ModifyPwd";
 import {authAtom} from "../../recoil/authAtom";
 import { useRecoilState } from 'recoil';
 import Loading from "../../components/loading/loading";
-import {getUserInfo} from "../../api/getUserInfo";
+import { useProfile, useUpdate } from "../../hooks/useUsersQuery";
 
 export default function UserPage(){
     const navigate = useNavigate();
     const {id} = useParams();
-    console.log(id);
     const [isModifyPw, setIsModifyPw] = useState(false);
     const [auth, setAuth] = useRecoilState(authAtom);
     const isOwner = auth.username===id;
-    const [data, setData] = useState({});
+    const {mutate : update} = useUpdate();
+    
 
-    const getInfo = async ()=>{
-        setData(await getUserInfo(id));
-    };
-
-    useEffect(() => {
-        getInfo();
-    }, [id]);
-
+    const {data : users} = useProfile(id);
     const updateUserInfo = async (formData, id) => {
-        console.log(id);
         try{
             const response = await fetch('/api/user/update', {
                 method: 'PATCH',
@@ -62,10 +54,10 @@ export default function UserPage(){
             <Header/>
             <Content>
                 {isModifyPw ? (
-                    <ModifyPwd profile={data["profile"]} isOwner={isOwner} update={updateUserInfo} id={id} onClick={() => setIsModifyPw((current)=> !current)}/>
+                    <ModifyPwd profile={users["profile"]} isOwner={isOwner} update={updateUserInfo} id={id} onClick={() => setIsModifyPw((current)=> !current)}/>
                 ):(
                     <>
-                        <UserContent data={data} isOwner={isOwner} update={updateUserInfo} id={id} onClick={()=>setIsModifyPw(true)}/>
+                        <UserContent data={users} isOwner={isOwner} update={updateUserInfo} id={id} onClick={()=>setIsModifyPw(true)}/>
                         <UserPostContent isOwner={isOwner} id={id}/>
                     </>
                 )}

@@ -6,7 +6,7 @@ import {useRecoilValue} from "recoil";
 import {authAtom} from "../../../recoil/authAtom";
 
 export default function UserContent({id, onClick, update, isOwner, data}){
-    console.log(id);
+    
     const getAuth = useRecoilValue(authAtom);
     const navigate = useNavigate();
     const [username, setUsername] = useState(id);
@@ -36,6 +36,7 @@ export default function UserContent({id, onClick, update, isOwner, data}){
             const formData = new FormData();
             const blob = new Blob([JSON.stringify({ introduce })], { type: "application/json" });
             formData.append("userUpdate", blob);
+            
             if(!(await update(formData, username))){
                 return;
             }
@@ -68,7 +69,7 @@ export default function UserContent({id, onClick, update, isOwner, data}){
     }
 
     useEffect(()=>{
-        console.log(data);
+        
         if(data){
             setIntroduce(data["introduce"] || "");
             setProfile(data["profile"] || "");

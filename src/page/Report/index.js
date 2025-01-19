@@ -6,33 +6,15 @@ import Megaphone from "../../assets/Megaphone.svg"
 import {authAtom} from "../../recoil/authAtom";
 import {useRecoilValue} from "recoil";
 import { useState} from "react";
-import {useNavigate} from 'react-router-dom'
+import { useReport } from "../../hooks/useUsersQuery";
 
 export default function Report(){
     const auth = useRecoilValue(authAtom);
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const navigate = useNavigate();
-    const postReport = async () =>{
-        try{
-            const response = await fetch('/api/user/report', {
-                method:'POST',
-                headers:{
-                    'Content-Type':'application/json',
-                    'Authorization':auth.access_Token
-                },
-                credentials:'include',
-                body:JSON.stringify({
-                  title:title,
-                  contents:content
-                })
-            })
-            if(response.ok){
-                navigate('/');
-            }
-        }catch(error){
-            console.log("on error postReport", error)
-        }
+    const {mutate : report} = useReport();
+    const postReport = () =>{
+        report({title, content});
     }
 
     return (
